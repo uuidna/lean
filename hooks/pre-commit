@@ -1,0 +1,12 @@
+#!/bin/sh
+# pre-commit — HARD. Types must compile; the full gate is pre-push.
+set -e
+cd "$(git rev-parse --show-toplevel)"
+echo "pre-commit: HARD — npm run build"
+npm run build
+status=$?
+if [ $status -ne 0 ]; then
+  echo "pre-commit: RED — commit BLOCKED."
+  exit $status
+fi
+exit 0
