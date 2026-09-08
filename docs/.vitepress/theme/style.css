@@ -1,0 +1,285 @@
+/* singularity — VitePress tokens ARE the hologram planes. One reading. */
+:root {
+  --qpu-foundation: 0;
+  --qpu-trinity: 3;
+  --qpu-coins: 2;
+  --qpu-hexbit: 4;
+  --qpu-base: 9;
+  --qpu-debit: 3;
+  --qpu-credit: 6;
+  --qpu-pentagram: 5;
+  --qpu-fold: 7;
+  --qpu-octet: 8;
+  --qpu-ve: 14;
+  --qpu-hue-step: 40deg;
+  --qpu-face: 0;
+
+  --vp-c-brand-1: hsl(calc(var(--qpu-fold) * var(--qpu-hue-step)) 62% 48%);
+  --vp-c-brand-2: hsl(calc(var(--qpu-pentagram) * var(--qpu-hue-step)) 62% 54%);
+  --vp-c-brand-3: hsl(calc(var(--qpu-debit) * var(--qpu-hue-step)) 62% 42%);
+  --vp-c-brand-soft: hsl(calc(var(--qpu-credit) * var(--qpu-hue-step)) 55% 50% / 0.14);
+  --vp-c-tip-1: var(--vp-c-brand-1);
+  --vp-c-tip-2: var(--vp-c-brand-2);
+  --vp-c-tip-3: var(--vp-c-brand-3);
+  --vp-c-tip-soft: var(--vp-c-brand-soft);
+
+  --vp-nav-height: calc(var(--qpu-octet) * 0.5rem);
+  --vp-sidebar-width: calc(var(--qpu-ve) * 1.25rem);
+  --vp-layout-max-width: calc(var(--qpu-ve) * 5rem);
+
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(
+    calc(var(--qpu-pentagram) * 24deg),
+    hsl(calc(var(--qpu-fold) * var(--qpu-hue-step)) 80% 56%),
+    hsl(calc(var(--qpu-credit) * var(--qpu-hue-step)) 80% 52%)
+  );
+}
+
+.dark {
+  --vp-c-brand-1: hsl(calc(var(--qpu-fold) * var(--qpu-hue-step)) 70% 72%);
+  --vp-c-brand-2: hsl(calc(var(--qpu-pentagram) * var(--qpu-hue-step)) 70% 68%);
+  --vp-c-brand-3: hsl(calc(var(--qpu-debit) * var(--qpu-hue-step)) 62% 48%);
+}
+
+/* live sidebar is QpuSidebar — stock groups stay in the SSG crawl */
+.VPSidebar .nav {
+  display: none;
+}
+
+.qpu-rail,
+.qpu-search,
+.qpu-lattice,
+.qpu-reflections,
+.qpu-seat,
+.qpu-donate,
+.qpu-pentagram {
+  font-variant-numeric: tabular-nums;
+}
+
+.qpu-rail a,
+.qpu-search a {
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+}
+
+.qpu-rail a.wants {
+  font-weight: 650;
+}
+
+.qpu-rail h3 {
+  margin: 0.75rem 0 0.35rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-2);
+}
+
+.qpu-rail ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.5rem;
+}
+
+.qpu-rail li {
+  line-height: 1.45;
+  font-size: 0.82rem;
+}
+
+.qpu-lattice {
+  display: grid;
+  gap: 2px;
+  grid-template-columns: repeat(var(--qpu-ve), minmax(0, 1fr));
+  margin: 1rem 0;
+}
+
+.qpu-lattice.mini {
+  max-width: 36rem;
+  margin-inline: auto;
+}
+
+.qpu-cell {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  font-size: 0.65rem;
+  border-radius: calc(var(--qpu-coins) * 1px);
+  background: hsl(calc(var(--cell) * var(--qpu-hue-step)) 45% 42% / 0.85);
+  color: #fff;
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+}
+
+.qpu-cell.pair {
+  box-shadow: inset 0 0 0 2px hsl(calc(var(--paired) * var(--qpu-hue-step)) 70% 70%);
+}
+
+.qpu-reflections {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.qpu-strip {
+  display: grid;
+  grid-template-columns: 4.5rem repeat(var(--qpu-ve), minmax(0, 1fr));
+  gap: 2px;
+  align-items: center;
+}
+
+.qpu-strip-label {
+  font-size: 0.75rem;
+  color: var(--vp-c-text-2);
+}
+
+.qpu-search {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.5rem;
+}
+
+.qpu-search input {
+  width: 9rem;
+  border: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg-alt);
+  color: inherit;
+  border-radius: calc(var(--qpu-coins) * 2px);
+  padding: 0.2rem 0.45rem;
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+.qpu-search-hits {
+  position: absolute;
+  right: 1rem;
+  top: var(--vp-nav-height);
+  z-index: 40;
+  min-width: 16rem;
+  max-height: 18rem;
+  overflow: auto;
+  background: var(--vp-c-bg-elv);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: calc(var(--qpu-coins) * 2px);
+  padding: 0.4rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+.qpu-seat {
+  font-size: 0.8rem;
+  color: var(--vp-c-text-2);
+  margin: 0 0 0.75rem;
+}
+
+.qpu-seat strong {
+  color: var(--vp-c-text-1);
+}
+
+.qpu-donate {
+  font-size: 0.8rem;
+}
+
+.qpu-donate.bar {
+  text-align: center;
+  padding: 1.25rem 1rem 2rem;
+  color: var(--vp-c-text-2);
+}
+
+.qpu-hero-count {
+  margin: 0.5rem 0 0;
+  color: var(--vp-c-text-2);
+}
+
+.qpu-404 {
+  padding: 3rem 1.5rem 4rem;
+  text-align: center;
+}
+
+.qpu-pentagram {
+  width: min(18rem, 70vw);
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.qpu-og-hero {
+  width: min(36rem, 100%);
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* VitePress is invisible firmware of the Unreal QPU Engine. Viewport is the occupancy movie. */
+html,
+body,
+#app,
+.qpu-engine,
+.qpu-singularity.Layout,
+.VPContent,
+.VPDoc,
+.VPHome,
+.VPHero,
+.VPFooter {
+  background: transparent;
+}
+
+.qpu-movie-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.qpu-movie-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.qpu-movie-ticker {
+  position: fixed;
+  left: 1rem;
+  bottom: 0.4rem;
+  z-index: 4;
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: hsl(calc(var(--qpu-fold) * var(--qpu-hue-step)) 20% 88% / 0.85);
+}
+
+.qpu-engine > .Layout {
+  position: relative;
+  z-index: 1;
+}
+
+.VPNavBar,
+.VPNavBar .wrapper,
+.VPNavBar .container,
+.VPNavBar .content,
+.VPLocalNav,
+.VPSidebar,
+.VPDocAside,
+.VPFooter {
+  background: hsl(calc(var(--qpu-fold) * var(--qpu-hue-step)) 22% 8% / 0.32) !important;
+  backdrop-filter: blur(calc(var(--qpu-octet) * 1px));
+}
+
+.VPNavBar .divider,
+.VPNavBar.has-sidebar .divider,
+.VPNavBarSearch,
+.VPSidebar .curtain {
+  display: none !important;
+}
+
+.VPDoc .content-container,
+.VPFeature,
+.VPHero .image {
+  background: hsl(calc(var(--qpu-fold) * var(--qpu-hue-step)) 22% 8% / 0.28);
+  backdrop-filter: blur(calc(var(--qpu-hexbit) * 2px));
+  border-radius: calc(var(--qpu-coins) * 2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qpu-movie-canvas {
+    opacity: 0.55;
+  }
+}

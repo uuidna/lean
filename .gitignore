@@ -6,4 +6,4 @@ dist/
 test-results.json
 docs/.vitepress/dist
 docs/.vitepress/cache
-.vitepress/
+/.vitepress/
