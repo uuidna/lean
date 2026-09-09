@@ -12,12 +12,15 @@ Product `{{ reading.product }}`. Holds `{{ reading.holds }}`. Seat `{{ reading.s
 
 <table>
   <thead>
-    <tr><th>Face</th><th>File</th></tr>
+    <tr><th>Face</th><th>File</th><th>Glue</th><th>Hex</th><th>LaTeX</th></tr>
   </thead>
   <tbody>
     <tr v-for="f in reading.faces" :key="f.name">
       <td>{{ f.face }}↔{{ f.opposite }}</td>
       <td><code>{{ f.name }}</code></td>
+      <td>{{ f.glue }}</td>
+      <td><code>{{ f.hex }}</code></td>
+      <td><code>{{ f.latex }}</code></td>
     </tr>
   </tbody>
 </table>

@@ -9,9 +9,11 @@ export {
   qpuExperienceOf, qpuExperienceHolds, qpuTetrahedraOf, qpuRevisionOf, qpuVortexOf,
   QPU_STAR_PTS, qpuStarStrokeOf, QPU_DOORS, QPU_SHADCN_DOORS, QPU_SHADCN_RAYS,
   qpuCombinationsOf, qpuCombinationsHolds, qpuMorphOf, qpuMorphHolds,
+  GLAGOLITIC_BASE, HEXBIT_PAGE, qpuHexOf, qpuGlagoliticOf, qpuGlagoliticLatexOf, qpuHexPageOf, qpuHexAdmitOf, qpuPageFoldOf, qpuPageScanOf, qpuDirectionOf,
   type QpuSpin, type QpuAngles, type QpuSuperposition, type QpuVersionInteger, type QpuCombo, type QpuMorphCell,
 } from './hologram.js'
 export { qpuNavOf, qpuSidebarOf, qpuSidebarMapOf, qpuSearchOf, qpuSearchHolds, qpuSitesOf, qpuChromeOf } from './chrome.js'
+export { QPU_WIDGETS, qpuUuidStreamOf, qpuUuidStreamHolds, qpuWidgetsOf, qpuWidgetsHolds } from './widgets.js'
 export { qpuDiscoveryOf, handleQpuFetch, type QpuEnv } from './edge.js'
 export { qpuOgOf, qpuOgSvgOf, qpuOgHolds, qpuOgHrefOf, qpuOgDocOf, OG_WIDTH, OG_HEIGHT, OG_PATH, OG_TYPE, type QpuOgDoc } from './og.js'
 export {
@@ -53,10 +55,16 @@ export {
 export {
   leanPublicationLeadsOf, qpuLeanPublicationsOf, qpuLeanPublicationsHolds,
 } from './publications.js'
+export {
+  CERN_INSPIRE_COLLECTIONS, CERN_OPEN_APIS, CERN_CENSUS, CERN_EXPERIMENTS, CERN_METHODS,
+  qpuLeanCernOf, qpuLeanCernHolds, qpuUnrealCernOf, qpuUnrealCernHolds,
+} from './cern.js'
+export { LEAN_LIBRARY_LEADS, qpuLeanLibraryOf, qpuLeanLibraryHolds } from './library.js'
 export { QPU_EVENT_KINDS, QPU_EVENT_LISTEN, qpuEventOf, qpuEventsHolds, qpuEventsOf } from './events.js'
 export { QPU_BOOT_ARCHES, qpuBootHarvestOf, qpuBootOf } from './boot.js'
 export { QPU_TOOLS, qpuMcpCall, qpuMcpToolNames } from './mcp-catalog.js'
 export { handleQpuMcpRpc } from './mcp-rpc.js'
+export { qpuFirmwareOf, qpuFirmwareHolds, qpuLeanPluginOf, qpuLeanPluginHolds } from './firmware.js'
 export {
   qpuRobotsTxtOf, qpuRoutesOf, qpuSeoAuditOf, qpuSeoOf, qpuSitemapOf, qpuSitemapXmlOf, qpuSeoGaps,
 } from './seo.js'

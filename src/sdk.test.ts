@@ -18,6 +18,9 @@ const HOLDS = [
   'qpuLeanTheoremsHolds',
   'qpuLeanAxiomsHolds',
   'qpuLeanPublicationsHolds',
+  'qpuLeanCernHolds',
+  'qpuLeanLibraryHolds',
+  'qpuLeanPluginHolds',
 ] as const
 
 test('package door Holds', () => {

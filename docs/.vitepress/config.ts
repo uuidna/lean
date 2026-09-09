@@ -21,7 +21,7 @@ export default defineConfig({
   lang: 'en-US',
   title: 'Lean',
   titleTemplate: ':title · Lean',
-  description: `Lean publishing worker. Seat ${seat.seat}. ${h.veFaces} fused theorem faces × ${h.veFaces} reflections. Captain coins ${DONATE_URL}.`,
+  description: `Lean publishing worker. Seat ${seat.seat}. ${h.veFaces} fused theorem faces and particle 1. Captain coins ${DONATE_URL}.`,
   cleanUrls: true,
   lastUpdated: true,
   ignoreDeadLinks: false,

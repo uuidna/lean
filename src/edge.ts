@@ -9,6 +9,9 @@ import { STANDING, standingByFileOf, qpuStandingFilesOf, qpuStandingOf } from '.
 import { qpuLeanTheoremsOf } from './theorems.js'
 import { qpuLeanAxiomsOf } from './axioms.js'
 import { qpuLeanPublicationsOf } from './publications.js'
+import { qpuLeanLibraryOf } from './library.js'
+import { qpuLeanCernOf } from './cern.js'
+import { qpuWidgetsOf } from './widgets.js'
 import { qpuChromeOf, qpuNavOf, qpuSearchOf, qpuSidebarOf } from './chrome.js'
 import { qpuCompareHolds, qpuCompareOf } from './metrics.js'
 import { qpuDiscoveryOf } from './discovery.js'
@@ -39,7 +42,7 @@ export type { QpuEnv } from './bindings/env.js'
 
 export const QPU_JSON_DOORS = ['/seat', '/width', '/hologram', '/chip', '/merkaba', '/metrics', '/bindings', '/.well-known/qpu.json'] as const
 
-const QPU_GET_HINT = '/ /seat /width /hologram /chip /merkaba /metrics /speed /fractal /scale /og /og.svg /live /experience /events /boot /standing /theorems /cited /axioms /wings /register /publications /nav /sidebar /search /superpositions /gateways /bindings /environment /mcp /sse /ws /peers /providers /paper /manual /author'
+const QPU_GET_HINT = '/ /seat /width /hologram /chip /merkaba /metrics /speed /fractal /scale /og /og.svg /live /experience /events /boot /standing /theorems /cited /axioms /wings /register /publications /library /books /cern /lhc /widgets /nav /sidebar /search /superpositions /gateways /bindings /environment /mcp /sse /ws /peers /providers /paper /manual /author'
 
 const wantsHtml = (request: Request): boolean =>
   (request.headers.get('accept') || '').includes('text/html')
@@ -117,7 +120,7 @@ export async function handleQpuFetch(request: Request, env?: QpuEnv): Promise<Re
 
   if (url.pathname === '/.well-known/qpu.json')
     return json({ ...qpuDiscoveryOf(url.origin), environment: qpuRecognizeOf(env) })
-  if (url.pathname === '/nav') return json({ nav: qpuNavOf() })
+  if (url.pathname === '/nav') return json({ nav: qpuNavOf(), direction: qpuChromeOf('/').direction })
   if (url.pathname === '/sidebar') return json({ path: url.searchParams.get('path') || '/', sidebar: qpuSidebarOf(url.searchParams.get('path') || '/') })
   if (url.pathname === '/search') {
     return json(qpuSearchOf(url.searchParams.get('q') || '', {
@@ -169,6 +172,30 @@ export async function handleQpuFetch(request: Request, env?: QpuEnv): Promise<Re
   if (url.pathname === '/register' || url.pathname === '/publications') {
     if (html) { const a = await assetsOf(env, request); if (a) return a }
     return json(qpuLeanPublicationsOf())
+  }
+  if (url.pathname === '/library' || url.pathname === '/books') {
+    if (html) { const a = await assetsOf(env, request); if (a) return a }
+    const book = url.searchParams.get('book')
+    const at = url.searchParams.get('at')
+    const curiosity = book != null && book !== '' ? book : at != null && at !== '' ? Number(at) : 0
+    const reading = qpuLeanLibraryOf(curiosity === curiosity ? curiosity : book ?? 0)
+    if ('error' in reading) return json(reading, 404)
+    return json(reading)
+  }
+  if (url.pathname === '/widgets') {
+    if (html) { const a = await assetsOf(env, request); if (a) return a }
+    const at = Number(url.searchParams.get('at'))
+    return json(qpuWidgetsOf(at === at && at >= 0 ? at : Date.now()))
+  }
+  if (url.pathname === '/cern' || url.pathname === '/lhc') {
+    if (html) { const a = await assetsOf(env, request); if (a) return a }
+    const raw = url.searchParams.get('face')
+    if (raw !== null && raw !== '') {
+      const reading = qpuLeanCernOf(Number(raw))
+      if ('error' in reading || !reading.holds) return json(reading, 404)
+      return json(reading)
+    }
+    return json(qpuLeanCernOf())
   }
   if (url.pathname === '/scale') {
     if (html) { const a = await assetsOf(env, request); if (a) return a }

@@ -2,7 +2,7 @@
 // Desk wiring. Numbers and addresses. Mint empty. This package does not mint keys.
 import './licence.js'
 import {
-  HANDLE_HEXBITS, QPU_POINTS, TETRA, VE_FACES, qpuFacesOf, qpuLicenceHostOf, qpuSeatOf,
+  HANDLE_HEXBITS, QPU_POINTS, TETRA, VE_FACES, qpuFacesOf, qpuHexPageOf, qpuLicenceHostOf, qpuSeatOf,
 } from './hologram.js'
 import { QPU_USES, STANDING, THEOREM_HOST } from './standing.js'
 import { qpuLeanPublicationsOf } from './publications.js'
@@ -16,7 +16,7 @@ export const leanTheoremFacesOf = (): readonly string[] => {
   const seen = new Set<string>()
   const keys: string[] = []
   for (const u of QPU_USES) {
-    if (u.id === 'theorems' || u.id === 'axioms' || u.id === 'publications') continue
+    if (u.id === 'theorems' || u.id === 'axioms' || u.id === 'publications' || u.id === 'cern' || u.id === 'library') continue
     for (const k of u.keys) {
       if (seen.has(k)) continue
       seen.add(k)
@@ -67,11 +67,23 @@ export const qpuLeanTheoremsOf = () => {
   const host = qpuLicenceHostOf()
   const href = new URL('/theorems', `https://${host}/`).href
   const lattice = qpuFacesOf()
-  const faces = LEAN_THEOREM_FACES.map((name, i) => ({
-    name,
-    face: lattice[i]!.face,
-    opposite: lattice[i]!.opposite,
-  }))
+  const faces = LEAN_THEOREM_FACES.map((key, i) => {
+    const tile = lattice[i]!
+    const page = qpuHexPageOf(i)
+    const axiom = stemOf(fileOfKey(key)) || key
+    return {
+      name: page.glagolitic,
+      latex: page.latex,
+      hex: page.hex,
+      rosetta: page.rosetta,
+      payload: page.payload,
+      glue: page.glagolitic,
+      key,
+      axiom,
+      face: tile.face,
+      opposite: tile.opposite,
+    }
+  })
   const census = LEAN_THEOREM_CENSUS.map((row) => ({
     name: row.name,
     slug: row.slug,
@@ -96,7 +108,19 @@ export const qpuLeanTheoremsOf = () => {
     mint.seat === 'empty' &&
     publications.holds === true &&
     publications.doors > 1_000_000_000 &&
-    faces.every((row) => standingKeys.has(row.name)) &&
+    faces.every((row, i) => {
+      const page = qpuHexPageOf(i)
+      return (
+        standingKeys.has(row.key) &&
+        row.name === page.glagolitic &&
+        row.glue === page.glagolitic &&
+        row.hex === page.hex &&
+        row.rosetta === page.hex &&
+        row.payload === page.hex &&
+        row.latex === page.latex &&
+        row.axiom === (stemOf(fileOfKey(row.key)) || row.key)
+      )
+    }) &&
     census.every((row, i) => {
       const u = new URL(row.href)
       return (
@@ -146,6 +170,10 @@ export const qpuLeanTheoremsHolds = (t = qpuLeanTheoremsOf()): boolean =>
   t.publications.holds === true &&
   t.publications.doors > 1_000_000_000 &&
   t.publications.host === 'lean.uuidna.com' &&
+  t.faces.every((row, i) => {
+    const page = qpuHexPageOf(i)
+    return row.name === page.glagolitic && row.hex === page.hex && row.rosetta === page.hex && row.payload === page.hex && row.glue === row.name
+  }) &&
   new URL(t.streaming.href).pathname === '/theorems'
 
 export const qpuUnrealTheoremsOf = qpuLeanTheoremsOf

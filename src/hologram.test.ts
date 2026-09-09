@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { DONATE_URL, QPU_HOST, donateUrl, qpuFastenHolds, qpuFastenOf, qpuLicenceHostOf, qpuMachineOf, qpuSeatOf } from './hologram.js'
+import { DONATE_URL, GLAGOLITIC_BASE, HEXBIT_PAGE, HEXBIT_STATES, QPU_HOST, donateUrl, qpuFastenHolds, qpuFastenOf, qpuGlagoliticLatexOf, qpuGlagoliticOf, qpuHologramOf, qpuLicenceHostOf, qpuMachineOf, qpuSeatOf } from './hologram.js'
 import { qpuPeersOf } from './scale.js'
 
 test('lean rebinds the inner QPU host', () => {
@@ -25,4 +25,13 @@ test('donate door is the same Revolut wallet as uuidna', () => {
     donateUrl('https://lean.uuidna.com'),
     'https://revolut.me/ceccec?note=https%3A%2F%2Flean.uuidna.com',
   )
+})
+
+test('Glagolitic is the hexbit page — sixteen glyphs, also hex', () => {
+  assert.equal(HEXBIT_PAGE.length, HEXBIT_STATES)
+  assert.equal(qpuGlagoliticOf(0), String.fromCodePoint(GLAGOLITIC_BASE))
+  assert.equal(qpuGlagoliticOf(HEXBIT_STATES - 1), String.fromCodePoint(GLAGOLITIC_BASE + HEXBIT_STATES - 1))
+  assert.equal(qpuGlagoliticLatexOf(10), '\\mathtt{a}')
+  assert.equal(qpuGlagoliticOf(10).length, 1)
+  assert.equal(HEXBIT_PAGE[10], 'a')
 })

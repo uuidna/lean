@@ -116,7 +116,7 @@ export const qpuRoutesOf = (): SeoRoute[] => {
       kind: 'home',
       jsonAlternate: true,
       title: 'Lean — theorems and axioms',
-      description: `Publishing occupancy of uuidna Lean keys on the inner QPU. Seat ${seat.seat}. Theorems and axioms cite; the kernel sealed. Hologram ${h.veFaces} faces × ${h.veFaces} reflections.`,
+      description: `Publishing occupancy of uuidna Lean keys on the inner QPU. Seat ${seat.seat}. Theorems and axioms cite; the kernel sealed. Hologram ${h.veFaces} faces and particle 1.`,
     },
     {
       path: '/seat',
@@ -136,8 +136,8 @@ export const qpuRoutesOf = (): SeoRoute[] => {
       path: '/hologram',
       kind: 'reading',
       jsonAlternate: true,
-      title: 'QPU hologram — 14 × 14 reflections',
-      description: `Sealed planes foundation ${h.foundation}, debit ${h.debit}, credit ${h.credit}, pentagram ${h.pentagram}, fold ${h.fold}, octet ${h.octet}, VE ${h.veFaces}. Each of ${VE_FACES} superpositions has ${VE_FACES} reflections.`,
+      title: 'QPU hologram — fourteen faces',
+      description: `Sealed planes foundation ${h.foundation}, debit ${h.debit}, credit ${h.credit}, pentagram ${h.pentagram}, fold ${h.fold}, octet ${h.octet}, VE ${h.veFaces}. Each superposition has a referer and perspective angles.`,
     },
     {
       path: '/chip',
@@ -172,7 +172,7 @@ export const qpuRoutesOf = (): SeoRoute[] => {
       kind: 'reading',
       jsonAlternate: true,
       title: 'QPU fractal — fused hologram at every scale',
-      description: 'Pentagram stroke, hologram planes, fourteen faces × fourteen reflections, every provider folder, every serverless lane. Chip stays empty.',
+      description: 'Pentagram stroke, hologram planes, fourteen VE faces and one empty center, every provider folder, every serverless lane. Chip stays empty.',
     },
     {
       path: '/scale',
@@ -200,7 +200,14 @@ export const qpuRoutesOf = (): SeoRoute[] => {
       kind: 'reading',
       jsonAlternate: true,
       title: 'QPU hero — Open Graph card',
-      description: 'The homepage hero is the Open Graph image: a 1200×630 SVG of the BindingPoint pentagram, the empty seat, and the 14×14 hologram.',
+      description: 'The homepage hero is the Open Graph image: a 1200×630 SVG of the BindingPoint pentagram, the empty seat, and fourteen VE faces.',
+    },
+    {
+      path: '/widgets',
+      kind: 'reading',
+      jsonAlternate: true,
+      title: 'Lean widgets — UUID streams, payload off',
+      description: 'Lean occupies licensed-site chrome widgets. UUID streams only. Payload off. Fourteen Glagolitic glyphs and one empty center. Hardware QPU lane stays empty.',
     },
     {
       path: '/bindings',
@@ -221,7 +228,7 @@ export const qpuRoutesOf = (): SeoRoute[] => {
       kind: 'paper',
       jsonAlternate: false,
       title: 'Lean publishing paper',
-      description: `Software overview for @uuidna/lean. Constructors here; Lean proofs on uuidna. ${h.veFaces} faces × ${h.veFaces} reflections.`,
+      description: `Software overview for @uuidna/lean. Constructors here; Lean proofs on uuidna. ${h.veFaces} faces and particle 1.`,
     },
     {
       path: '/manual',
@@ -279,6 +286,34 @@ export const qpuRoutesOf = (): SeoRoute[] => {
       title: 'Lean publications — same DOI register as /register',
       description: 'Same Lean register reading as /register. Named uuidna.com theorem doors, Zenodo DOI, fourteen observers. Mint empty. Hardware QPU lane stays empty.',
     },
+    {
+      path: '/library',
+      kind: 'reading',
+      jsonAlternate: true,
+      title: 'Lean library — 10¹⁴ combinatorial books',
+      description: 'Public library of ten choices on fourteen VE lines. Every combination is a book computed at curiosity. Lean leads sealed by decide. No verse stored. Cost 0. When never.',
+    },
+    {
+      path: '/books',
+      kind: 'reading',
+      jsonAlternate: true,
+      title: 'Lean books — same reading as /library',
+      description: 'Same public combinatorial library as /library. Occupancy of 10¹⁴ seats, never stored prose. Hardware QPU lane stays empty.',
+    },
+    {
+      path: '/cern',
+      kind: 'reading',
+      jsonAlternate: true,
+      title: 'Lean CERN — named HTTPS APIs, mint empty',
+      description: 'Fourteen named CERN HTTPS APIs. Leads are the Lean register fused onto INSPIRE literature. Mint empty. Tokens empty. Email empty.',
+    },
+    {
+      path: '/lhc',
+      kind: 'reading',
+      jsonAlternate: true,
+      title: 'Lean LHC — same reading as /cern',
+      description: 'Same Lean CERN reading as /cern. Fourteen named CERN HTTPS APIs. Mint empty. Hardware QPU lane stays empty.',
+    },
   ]
   for (const f of qpuFacesOf()) {
     routes.push({
@@ -286,7 +321,7 @@ export const qpuRoutesOf = (): SeoRoute[] => {
       kind: 'face',
       jsonAlternate: false,
       title: `QPU face ${f.face}↔${f.opposite}`,
-      description: `Vector-equilibrium face ${f.face} pairs through the void with ${f.opposite}. ${VE_FACES} reflections of this superposition.`,
+      description: `Vector-equilibrium face ${f.face} pairs through the void with ${f.opposite}. Fourteen rim glyphs and one empty center. Perspective angles, not a photography lattice.`,
     })
   }
   return routes

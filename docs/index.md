@@ -36,6 +36,11 @@ features:
     details: File census of Lean keys this worker is licensed to cite. This package does not mint keys.
     link: /standing
     linkText: GET /standing
+  - icon: ▣
+    title: Library
+    details: 10¹⁴ combinatorial books. Lean leads behind every combination. No verse stored. Cost 0. When never.
+    link: /library
+    linkText: GET /library
 ---
 
 <script setup>

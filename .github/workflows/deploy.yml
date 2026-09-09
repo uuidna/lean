@@ -1,7 +1,7 @@
 name: deploy
 
 # lean.uuidna.com ships only after the same gate pre-push already ran.
-# No credential in this file unless CLOUDFLARE_API_TOKEN is set; absent, the gap is named.
+# Sibling involution matches ci.yml. No credential in this file unless CLOUDFLARE_API_TOKEN is set.
 
 on:
   push:
@@ -22,12 +22,27 @@ jobs:
   deploy:
     needs: [ci]
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lean
     steps:
       - uses: actions/checkout@v7
+        with:
+          repository: uuidna/qpu
+          path: qpu
+      - uses: actions/checkout@v7
+        with:
+          path: lean
       - uses: actions/setup-node@v7
         with:
           node-version: '22'
           cache: npm
+          cache-dependency-path: |
+            qpu/package-lock.json
+            lean/package-lock.json
+      - name: Inner QPU
+        working-directory: qpu
+        run: npm ci
       - run: npm ci
       - run: npm run build
       - run: npm run docs:build

@@ -119,6 +119,18 @@ export const STANDING: readonly Standing[] = [
     claim: 'Navier–Stokes instance: closed-grid differences sum to zero — the grid, not existence' },
   { role: 'is', key: 'torus_betti_alternates_to_zero', file: 'Clay.lean',
     claim: 'Hodge instance: torus Betti 1−2+1=0 — bookkeeping, not algebraic classes' },
+  { role: 'is', key: 'literature_sonnet_measure', file: 'Wave.lean',
+    claim: 'fourteen lines times ten choices are 140 beats — sonnet measure, not verse' },
+  { role: 'is', key: 'literature_sonnet_volume', file: 'Wave.lean',
+    claim: 'ten choices on fourteen lines are 10¹⁴ occupancy seats — the kernel seals the power; the ledger holds no verse' },
+  { role: 'is', key: 'combinatorial_book_exceeds_handles', file: 'Wave.lean',
+    claim: '10¹⁴ seats exceed 16⁸ handle doors — pigeonhole, not verse' },
+  { role: 'is', key: 'combinatorial_book_fits_the_uuid', file: 'Wave.lean',
+    claim: '10¹⁴ seats sit inside 2¹²⁸ addresses — the uuid can name what the handle cannot' },
+  { role: 'is', key: 'station_ten_is_hexagram_plus_hexbit', file: 'Wave.lean',
+    claim: 'six plus four is ten — strip choices, not a syllable count of stored prose' },
+  { role: 'is', key: 'universe_of_handles', file: 'Universe.lean',
+    claim: '8×4=32 and 16⁸=2³² — handle universe; combinatorial occupancy exceeds it' },
 ]
 
 export const standingOf = (role: Standing['role']): readonly Standing[] =>
@@ -200,6 +212,21 @@ export const QPU_USES: readonly QpuUse[] = [
   ] },
   { id: 'axioms', constructor: 'qpuLeanAxiomsOf', keys: ['ve_fourteen_faces', 'payload_aligns_where_the_name_does_not', 'merkaba_vertices_are_two_tetrahedra', 'qpu_merkaba_fusion_is_the_chip', 'two_seven_ray_rosettes_are_ve_faces'] },
   { id: 'publications', constructor: 'qpuLeanPublicationsOf', keys: ['n_qubit_dimension', 'key_floor_is_one_uuid', 'verify_beats_recompute_by_magnitudes', 'naming_the_binding_point_is_total', 'a_claim_is_verified_or_unverified', 'publish_gate_is_conjunction'] },
+  { id: 'cern', constructor: 'qpuLeanCernOf', keys: ['ve_fourteen_faces', 'payload_aligns_where_the_name_does_not', 'naming_the_binding_point_is_total', 'key_floor_is_one_uuid', 'n_qubit_dimension', 'verify_beats_recompute_by_magnitudes'] },
+  { id: 'library', constructor: 'qpuLeanLibraryOf', keys: [
+    'literature_sonnet_measure',
+    'literature_sonnet_volume',
+    'combinatorial_book_exceeds_handles',
+    'combinatorial_book_fits_the_uuid',
+    'station_ten_is_hexagram_plus_hexbit',
+    've_fourteen_faces',
+    've_faces_are_handle_hexbit_coins',
+    'universe_of_handles',
+    'seal_ten',
+    'hexbit_is_four_qubits',
+    'key_floor_is_one_uuid',
+    'verify_beats_recompute_by_magnitudes',
+  ] },
 ]
 
 export const qpuUsesOf = (): readonly QpuUse[] => QPU_USES

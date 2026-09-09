@@ -24,19 +24,18 @@ Stroke `{{ reading.pentagram.stroke.join(' → ') }}` visits {{ reading.pentagra
   </tbody>
 </table>
 
-Self-similar `{{ reading.fractal.selfSimilar }}`. Faces {{ reading.fractal.faces }} × reflections {{ reading.fractal.reflections }}.
+Self-similar `{{ reading.fractal.selfSimilar }}`. Faces {{ reading.fractal.faces }}. Particle 1.
 
 ## Cells
 
 Each VE face is a copy of the empty seat.
 
 <table>
-  <thead><tr><th>Face</th><th>Opposite</th><th>Reflections</th><th>Seat</th></tr></thead>
+  <thead><tr><th>Face</th><th>Opposite</th><th>Seat</th></tr></thead>
   <tbody>
     <tr v-for="c in reading.fractal.cells" :key="c.face">
       <td>{{ c.face }}</td>
       <td>{{ c.opposite }}</td>
-      <td>{{ c.reflections }}</td>
       <td>{{ c.seat }}</td>
     </tr>
   </tbody>

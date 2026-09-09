@@ -52,8 +52,27 @@
 .qpu-reflections,
 .qpu-seat,
 .qpu-donate,
-.qpu-pentagram {
+.qpu-pentagram,
+.qpu-direction {
   font-variant-numeric: tabular-nums;
+}
+
+.qpu-direction {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.35rem 1rem;
+  font-size: 0.82rem;
+  background: var(--kumo-elevated);
+  border-bottom: 1px solid var(--border);
+}
+
+.qpu-direction a {
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
 }
 
 .qpu-rail a,
@@ -87,14 +106,49 @@
 
 .qpu-lattice {
   display: grid;
-  gap: 2px;
-  grid-template-columns: repeat(var(--qpu-ve), minmax(0, 1fr));
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  list-style: none;
+  padding: 0;
   margin: 1rem 0;
 }
 
 .qpu-lattice.mini {
-  max-width: 36rem;
+  max-width: 42rem;
   margin-inline: auto;
+}
+
+.qpu-face-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-height: 4.75rem;
+  padding: 0.55rem 0.65rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--card-foreground);
+  text-decoration: none;
+}
+
+.qpu-face-card::before {
+  content: "";
+  display: block;
+  height: 0.28rem;
+  margin: 0 0 0.35rem;
+  border-radius: var(--radius);
+  background: hsl(calc(var(--cell) * var(--qpu-hue-step)) 45% 42%);
+}
+
+.qpu-face-id {
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.qpu-face-meta,
+.qpu-face-pair {
+  font-size: 0.72rem;
+  color: var(--muted-foreground);
 }
 
 .qpu-cell {

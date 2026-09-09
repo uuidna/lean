@@ -7,6 +7,9 @@ import { STANDING, standingByFileOf, qpuStandingFilesOf, qpuStandingOf } from '.
 import { qpuLeanTheoremsOf } from './theorems.js'
 import { qpuLeanAxiomsOf } from './axioms.js'
 import { qpuLeanPublicationsOf } from './publications.js'
+import { qpuLeanCernOf } from './cern.js'
+import { qpuLeanLibraryOf } from './library.js'
+import { qpuWidgetsOf } from './widgets.js'
 import { QPU_EVENT_LISTEN, qpuEventOf, qpuEventsHolds, qpuEventsOf } from './events.js'
 import { QPU_BOOT_ARCHES, qpuBootHarvestOf, qpuBootOf } from './boot.js'
 import {
@@ -134,9 +137,18 @@ const tools: McpTool[] = [
   },
 {
     name: 'qpu_chrome',
-    description: 'Nav, sidebar, search for {path} and {q}.',
+    description: 'Nav, sidebar, search, and always-on scale/speed/temperature direction for {path} and {q}.',
     inputSchema: { type: 'object', properties: { path: { type: 'string' }, q: { type: 'string' } } },
     run: (a) => qpuChromeOf(str(a.path, '/'), str(a.q)),
+  },
+{
+    name: 'qpu_widgets',
+    description: 'Licensed-site chrome widgets. UUID streams only. Payload off. Share across named HTTPS hosts.',
+    inputSchema: { type: 'object', properties: { at: { type: 'number' } } },
+    run: (a) => {
+      const at = num(a.at)
+      return qpuWidgetsOf(at === undefined ? 0 : at)
+    },
   },
 {
     name: 'qpu_seo',
@@ -259,6 +271,48 @@ const tools: McpTool[] = [
     description: 'Same reading as qpu_register.',
     inputSchema: { type: 'object', properties: {} },
     run: () => qpuLeanPublicationsOf(),
+  },
+{
+    name: 'qpu_cern',
+    description: 'Lean CERN. Fourteen named CERN HTTPS APIs. Leads are the Lean register fused onto INSPIRE literature. Mint empty. Tokens empty. Email empty.',
+    inputSchema: { type: 'object', properties: { face: { type: 'integer' } } },
+    run: (a) => {
+      const raw = a.face
+      const face = raw == null || raw === '' ? undefined : Number(raw)
+      return face === undefined ? qpuLeanCernOf() : qpuLeanCernOf(face)
+    },
+  },
+{
+    name: 'qpu_lhc',
+    description: 'Same reading as qpu_cern.',
+    inputSchema: { type: 'object', properties: { face: { type: 'integer' } } },
+    run: (a) => {
+      const raw = a.face
+      const face = raw == null || raw === '' ? undefined : Number(raw)
+      return face === undefined ? qpuLeanCernOf() : qpuLeanCernOf(face)
+    },
+  },
+{
+    name: 'qpu_library',
+    description: 'Public combinatorial library. Ten choices on fourteen VE lines are 10¹⁴ books. Optional {book} catalog. Occupancy of Lean leads, never stored verse. Cost 0. When never.',
+    inputSchema: { type: 'object', properties: { book: { type: 'string' }, at: { type: 'number' } } },
+    run: (a) => {
+      const book = str(a.book)
+      if (book) return qpuLeanLibraryOf(book)
+      const at = num(a.at)
+      return qpuLeanLibraryOf(at === undefined ? 0 : at)
+    },
+  },
+{
+    name: 'qpu_books',
+    description: 'Same reading as qpu_library.',
+    inputSchema: { type: 'object', properties: { book: { type: 'string' }, at: { type: 'number' } } },
+    run: (a) => {
+      const book = str(a.book)
+      if (book) return qpuLeanLibraryOf(book)
+      const at = num(a.at)
+      return qpuLeanLibraryOf(at === undefined ? 0 : at)
+    },
   },
 {
     name: 'qpu_standing',

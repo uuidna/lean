@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { HANDLE_HEXBITS, QPU_HOST, QPU_POINTS, TETRA, VE_FACES, qpuSeatOf } from './hologram.js'
+import { HANDLE_HEXBITS, HEXBIT_PAGE, QPU_HOST, QPU_POINTS, TETRA, VE_FACES, qpuGlagoliticOf, qpuSeatOf } from './hologram.js'
 import {
   LEAN_AXIOM_CENSUS, LEAN_AXIOM_FACES, LEAN_AXIOM_METHODS, LEAN_AXIOM_TRACKS,
   qpuLeanAxiomsHolds, qpuLeanAxiomsOf,
@@ -19,6 +19,11 @@ test('Lean axioms fuse standing files onto fourteen wings and eight uuidna.com/l
   assert.equal(a.editor.seat, 'empty')
   assert.equal(a.faces.length, VE_FACES)
   assert.deepEqual(a.faces.map((row) => row.name), files.slice(0, VE_FACES))
+  for (let i = 0; i < VE_FACES; i++) {
+    assert.equal(a.faces[i]!.glue, qpuGlagoliticOf(i))
+    assert.equal(a.faces[i]!.hex, HEXBIT_PAGE[i])
+    assert.equal(a.faces[i]!.name.endsWith('.lean'), true)
+  }
   assert.equal(a.census.length, HANDLE_HEXBITS)
   assert.deepEqual(a.census.map((c) => c.slug), LEAN_AXIOM_CENSUS.map((c) => c.slug))
   assert.deepEqual(a.census.map((c) => c.slug), files.slice(0, HANDLE_HEXBITS))

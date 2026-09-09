@@ -5,6 +5,7 @@ import { useData, useRoute } from 'vitepress'
 import { applyHologram } from '../../../src/hologram.ts'
 import { qpuOgOf } from '../../../src/og.ts'
 import { chromeOf, pageViewOf } from './autoload.ts'
+import { data } from '../hologram.data.ts'
 
 const { Layout } = DefaultTheme
 const { frontmatter, isDark } = useData()
@@ -24,6 +25,8 @@ const paint = () => {
   if (m) rootEl.style.setProperty('--qpu-face', m[1]!)
   else rootEl.style.removeProperty('--qpu-face')
   rootEl.dataset.theme = isDark.value ? 'dark' : 'light'
+  rootEl.dataset.heading = data.direction.heading
+  rootEl.style.setProperty('--qpu-morph', String(data.direction.temperature.morph))
 }
 
 onMounted(paint)
@@ -45,7 +48,7 @@ watch(isDark, paint)
         <img class="qpu-og-hero" :src="og.path" :alt="og.alt" :width="og.width" :height="og.height" />
       </template>
       <template #home-hero-info-after>
-        <p class="qpu-hero-count">14 superpositions × 14 reflections</p>
+        <p class="qpu-hero-count">Fourteen VE lines. Ten choices. 10¹⁴ books. Empty first.</p>
       </template>
       <template #doc-before>
         <component :is="PageView" v-bind="route.params" />

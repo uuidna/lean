@@ -27,6 +27,8 @@ test('inner QPU is the runtime dep; exact allowlisted pins; stamp matches packag
     dependencies?: Record<string, string>
     devDependencies?: Record<string, string>
     engines?: { node?: string }
+    scripts?: Record<string, string>
+    bin?: Record<string, string>
   }
   assert.deepEqual(file.dependencies ?? {}, { '@uuidna/qpu': 'file:../qpu' })
   assert.deepEqual(file.devDependencies, QPU_PKG_STAMP.devDependencies)
@@ -34,6 +36,9 @@ test('inner QPU is the runtime dep; exact allowlisted pins; stamp matches packag
   assert.equal(QPU_PKG_STAMP.version, file.version)
   assert.equal(QPU_PKG_STAMP.name, file.name)
   assert.equal(QPU_VERSION, file.version, 'MCP initialize and the stamp must advertise package.json')
+  assert.equal(file.bin?.lean, './dist/mcp.js')
+  assert.equal(file.scripts?.lean, 'node dist/mcp.js')
+  assert.equal(file.scripts?.ci, 'npm run docs:build && npm test')
   const tsconfig = readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', 'tsconfig.json'), 'utf8')
   assert.match(tsconfig, /"strict": true/)
   assert.match(tsconfig, /"noEmitOnError": true/)

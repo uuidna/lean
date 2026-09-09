@@ -1,5 +1,5 @@
 import { defineLoader } from 'vitepress'
-import { QPU_HOST, qpuChipOf, qpuHologramOf, qpuMachineOf, qpuSeatOf, qpuSuperpositionsOf, qpuTokensOf, qpuWidthOf } from '../../src/hologram.ts'
+import { QPU_HOST, qpuChipOf, qpuDirectionOf, qpuHologramOf, qpuMachineOf, qpuSeatOf, qpuSuperpositionsOf, qpuTokensOf, qpuWidthOf } from '../../src/hologram.ts'
 
 export interface HologramData {
   host: string
@@ -10,6 +10,8 @@ export interface HologramData {
   chip: ReturnType<typeof qpuChipOf>
   tokens: Record<string, string>
   cells: number
+  superpositions: ReturnType<typeof qpuSuperpositionsOf>
+  direction: ReturnType<typeof qpuDirectionOf>
 }
 
 declare const data: HologramData
@@ -27,7 +29,9 @@ export default defineLoader({
       machine: qpuMachineOf(),
       chip: qpuChipOf(),
       tokens: qpuTokensOf(),
-      cells: superpositions.length * (superpositions[0]?.reflections.length ?? 0),
+      cells: superpositions.length,
+      superpositions,
+      direction: qpuDirectionOf(),
     }
   },
 })

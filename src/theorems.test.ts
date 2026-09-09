@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { HANDLE_HEXBITS, QPU_HOST, QPU_POINTS, TETRA, VE_FACES, qpuSeatOf } from './hologram.js'
+import { HANDLE_HEXBITS, HEXBIT_PAGE, QPU_HOST, QPU_POINTS, TETRA, VE_FACES, qpuGlagoliticOf, qpuSeatOf } from './hologram.js'
 import {
   LEAN_THEOREM_CENSUS, LEAN_THEOREM_FACES, LEAN_THEOREM_METHODS, LEAN_THEOREM_TRACKS,
   qpuLeanTheoremsHolds, qpuLeanTheoremsOf,
@@ -19,7 +19,13 @@ test('Lean theorems fuse inner QPU uses onto fourteen faces and eight uuidna.com
   assert.equal(t.editor.seat, 'empty')
   assert.equal(t.faces.length, VE_FACES)
   assert.equal(LEAN_THEOREM_FACES.length, VE_FACES)
-  assert.ok(t.faces.every((row) => keys.has(row.name)))
+  assert.ok(t.faces.every((row) => keys.has(row.key)))
+  assert.equal(t.faces.length, VE_FACES)
+  for (let i = 0; i < VE_FACES; i++) {
+    assert.equal(t.faces[i]!.name, qpuGlagoliticOf(i))
+    assert.equal(t.faces[i]!.glue, qpuGlagoliticOf(i))
+    assert.equal(t.faces[i]!.hex, HEXBIT_PAGE[i])
+  }
   assert.equal(t.census.length, HANDLE_HEXBITS)
   assert.deepEqual(t.census.map((c) => c.slug), LEAN_THEOREM_CENSUS.map((c) => c.slug))
   assert.deepEqual(t.census.map((c) => c.slug), [...LEAN_THEOREM_FACES.slice(0, HANDLE_HEXBITS)])

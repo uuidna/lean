@@ -96,15 +96,19 @@
   "engines": {
     "node": ">=22"
   },
+  "bin": {
+    "lean": "./dist/mcp.js"
+  },
   "scripts": {
     "prepare": "tsc -p tsconfig.json",
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && node ./node_modules/@uuidna/qpu/dist/fasten-run.js dist/*.test.js",
-    "ci": "npm test && npm run docs:build",
+    "ci": "npm run docs:build && npm test",
     "readme": "npm run build && node dist/gen-readme.js",
     "docs": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
+    "lean": "node dist/mcp.js",
     "ship": "npm run build && npm run docs:build && npx wrangler deploy"
   },
   "devDependencies": {

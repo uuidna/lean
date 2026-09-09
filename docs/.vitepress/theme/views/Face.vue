@@ -1,45 +1,55 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { qpuSuperpositionsOf } from '../../../../src/hologram.ts'
+import { useRouter, withBase } from 'vitepress'
+import { data } from '../../hologram.data.ts'
 
-const props = defineProps<{ face?: number | string; n?: number | string }>()
+const props = defineProps<{ n?: string }>()
+const router = useRouter()
 const idx = computed(() => {
-  const x = Number(props.n ?? props.face)
+  const x = Number(props.n)
   return x === x ? x : 0
 })
-const row = computed(() => qpuSuperpositionsOf()[idx.value] ?? qpuSuperpositionsOf()[0]!)
+const row = computed(() => data.superpositions[idx.value] ?? data.superpositions[0]!)
+const heading = computed(() => `face-${row.value.face}`)
+const neighbour = computed(() => withBase(`/face/${row.value.opposite}`))
+const goNeighbour = () => void router.go(neighbour.value)
 </script>
 
 <template>
-  <div class="qpu-reflections">
-    <p>{{ row.face }}↔{{ row.opposite }} · {{ row.reflections.length }} reflections</p>
-    <div class="qpu-strip">
-      <span class="qpu-strip-label">value</span>
-      <button
-        v-for="r in row.reflections"
-        :id="`k-${r.k}`"
-        :key="'v' + r.k"
-        type="button"
-        class="qpu-cell"
-        :class="{ pair: r.k === 0 }"
-        :style="{ '--cell': r.value, '--paired': r.paired }"
-        :title="`k=${r.k} value ${r.value}`"
-      >
-        {{ r.value }}
-      </button>
-    </div>
-    <div class="qpu-strip">
-      <span class="qpu-strip-label">paired</span>
-      <button
-        v-for="r in row.reflections"
-        :key="'p' + r.k"
-        type="button"
-        class="qpu-cell"
-        :style="{ '--cell': r.paired, '--paired': r.value }"
-        :title="`k=${r.k} paired ${r.paired}`"
-      >
-        {{ r.paired }}
-      </button>
-    </div>
-  </div>
+  <section class="qpu-card qpu-face-reading" :aria-labelledby="heading">
+    <h2 :id="heading">Face {{ row.face }} pairs with {{ row.opposite }}</h2>
+    <p>
+      Referer {{ row.referer }} maps onto door {{ row.door }}.
+      Neighbour gateway
+      <a :href="neighbour" @click.prevent="goNeighbour">face {{ row.opposite }}</a>.
+      Angles are the perspective of this superposition, not a square of reflections.
+    </p>
+    <table>
+      <caption>Perspective angles for face {{ row.face }}</caption>
+      <thead>
+        <tr>
+          <th scope="col">Angle</th>
+          <th scope="col">Degrees</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Hue</th>
+          <td>{{ row.angles.hue }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Dash</th>
+          <td>{{ row.angles.dash }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Slot</th>
+          <td>{{ row.angles.slot }}</td>
+        </tr>
+        <tr>
+          <th scope="row">Reflection</th>
+          <td>{{ row.angles.reflection }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 </template>

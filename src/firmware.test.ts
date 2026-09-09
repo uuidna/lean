@@ -90,3 +90,13 @@ test('SEO audit stays clean beside the VitePress hologram', () => {
   const audit = qpuSeoAuditOf()
   assert.equal(audit.ok, true, JSON.stringify(audit.gaps))
 })
+
+test('namesake console involutes hologram ci', () => {
+  const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')) as {
+    scripts: Record<string, string>
+    bin?: Record<string, string>
+  }
+  assert.equal(pkg.bin?.lean, './dist/mcp.js')
+  assert.equal(pkg.scripts.lean, 'node dist/mcp.js')
+  assert.equal(pkg.scripts.ci, 'npm run docs:build && npm test')
+})

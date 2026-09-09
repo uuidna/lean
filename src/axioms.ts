@@ -2,7 +2,7 @@
 // Desk wiring. Numbers and addresses. Axiom empty. The kernel is axiom-free; this worker adds none.
 import './licence.js'
 import {
-  HANDLE_HEXBITS, QPU_POINTS, TETRA, VE_FACES, qpuFacesOf, qpuLicenceHostOf, qpuSeatOf,
+  HANDLE_HEXBITS, QPU_POINTS, TETRA, VE_FACES, qpuFacesOf, qpuHexPageOf, qpuLicenceHostOf, qpuSeatOf,
 } from './hologram.js'
 import { LEAN_HOST, qpuStandingFilesOf } from './standing.js'
 
@@ -42,11 +42,19 @@ export const qpuLeanAxiomsOf = () => {
   const href = new URL('/axioms', `https://${host}/`).href
   const standingFiles = new Set(qpuStandingFilesOf())
   const lattice = qpuFacesOf()
-  const faces = LEAN_AXIOM_FACES.map((name, i) => ({
-    name,
-    face: lattice[i]!.face,
-    opposite: lattice[i]!.opposite,
-  }))
+  const faces = LEAN_AXIOM_FACES.map((name, i) => {
+    const page = qpuHexPageOf(i)
+    return {
+      name,
+      glue: page.glagolitic,
+      latex: page.latex,
+      hex: page.hex,
+      rosetta: page.hex,
+      payload: page.hex,
+      face: lattice[i]!.face,
+      opposite: lattice[i]!.opposite,
+    }
+  })
   const census = LEAN_AXIOM_CENSUS.map((row) => ({
     name: row.name,
     slug: row.slug,
@@ -67,7 +75,18 @@ export const qpuLeanAxiomsOf = () => {
     methods.length === QPU_POINTS.length &&
     tracks.length === TETRA &&
     axiom.seat === 'empty' &&
-    faces.every((row) => standingFiles.has(row.name) && row.name.endsWith('.lean')) &&
+    faces.every((row, i) => {
+      const page = qpuHexPageOf(i)
+      return (
+        standingFiles.has(row.name) &&
+        row.name.endsWith('.lean') &&
+        row.glue === page.glagolitic &&
+        row.hex === page.hex &&
+        row.rosetta === page.hex &&
+        row.payload === page.hex &&
+        row.latex === page.latex
+      )
+    }) &&
     census.every((row, i) => {
       const u = new URL(row.href)
       return (
@@ -113,6 +132,10 @@ export const qpuLeanAxiomsHolds = (a = qpuLeanAxiomsOf()): boolean =>
   a.census.length === HANDLE_HEXBITS &&
   a.methods[0]!.point === QPU_POINTS[0] &&
   a.tracks.length === TETRA &&
+  a.faces.every((row, i) => {
+    const page = qpuHexPageOf(i)
+    return row.glue === page.glagolitic && row.hex === page.hex && row.rosetta === page.hex && row.payload === page.hex && row.name.endsWith('.lean')
+  }) &&
   new URL(a.streaming.href).pathname === '/axioms'
 
 export const qpuUnrealAxiomsOf = qpuLeanAxiomsOf
