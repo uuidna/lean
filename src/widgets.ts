@@ -12,6 +12,7 @@ import { qpuSitesOf } from './chrome.js'
 export { QPU_WIDGETS, qpuUuidStreamOf, qpuUuidStreamHolds }
 
 /** Lean occupancy of QPU widgets. Sites are this hologram's licensed hosts. Payload false. */
+export const qpuWidgetsProse = "Lean occupancy of QPU widgets. Sites are this hologram's licensed hosts. Payload false."
 export const qpuWidgetsOf = (at = 0) => {
   const inner = qpuInnerWidgetsOf(at)
   const sites = qpuSitesOf()

@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { DONATE_URL, GLAGOLITIC_BASE, HEXBIT_PAGE, HEXBIT_STATES, QPU_HOST, donateUrl, qpuFastenHolds, qpuFastenOf, qpuGlagoliticLatexOf, qpuGlagoliticOf, qpuHologramOf, qpuLicenceHostOf, qpuMachineOf, qpuSeatOf } from './hologram.js'
+import { DONATE_URL, GLAGOLITIC_BASE, HANDLE_BITS, HANDLE_HEXBITS, HEXBIT_PAGE, HEXBIT_STATES, QPU_HOST, UUID_HEXBITS, donateUrl, qpuFastenHolds, qpuFastenOf, qpuGlagoliticLatexOf, qpuGlagoliticOf, qpuGlagoliticPageHolds, qpuGlagoliticPageOf, qpuHologramOf, qpuLeanStripeHolds, qpuLeanStripeOf, qpuLicenceHostOf, qpuMachineOf, qpuSeatOf } from './hologram.js'
 import { qpuPeersOf } from './scale.js'
 
 test('lean rebinds the inner QPU host', () => {
@@ -34,4 +34,23 @@ test('Glagolitic is the hexbit page — sixteen glyphs, also hex', () => {
   assert.equal(qpuGlagoliticLatexOf(10), '\\mathtt{a}')
   assert.equal(qpuGlagoliticOf(10).length, 1)
   assert.equal(HEXBIT_PAGE[10], 'a')
+  assert.equal(qpuGlagoliticPageOf().n > HANDLE_HEXBITS, true)
+  assert.equal(qpuGlagoliticPageHolds(), true)
+})
+
+test('UUID stripe is double-sided hex presented as glyphs; layers follow handle bits', () => {
+  const hex = '0'.repeat(UUID_HEXBITS)
+  const stripe = qpuLeanStripeOf(hex, HANDLE_BITS)
+  assert.equal(stripe.holds, true)
+  assert.equal(stripe.verse, false)
+  assert.equal(stripe.sides, 2)
+  assert.equal(stripe.page, HEXBIT_STATES)
+  assert.equal(stripe.layers.length, UUID_HEXBITS / (HANDLE_BITS / 4))
+  assert.equal(stripe.layers[0]!.recto.hex.length, HANDLE_HEXBITS)
+  assert.equal(stripe.layers[0]!.verso.glyphs.length, HANDLE_HEXBITS)
+  assert.notEqual(stripe.layers[0]!.recto.hex, stripe.layers[0]!.verso.hex)
+  assert.equal(qpuLeanStripeHolds(stripe), true)
+  const thin = qpuLeanStripeOf(hex, 4)
+  assert.equal(thin.holds, true)
+  assert.equal(thin.layers.length > stripe.layers.length, true)
 })

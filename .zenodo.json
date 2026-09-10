@@ -1,6 +1,6 @@
 {
   "title": "@uuidna/qpu — QPU worker: quantum processing unit as three readings (empty seat, BindingPoint width, hologram)",
-  "description": "QPU (quantum processing unit) worker at https://lean.uuidna.com. Captain coins (Revolut): https://revolut.me/ceccec — https://revolut.me/ceccec?note=https%3A%2F%2Flean.uuidna.com. JSON readings of one machine: empty QPU seat, five-point BindingPoint width (CPU, GPU, RAM, CACHE, STORAGE), and sealed hologram bit-widths (foundation 0, debit 3, credit 6, pentagram 5, fold 7, octet 8, VE 14). Cloudflare Workers, TypeScript, Workers-safe, no Node builtins, no hardware dispatch. Package @uuidna/qpu. Same licence as uuidna (CC BY-NC-ND 4.0). Stands on uuidna first archive DOI 10.5281/zenodo.22256708. Live: GET / /seat /width /hologram /environment /.well-known/qpu.json.",
+  "description": "QPU (quantum processing unit) worker at https://lean.uuidna.com. Captain coins (Revolut): https://revolut.me/ceccec — https://revolut.me/ceccec?note=https%3A%2F%2Flean.uuidna.com. JSON readings of one machine: empty QPU seat, five-point BindingPoint width (CPU, GPU, RAM, CACHE, STORAGE), and sealed hologram bit-widths (foundation 0, debit 3, credit 6, pentagram 5, fold 7, octet 8, VE 14). Cloudflare Workers, TypeScript, Workers-safe. Package @uuidna/qpu. Same licence as uuidna (CC BY-NC-ND 4.0). Stands on uuidna first archive DOI 10.5281/zenodo.22256708. Live: GET / /seat /width /hologram /environment /.well-known/qpu.json.",
   "upload_type": "software",
   "access_right": "open",
   "license": "cc-by-nc-nd-4.0",

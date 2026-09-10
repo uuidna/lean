@@ -1,13 +1,8 @@
 ---
-title: Lean books
-description: Same public combinatorial library as /library. Occupancy of 10¹⁴ seats, never stored prose.
-outline: deep
+title: "lean.uuidna.com/books"
+description: "Public Lean library. A library of 10¹⁴-seat books. Each UUID is one double-sided hex-glyph stripe. lean.uuidna.com/books ⰀⰁⰂⰃⰄⰅⰆⰇⰈⰉⰊⰋⰌⰍⰎⰏ0123456789abcdef"
 ---
 
-# Lean books
-
-Same reading as [Library](/library). Occupancy, not verse. Cost 0. When never.
-
-::: info JSON
-`curl -sS https://lean.uuidna.com/books`
-:::
+```ts
+/** Public Lean library. A library of 10¹⁴-seat books. Each UUID is one double-sided hex-glyph stripe. */
+```

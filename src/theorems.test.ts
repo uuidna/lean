@@ -12,6 +12,8 @@ import { qpuMcpCall } from './mcp-catalog.js'
 test('Lean theorems fuse inner QPU uses onto fourteen faces and eight uuidna.com tiles', () => {
   const t = qpuLeanTheoremsOf()
   const keys = new Set(STANDING.map((s) => s.key))
+  assert.ok(keys.has('occupancy_chat_docket'))
+  assert.ok(STANDING.some((s) => s.file === 'Chat.lean'))
   assert.equal(t.product, 'Lean theorems')
   assert.equal(t.kind, 'theorems')
   assert.equal(t.seat, qpuSeatOf().seat)
@@ -40,6 +42,10 @@ test('Lean theorems fuse inner QPU uses onto fourteen faces and eight uuidna.com
   assert.equal(t.methods[1]!.point, 'GPU')
   assert.equal(t.tracks.length, TETRA)
   assert.deepEqual(t.tracks.map((row) => row.name), [...LEAN_THEOREM_TRACKS])
+  assert.equal(t.leads.length, STANDING.length)
+  assert.equal(t.articles.length, t.leads.length)
+  assert.ok(t.leads.length > VE_FACES)
+  assert.ok(t.leads.every((row) => keys.has(row.key) && row.file.endsWith('.lean')))
   assert.equal(new URL(t.streaming.href).hostname, QPU_HOST)
   assert.equal(new URL(t.streaming.href).pathname, '/theorems')
   assert.equal(qpuLeanTheoremsHolds(t), true)
@@ -48,11 +54,13 @@ test('Lean theorems fuse inner QPU uses onto fourteen faces and eight uuidna.com
 test('GET /theorems and /cited and MCP qpu_theorems match; /standing stays the file census', async () => {
   const res = await handleQpuFetch(new Request(`https://${QPU_HOST}/theorems`))
   assert.equal(res.status, 200)
-  const body = await res.json() as { holds: boolean; product: string; faces: unknown[]; census: { href: string }[]; mint: { seat: string } }
+  const body = await res.json() as { holds: boolean; product: string; faces: unknown[]; census: { href: string }[]; mint: { seat: string }; leads: unknown[]; articles: unknown[] }
   assert.equal(body.holds, true)
   assert.equal(body.product, 'Lean theorems')
   assert.equal(body.mint.seat, 'empty')
   assert.equal(body.faces.length, VE_FACES)
+  assert.equal(body.leads.length, STANDING.length)
+  assert.equal(body.articles.length, STANDING.length)
   assert.equal(new URL(body.census[0]!.href).hostname, 'uuidna.com')
   const alias = await handleQpuFetch(new Request(`https://${QPU_HOST}/cited`))
   assert.equal(alias.status, 200)

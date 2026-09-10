@@ -1,12 +1,13 @@
 // seo — per-route discoverability. Canonical, OG (property=), JSON-LD, sitemap, robots.
 // Desk wiring. Does not mint theorem keys or uuidna handles.
 import { ORCID, UUIDNA_DOI_URL, CAPTAIN, DATE_RELEASED } from './standing.js'
-import { DONATE_URL, qpuLicenceHostOf, QPU_POINTS, VE_FACES, donateUrl, qpuFacesOf, qpuHologramOf, qpuSeatOf } from './hologram.js'
+import { DONATE_URL, HEXBIT_PAGE, qpuLicenceHostOf, donateUrl, qpuFacesOf, qpuGlagoliticOf, qpuLeanDocsOf } from './hologram.js'
 import { qpuOgOf } from './og.js'
+import { qpuLeanFrontmatterOf } from './pages.js'
 
 export type HeadTuple = [string, Record<string, string>] | [string, Record<string, string>, string]
 
-export type SeoKind = 'home' | 'reading' | 'paper' | 'manual' | 'author' | 'face' | 'gone'
+export type SeoKind = 'home' | 'reading' | 'paper' | 'manual' | 'author' | 'face' | 'stripe' | 'gone'
 
 export interface SeoRoute {
   path: string
@@ -30,16 +31,7 @@ export interface QpuSeo {
 const originOf = (): string => `https://${qpuLicenceHostOf()}`
 const LICENSE = 'https://creativecommons.org/licenses/by-nc-nd/4.0/'
 const AUTHOR = CAPTAIN
-const KEYWORDS = [
-  'Lean',
-  'QPU',
-  'quantum processing unit',
-  'BindingPoint',
-  'hologram',
-  'vector equilibrium',
-  'Cloudflare Workers',
-  'uuidna',
-] as const
+const KEYWORDS = [...HEXBIT_PAGE]
 
 const xmlEscape = (s: string): string =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -65,7 +57,7 @@ const person = () => ({
 
 const donateAction = (canonical: string) => ({
   '@type': 'DonateAction',
-  name: 'Captain coins',
+  name: qpuLeanDocsOf().glyphs,
   target: donateUrl(canonical),
   recipient: person(),
 })
@@ -107,237 +99,81 @@ const ogImageLd = () => {
 }
 
 export const qpuRoutesOf = (): SeoRoute[] => {
-  const h = qpuHologramOf()
-  const seat = qpuSeatOf()
-  const points = QPU_POINTS.join(' ')
-  const routes: SeoRoute[] = [
-    {
-      path: '/',
-      kind: 'home',
-      jsonAlternate: true,
-      title: 'Lean — theorems and axioms',
-      description: `Publishing occupancy of uuidna Lean keys on the inner QPU. Seat ${seat.seat}. Theorems and axioms cite; the kernel sealed. Hologram ${h.veFaces} faces and particle 1.`,
-    },
-    {
-      path: '/seat',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'QPU seat — empty',
-      description: `The QPU lane is ${seat.seat} and admits ${seat.admits}. A named hole, not a dispatched chip.`,
-    },
-    {
-      path: '/width',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'QPU width — BindingPoint pentagram',
-      description: `Width is the smallest of ${points}. A fan-out runs as wide as the binding point and no wider.`,
-    },
-    {
-      path: '/hologram',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'QPU hologram — fourteen faces',
-      description: `Sealed planes foundation ${h.foundation}, debit ${h.debit}, credit ${h.credit}, pentagram ${h.pentagram}, fold ${h.fold}, octet ${h.octet}, VE ${h.veFaces}. Each superposition has a referer and perspective angles.`,
-    },
-    {
-      path: '/chip',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'QPU novelty chip — merkaba fusion',
-      description: 'Two counter-rotating 7-ray rosettes fused at void 0. CPU and GPU self-balance. Hardware QPU lane stays empty.',
-    },
-    {
-      path: '/merkaba',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'QPU merkaba — two tetrahedra, two rosettes',
-      description: 'Eight handle tiles as two tetrahedra of four vertices. Clockwise and counterclockwise ℤ/7 walks share residue 0.',
-    },
-    {
-      path: '/metrics',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'QPU metrics — formula vs peer',
-      description: 'Comparable constructor identities. Every formula column must match its peer column.',
-    },
-    {
-      path: '/speed',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'QPU speed — constructor occupancy vs 2^n',
-      description: 'How fast this worker occupies 2^n. Every finite IEEE rung is walked, including 2^48 and 2^128. Seat stays empty.',
-    },
-    {
-      path: '/fractal',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'QPU fractal — fused hologram at every scale',
-      description: 'Pentagram stroke, hologram planes, fourteen VE faces and one empty center, every provider folder, every serverless lane. Chip stays empty.',
-    },
-    {
-      path: '/scale',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'QPU scale — all serverless',
-      description: 'Multiple workers may scale over MCP, WebSockets, SSE, queues, Durable Objects, functions, Lambda, and every fused fetch/run/send lane.',
-    },
-    {
-      path: '/experience',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'QPU experience — inner and outer rotors',
-      description: 'Inner CPU clockwise and outer GPU counterclockwise are one involution. Glow 8×3=24 and 8×8=64. Both fuse at residue 0.',
-    },
-    {
-      path: '/live',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'QPU live — occupancy now',
-      description: 'Live metrics movie walks k mod 14. Formula versus peer and every speed rung occupy the same fourteen VE faces.',
-    },
-    {
-      path: '/og',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'QPU hero — Open Graph card',
-      description: 'The homepage hero is the Open Graph image: a 1200×630 SVG of the BindingPoint pentagram, the empty seat, and fourteen VE faces.',
-    },
-    {
-      path: '/widgets',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'Lean widgets — UUID streams, payload off',
-      description: 'Lean occupies licensed-site chrome widgets. UUID streams only. Payload off. Fourteen Glagolitic glyphs and one empty center. Hardware QPU lane stays empty.',
-    },
-    {
-      path: '/bindings',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'QPU bindings — fused environment',
-      description: 'src/bindings folders per provider. Every cloud, hardware point, and ISA has a driver. QPU auto-recognizes the live env. The chip named QPU stays empty.',
-    },
-    {
-      path: '/environment',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'QPU environment — always fused',
-      description: 'Auto-recognized Worker env, host arch, and hardware points fused into one reading. The QPU chip seat admits nothing.',
-    },
-    {
-      path: '/paper',
-      kind: 'paper',
-      jsonAlternate: false,
-      title: 'Lean publishing paper',
-      description: `Software overview for @uuidna/lean. Constructors here; Lean proofs on uuidna. ${h.veFaces} faces and particle 1.`,
-    },
-    {
-      path: '/manual',
-      kind: 'manual',
-      jsonAlternate: false,
-      title: 'Lean user manual',
-      description: 'Operate the Lean publishing worker: JSON doors for theorems and axioms, VitePress hologram, install, deploy, errors, citation, licence.',
-    },
-    {
-      path: '/author',
-      kind: 'author',
-      jsonAlternate: false,
-      title: `${AUTHOR} — Lean`,
-      description: `Author of @uuidna/lean. ORCID ${ORCID}. Captain coins ${DONATE_URL}. Algebra, proof, and claim stay with the uuidna kernel.`,
-    },
-    {
-      path: '/theorems',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'Lean theorems — mint empty',
-      description: 'Fourteen sealed uuidna keys on VE faces, eight live theorem tiles, five cite methods, four axiom tracks. Mint empty. This package does not mint keys.',
-    },
-    {
-      path: '/cited',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'Lean cited — same reading as /theorems',
-      description: 'Same Lean theorems reading as /theorems. Fourteen sealed keys, eight uuidna.com tiles. Mint empty. Hardware QPU lane stays empty.',
-    },
-    {
-      path: '/axioms',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'Lean axioms — axiom empty',
-      description: 'Fourteen uuidna Lean wings on VE faces, eight live /lean tiles, five audit methods, four kernel tracks. Axiom empty. The kernel is axiom-free.',
-    },
-    {
-      path: '/wings',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'Lean wings — same reading as /axioms',
-      description: 'Same Lean axioms reading as /axioms. Fourteen .lean files, eight uuidna.com/lean tiles. Axiom empty. Hardware QPU lane stays empty.',
-    },
-    {
-      path: '/register',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'Lean register — DOI handle proven by decide',
-      description: 'DOI-grade Lean register. Handle means proven: every standing key sealed by decide for all fourteen observers. Mint empty. Payload find, not GraphQL.',
-    },
-    {
-      path: '/publications',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'Lean publications — same DOI register as /register',
-      description: 'Same Lean register reading as /register. Named uuidna.com theorem doors, Zenodo DOI, fourteen observers. Mint empty. Hardware QPU lane stays empty.',
-    },
-    {
-      path: '/library',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'Lean library — 10¹⁴ combinatorial books',
-      description: 'Public library of ten choices on fourteen VE lines. Every combination is a book computed at curiosity. Lean leads sealed by decide. No verse stored. Cost 0. When never.',
-    },
-    {
-      path: '/books',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'Lean books — same reading as /library',
-      description: 'Same public combinatorial library as /library. Occupancy of 10¹⁴ seats, never stored prose. Hardware QPU lane stays empty.',
-    },
-    {
-      path: '/cern',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'Lean CERN — named HTTPS APIs, mint empty',
-      description: 'Fourteen named CERN HTTPS APIs. Leads are the Lean register fused onto INSPIRE literature. Mint empty. Tokens empty. Email empty.',
-    },
-    {
-      path: '/lhc',
-      kind: 'reading',
-      jsonAlternate: true,
-      title: 'Lean LHC — same reading as /cern',
-      description: 'Same Lean CERN reading as /cern. Fourteen named CERN HTTPS APIs. Mint empty. Hardware QPU lane stays empty.',
-    },
+  const doors: Omit<SeoRoute, 'title' | 'description'>[] = [
+    { path: '/', kind: 'home', jsonAlternate: true },
+    { path: '/seat', kind: 'reading', jsonAlternate: true },
+    { path: '/width', kind: 'reading', jsonAlternate: true },
+    { path: '/hologram', kind: 'reading', jsonAlternate: true },
+    { path: '/chip', kind: 'reading', jsonAlternate: true },
+    { path: '/merkaba', kind: 'reading', jsonAlternate: true },
+    { path: '/metrics', kind: 'reading', jsonAlternate: true },
+    { path: '/speed', kind: 'reading', jsonAlternate: true },
+    { path: '/fractal', kind: 'reading', jsonAlternate: true },
+    { path: '/scale', kind: 'reading', jsonAlternate: true },
+    { path: '/experience', kind: 'reading', jsonAlternate: true },
+    { path: '/live', kind: 'reading', jsonAlternate: true },
+    { path: '/og', kind: 'reading', jsonAlternate: true },
+    { path: '/widgets', kind: 'reading', jsonAlternate: true },
+    { path: '/bindings', kind: 'reading', jsonAlternate: true },
+    { path: '/environment', kind: 'reading', jsonAlternate: true },
+    { path: '/paper', kind: 'paper', jsonAlternate: false },
+    { path: '/manual', kind: 'manual', jsonAlternate: false },
+    { path: '/author', kind: 'author', jsonAlternate: false },
+    { path: '/theorems', kind: 'reading', jsonAlternate: true },
+    { path: '/cited', kind: 'reading', jsonAlternate: true },
+    { path: '/axioms', kind: 'reading', jsonAlternate: true },
+    { path: '/wings', kind: 'reading', jsonAlternate: true },
+    { path: '/register', kind: 'reading', jsonAlternate: true },
+    { path: '/publications', kind: 'reading', jsonAlternate: true },
+    { path: '/library', kind: 'reading', jsonAlternate: true },
+    { path: '/books', kind: 'reading', jsonAlternate: true },
+    { path: '/essays', kind: 'reading', jsonAlternate: true },
+    { path: '/stripe', kind: 'reading', jsonAlternate: true },
+    { path: '/cern', kind: 'reading', jsonAlternate: true },
+    { path: '/lhc', kind: 'reading', jsonAlternate: true },
+    { path: '/zenodo', kind: 'reading', jsonAlternate: true },
+    { path: '/fuse', kind: 'reading', jsonAlternate: true },
+    { path: '/internet', kind: 'reading', jsonAlternate: true },
+    { path: '/train', kind: 'reading', jsonAlternate: true },
+    { path: '/clusters', kind: 'reading', jsonAlternate: true },
+    { path: '/tesla', kind: 'reading', jsonAlternate: true },
+    { path: '/solve', kind: 'reading', jsonAlternate: true },
+    { path: '/reward', kind: 'reading', jsonAlternate: true },
+    { path: '/claim', kind: 'reading', jsonAlternate: true },
+    { path: '/compliance', kind: 'reading', jsonAlternate: true },
+    { path: '/green', kind: 'reading', jsonAlternate: true },
+    { path: '/superpositions', kind: 'reading', jsonAlternate: true },
+    { path: '/gateways', kind: 'reading', jsonAlternate: true },
+    { path: '/standing', kind: 'reading', jsonAlternate: true },
+    { path: '/events', kind: 'reading', jsonAlternate: true },
+    { path: '/boot', kind: 'reading', jsonAlternate: true },
+    { path: '/nav', kind: 'reading', jsonAlternate: true },
+    { path: '/sidebar', kind: 'reading', jsonAlternate: true },
+    { path: '/search', kind: 'reading', jsonAlternate: true },
   ]
   for (const f of qpuFacesOf()) {
-    routes.push({
-      path: `/face/${f.face}`,
-      kind: 'face',
-      jsonAlternate: false,
-      title: `QPU face ${f.face}↔${f.opposite}`,
-      description: `Vector-equilibrium face ${f.face} pairs through the void with ${f.opposite}. Fourteen rim glyphs and one empty center. Perspective angles, not a photography lattice.`,
-    })
+    doors.push({ path: `/${qpuGlagoliticOf(f.face)}`, kind: 'face', jsonAlternate: false })
   }
-  return routes
+  for (const h of HEXBIT_PAGE) {
+    doors.push({ path: `/${h}`, kind: 'reading', jsonAlternate: true })
+  }
+  return doors.map((r) => {
+    const fm = qpuLeanFrontmatterOf(r.path)
+    return { ...r, title: fm.title, description: fm.description }
+  })
 }
 
+
 const jsonLdOf = (r: SeoRoute, canonical: string): Record<string, unknown> => {
-  const h = qpuHologramOf()
   const base = {
     '@context': 'https://schema.org',
     url: canonical,
-    inLanguage: 'en',
+    inLanguage: qpuLeanDocsOf().hex,
     license: LICENSE,
     author: person(),
     publisher: person(),
     funder: person(),
-    isPartOf: { '@type': 'WebSite', name: 'Lean', url: `${originOf()}/` },
+    isPartOf: { '@type': 'WebSite', name: qpuLeanDocsOf().glyphs, url: `${originOf()}/` },
     isBasedOn: UUIDNA_DOI_URL,
     identifier: [originOf()],
     potentialAction: donateAction(canonical),
@@ -351,9 +187,7 @@ const jsonLdOf = (r: SeoRoute, canonical: string): Record<string, unknown> => {
       description: r.description,
       mainEntity: {
         '@type': 'SoftwareApplication',
-        name: '@uuidna/lean',
-        applicationCategory: 'DeveloperApplication',
-        operatingSystem: 'Cloudflare Workers',
+        name: qpuLeanDocsOf().glyphs,
         url: `${originOf()}/`,
         codeRepository: 'https://github.com/uuidna/lean',
         license: LICENSE,
@@ -383,7 +217,17 @@ const jsonLdOf = (r: SeoRoute, canonical: string): Record<string, unknown> => {
       '@type': 'WebPage',
       name: r.title,
       description: r.description,
-      about: { '@type': 'Thing', name: `VE face ${r.path.slice('/face/'.length)} of ${h.veFaces}` },
+      about: { '@type': 'Thing', name: r.title },
+    }
+  }
+  if (r.kind === 'stripe') {
+    return {
+      ...base,
+      '@type': 'WebPage',
+      name: r.title,
+      description: r.description,
+      about: { '@type': 'Thing', name: 'UUID hex-glyph stripe' },
+      citation: UUIDNA_DOI_URL,
     }
   }
   return {
@@ -415,8 +259,9 @@ export const qpuSeoOf = (path: string, doc?: SeoDoc): QpuSeo => {
   const route = routeOf(path)
   if (route === '/404' || route.endsWith('/404')) {
     const canonical = `${originOf()}/404`
-    const title = titled('No such reading', doc)
-    const description = described('This path is not a QPU door.', doc)
+    const fm = qpuLeanFrontmatterOf('/404')
+    const title = titled(fm.title, doc)
+    const description = described(fm.description, doc)
     const jsonLd = {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
@@ -441,13 +286,58 @@ export const qpuSeoOf = (path: string, doc?: SeoDoc): QpuSeo => {
         ['meta', { name: 'description', content: description }],
         ...revolutHead(canonical),
         ['meta', { property: 'og:type', content: 'website' }],
-        ['meta', { property: 'og:site_name', content: 'Lean' }],
+        ['meta', { property: 'og:site_name', content: qpuLeanDocsOf().glyphs }],
         ['meta', { property: 'og:title', content: title }],
         ['meta', { property: 'og:description', content: description }],
         ['meta', { property: 'og:url', content: canonical }],
         ...ogHead(),
         ['script', { type: 'application/ld+json' }, JSON.stringify(jsonLd)],
       ],
+    }
+  }
+  const stripe = /^\/([0-9a-f]{32})$/i.exec(route)
+  if (stripe) {
+    const hex = stripe[1]!.toLowerCase()
+    const r: SeoRoute = {
+      path: `/${hex}`,
+      kind: 'stripe',
+      jsonAlternate: true,
+      title: titled(qpuLeanFrontmatterOf(`/${hex}`).title, doc),
+      description: described(qpuLeanFrontmatterOf(`/${hex}`).description, doc),
+    }
+    const canonical = `${originOf()}${r.path}`
+    const ld = jsonLdOf(r, canonical)
+    const head: HeadTuple[] = [
+      ['link', { rel: 'canonical', href: canonical }],
+      ['link', { rel: 'alternate', href: canonical, hreflang: 'en' }],
+      ['link', { rel: 'alternate', href: canonical, hreflang: 'x-default' }],
+      ['link', { rel: 'alternate', type: 'application/json', href: canonical }],
+      ['link', { rel: 'license', href: LICENSE }],
+      ...revolutHead(canonical),
+      ['meta', { name: 'description', content: r.description }],
+      ['meta', { name: 'keywords', content: KEYWORDS.join(', ') }],
+      ['meta', { name: 'author', content: AUTHOR }],
+      ['meta', { name: 'robots', content: 'index, follow' }],
+      ['meta', { property: 'og:type', content: 'article' }],
+      ['meta', { property: 'og:site_name', content: qpuLeanDocsOf().glyphs }],
+      ['meta', { property: 'og:locale', content: 'en_US' }],
+      ['meta', { property: 'og:title', content: r.title }],
+      ['meta', { property: 'og:description', content: r.description }],
+      ['meta', { property: 'og:url', content: canonical }],
+      ...ogHead(),
+      ['meta', { name: 'twitter:title', content: r.title }],
+      ['meta', { name: 'twitter:description', content: r.description }],
+      ['script', { type: 'application/ld+json' }, JSON.stringify(ld)],
+    ]
+    return {
+      route: r.path,
+      canonical,
+      title: r.title,
+      description: r.description,
+      keywords: [...KEYWORDS],
+      kind: r.kind,
+      jsonLd: ld,
+      head,
     }
   }
   const r = qpuRoutesOf().find((x) => x.path === route)
@@ -473,7 +363,7 @@ export const qpuSeoOf = (path: string, doc?: SeoDoc): QpuSeo => {
     ['meta', { name: 'author', content: AUTHOR }],
     ['meta', { name: 'robots', content: 'index, follow' }],
     ['meta', { property: 'og:type', content: ogType }],
-        ['meta', { property: 'og:site_name', content: 'Lean' }],
+        ['meta', { property: 'og:site_name', content: qpuLeanDocsOf().glyphs }],
     ['meta', { property: 'og:locale', content: 'en_US' }],
     ['meta', { property: 'og:title', content: reading.title }],
     ['meta', { property: 'og:description', content: reading.description }],

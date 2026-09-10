@@ -332,6 +332,35 @@ body,
   border-radius: calc(var(--qpu-coins) * 2px);
 }
 
+.qpu-essays ol {
+  list-style: none;
+  padding: 0;
+}
+
+.qpu-essay-list > li {
+  margin: 0 0 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.qpu-essay-glyphs {
+  display: block;
+  font-size: 1.25rem;
+  letter-spacing: 0.12em;
+}
+
+.qpu-essay-pager,
+.qpu-essays nav {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.qpu-stripe-layers {
+  font-variant-numeric: tabular-nums;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .qpu-movie-canvas {
     opacity: 0.55;

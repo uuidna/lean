@@ -12,6 +12,8 @@ test('standing splits by axiom file; every file is .lean; holds', () => {
   assert.ok(files.every((f) => f.endsWith('.lean')))
   assert.ok(files.includes('Qpu.lean'))
   assert.ok(files.includes('Clay.lean'))
+  assert.ok(files.includes('Chat.lean'))
+  assert.ok(files.includes('Tesla.lean'))
   const qpu = standingByFileOf('Qpu.lean')
   assert.equal(qpu.length, 1)
   assert.ok(qpu[0]!.theorems.length >= 1)
@@ -35,6 +37,7 @@ test('GET /standing and MCP qpu_standing by file', async () => {
   assert.equal(res.status, 200)
   const body = await res.json() as { files: string[]; byFile: { file: string }[] }
   assert.ok(body.files.includes('Qpu.lean'))
+  assert.ok(body.files.includes('Chat.lean'))
   assert.equal(body.byFile.length, body.files.length)
   const mcp = await qpuMcpCall('qpu_standing', { file: 'Qpu.lean' }) as { files: string[] }
   assert.deepEqual(mcp.files, ['Qpu.lean'])

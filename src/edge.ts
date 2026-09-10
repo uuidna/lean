@@ -2,15 +2,20 @@
 //
 // Same doors, two readings: Accept text/html → site; otherwise JSON.
 // Nav / sidebar / search are computed upon request. Seat stays empty.
-import { QPU_HOST, qpuChipOf, qpuExperienceOf, qpuGatewaysHolds, qpuGatewaysOf, qpuHologramOf, qpuMachineOf, qpuSeatOf, qpuSuperpositionsOf, qpuWidthOf } from './hologram.js'
+import { HEXBIT_PAGE, QPU_HOST, VE_FACES, qpuChipOf, qpuExperienceOf, qpuGatewaysHolds, qpuGatewaysOf, qpuGlagoliticStateOf, qpuHologramOf, qpuLeanDocTileOf, qpuMachineOf, qpuSeatOf, qpuSuperpositionsOf, qpuWidthOf } from './hologram.js'
 import { QPU_EVENT_LISTEN, qpuEventOf, qpuEventsHolds, qpuEventsOf } from './events.js'
 import { qpuBootOf } from './boot.js'
 import { STANDING, standingByFileOf, qpuStandingFilesOf, qpuStandingOf } from './standing.js'
 import { qpuLeanTheoremsOf } from './theorems.js'
 import { qpuLeanAxiomsOf } from './axioms.js'
 import { qpuLeanPublicationsOf } from './publications.js'
-import { qpuLeanLibraryOf } from './library.js'
+import { qpuLeanLibraryOf, qpuLeanStripeOgOf } from './library.js'
 import { qpuLeanCernOf } from './cern.js'
+import { qpuLeanFuseOf, qpuLeanInternetOf } from './fuse.js'
+import { qpuLeanTrainOf } from './train.js'
+import { qpuTeslaOf } from './hologram.js'
+import { qpuLeanSolveOf } from './solve.js'
+import { qpuLeanClaimOf } from './claim.js'
 import { qpuWidgetsOf } from './widgets.js'
 import { qpuChromeOf, qpuNavOf, qpuSearchOf, qpuSidebarOf } from './chrome.js'
 import { qpuCompareHolds, qpuCompareOf } from './metrics.js'
@@ -42,7 +47,7 @@ export type { QpuEnv } from './bindings/env.js'
 
 export const QPU_JSON_DOORS = ['/seat', '/width', '/hologram', '/chip', '/merkaba', '/metrics', '/bindings', '/.well-known/qpu.json'] as const
 
-const QPU_GET_HINT = '/ /seat /width /hologram /chip /merkaba /metrics /speed /fractal /scale /og /og.svg /live /experience /events /boot /standing /theorems /cited /axioms /wings /register /publications /library /books /cern /lhc /widgets /nav /sidebar /search /superpositions /gateways /bindings /environment /mcp /sse /ws /peers /providers /paper /manual /author'
+const QPU_GET_HINT = '/ /seat /width /hologram /chip /merkaba /metrics /speed /fractal /scale /og /og.svg /live /experience /events /boot /standing /theorems /cited /axioms /wings /register /publications /zenodo /library /books /essays /stripe /cern /lhc /fuse /internet /train /clusters /solve /reward /claim /compliance /green /widgets /tesla /nav /sidebar /search /superpositions /gateways /bindings /environment /mcp /sse /ws /peers /providers /paper /manual /author'
 
 const wantsHtml = (request: Request): boolean =>
   (request.headers.get('accept') || '').includes('text/html')
@@ -128,6 +133,29 @@ export async function handleQpuFetch(request: Request, env?: QpuEnv): Promise<Re
       kind: url.searchParams.get('kind') || undefined,
     }))
   }
+  {
+    const stripe = /^\/([0-9a-f]{32})\/?$/i.exec(url.pathname)
+    if (stripe) {
+      if (html) {
+        const a = await assetsOf(env, request)
+        if (a && a.status === 200) return a
+      }
+      const reading = qpuLeanStripeOgOf(stripe[1]!.toLowerCase())
+      if ('error' in reading) return json(reading, 404)
+      return json(reading)
+    }
+    const hex = /^\/([0-9a-f])\/?$/i.exec(url.pathname)
+    if (hex) {
+      if (html) { const a = await assetsOf(env, request); if (a) return a }
+      const tile = qpuLeanDocTileOf(HEXBIT_PAGE.indexOf(hex[1]!.toLowerCase()))
+      return json(tile)
+    }
+    const face = qpuGlagoliticStateOf(decodeURIComponent(url.pathname.replace(/^\//, '').replace(/\/$/, '')))
+    if (face != null && face >= 0 && face < VE_FACES) {
+      if (html) { const a = await assetsOf(env, request); if (a) return a }
+      return json(qpuSuperpositionsOf()[face])
+    }
+  }
   if (url.pathname === '/superpositions')
     return json({ veFaces: qpuHologramOf().veFaces, superpositions: qpuSuperpositionsOf() })
   if (url.pathname === '/gateways') {
@@ -173,12 +201,64 @@ export async function handleQpuFetch(request: Request, env?: QpuEnv): Promise<Re
     if (html) { const a = await assetsOf(env, request); if (a) return a }
     return json(qpuLeanPublicationsOf())
   }
-  if (url.pathname === '/library' || url.pathname === '/books') {
+  if (url.pathname === '/zenodo') {
+    if (html) { const a = await assetsOf(env, request); if (a) return a }
+    return json(qpuLeanPublicationsOf().zenodo)
+  }
+  if (url.pathname === '/fuse') {
+    if (html) { const a = await assetsOf(env, request); if (a) return a }
+    return json(qpuLeanFuseOf())
+  }
+  if (url.pathname === '/internet') {
+    if (html) { const a = await assetsOf(env, request); if (a) return a }
+    return json(qpuLeanInternetOf())
+  }
+  if (url.pathname === '/train' || url.pathname === '/clusters') {
+    if (html) { const a = await assetsOf(env, request); if (a) return a }
+    return json(qpuLeanTrainOf(url.searchParams.get('q') || url.searchParams.get('prose') || ''))
+  }
+  if (url.pathname === '/tesla') {
+    if (html) { const a = await assetsOf(env, request); if (a) return a }
+    return json(qpuTeslaOf())
+  }
+  if (url.pathname === '/solve' || url.pathname === '/reward') {
+    if (html) { const a = await assetsOf(env, request); if (a) return a }
+    return json(qpuLeanSolveOf())
+  }
+  if (url.pathname === '/claim' || url.pathname === '/compliance') {
+    if (html) { const a = await assetsOf(env, request); if (a) return a }
+    return json(qpuLeanClaimOf())
+  }
+  if (url.pathname === '/green') {
+    if (html) { const a = await assetsOf(env, request); if (a) return a }
+    const { qpuProofsOf } = await import('./proofs.js')
+    return json(qpuProofsOf())
+  }
+  if (url.pathname === '/stripe') {
+    if (html) { const a = await assetsOf(env, request); if (a) return a }
+    const uuid = url.searchParams.get('uuid')
+    return json(qpuLeanStripeOgOf(uuid && uuid !== '' ? uuid : '0'.repeat(32)))
+  }
+  if (url.pathname === '/library' || url.pathname === '/books' || url.pathname === '/essays') {
     if (html) { const a = await assetsOf(env, request); if (a) return a }
     const book = url.searchParams.get('book')
+    const uuid = url.searchParams.get('uuid')
+    const q = url.searchParams.get('q')
     const at = url.searchParams.get('at')
-    const curiosity = book != null && book !== '' ? book : at != null && at !== '' ? Number(at) : 0
-    const reading = qpuLeanLibraryOf(curiosity === curiosity ? curiosity : book ?? 0)
+    const page = url.searchParams.get('page')
+    const bitsRaw = url.searchParams.get('bits')
+    const bits = bitsRaw != null && bitsRaw !== '' ? Number(bitsRaw) : undefined
+    const curiosity =
+      uuid != null && uuid !== '' ? uuid
+      : q != null && q !== '' ? q
+      : book != null && book !== '' ? book
+      : at != null && at !== '' ? Number(at)
+      : 0
+    const reading = qpuLeanLibraryOf(curiosity === curiosity ? curiosity : book ?? 0, {
+      bits: bits === bits ? bits : undefined,
+      page: page != null && page !== '' ? page : undefined,
+      q: q != null && q !== '' ? q : undefined,
+    })
     if ('error' in reading) return json(reading, 404)
     return json(reading)
   }

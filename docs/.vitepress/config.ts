@@ -1,14 +1,13 @@
-// docs/.vitepress/config.ts — nav and sidebar computed from the hologram constructors.
+// docs/.vitepress/config.ts — documented VitePress options. Frontmatter fused with local search.
 import { defineConfig } from 'vitepress'
-import { DONATE_URL, QPU_HOST, donateUrl, qpuHologramOf, qpuSeatOf } from '../../src/hologram.ts'
+import { DONATE_URL, QPU_HOST, donateUrl, qpuLeanDocsOf } from '../../src/hologram.ts'
 import { qpuNavOf, qpuSidebarMapOf } from '../../src/chrome.ts'
 import { qpuSeoOf } from '../../src/seo.ts'
-import { qpuOgDocOf } from '../../src/og.ts'
-import { handleQpuFetch } from '../../src/edge.ts'
+import { qpuLeanFrontmatterOf } from '../../src/pages.ts'
 
 const ORIGIN = `https://${QPU_HOST}`
-const h = qpuHologramOf()
-const seat = qpuSeatOf()
+const docs = qpuLeanDocsOf()
+const home = qpuLeanFrontmatterOf('/')
 
 const nav = qpuNavOf().map((g) => ({
   text: g.text,
@@ -19,9 +18,9 @@ const sidebar = qpuSidebarMapOf()
 
 export default defineConfig({
   lang: 'en-US',
-  title: 'Lean',
-  titleTemplate: ':title · Lean',
-  description: `Lean publishing worker. Seat ${seat.seat}. ${h.veFaces} fused theorem faces and particle 1. Captain coins ${DONATE_URL}.`,
+  title: docs.glyphs,
+  titleTemplate: ':title',
+  description: home.description,
   cleanUrls: true,
   lastUpdated: true,
   ignoreDeadLinks: false,
@@ -33,70 +32,34 @@ export default defineConfig({
     ['meta', { name: 'funding', content: DONATE_URL }],
     ['meta', { name: 'citation_funding_url', content: DONATE_URL }],
     ['meta', { property: 'og:see_also', content: DONATE_URL }],
-    ['meta', { name: 'theme-color', content: '#6b46e5' }],
   ],
-  markdown: {
-    theme: { light: 'github-light', dark: 'github-dark' },
-    lineNumbers: true,
-    headers: { level: [2, 3, 4, 5, 6] },
-  },
   themeConfig: {
-    siteTitle: 'Lean',
+    siteTitle: docs.glyphs,
     logo: '/icon.svg',
     nav,
     sidebar,
-    search: false,
-    outline: { level: 'deep', label: 'On this plane' },
+    search: { provider: 'local' },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/uuidna/lean', ariaLabel: 'lean source' },
       { icon: 'github', link: 'https://github.com/uuidna/uuidna', ariaLabel: 'uuidna ledger' },
     ],
     editLink: {
       pattern: 'https://github.com/uuidna/lean/edit/main/docs/:path',
-      text: 'Edit this plane',
-    },
-    lastUpdated: { text: 'Measured' },
-    docFooter: { prev: 'Previous plane', next: 'Next plane' },
-    footer: {
-      message: 'CC BY-NC-ND 4.0 · proofs on uuidna',
-      copyright: `© Tsvetan Rouschev · ${donateUrl(ORIGIN)}`,
     },
     externalLinkIcon: true,
-    returnToTopLabel: 'Foundation 0',
-    darkModeSwitchTitle: 'Fold to dark',
-    lightModeSwitchTitle: 'Fold to light',
-    sidebarMenuLabel: 'Hologram',
-    skipToContentLabel: 'Skip to reading',
   },
-  async transformPageData(page) {
+  transformPageData(page) {
     page.frontmatter = page.frontmatter ?? {}
     const route = '/' + page.relativePath.replace(/\.md$/, '').replace(/\/index$/, '').replace(/^index$/, '')
     const path = route === '' ? '/' : route
-    page.frontmatter.qpuPath = path
     const params = page.params as Record<string, string> | undefined
-    const door = params?.n != null ? `/face/${params.n}` : path
-    const res = await handleQpuFetch(new Request(`https://${QPU_HOST}${door}?at=0`, {
-      headers: { accept: 'application/json' },
-    }))
-    if (res.ok && (res.headers.get('content-type') ?? '').includes('json')) {
-      const body = await res.json() as { error?: string }
-      if (!body.error) page.frontmatter.reading = body
-    }
-    const doc = qpuOgDocOf({
-      title: page.frontmatter.title ?? page.title,
-      description: page.frontmatter.description ?? page.description,
-      hero: page.frontmatter.hero,
-      params,
-    })
-    if (doc.title) {
-      page.title = doc.title
-      page.frontmatter.title = doc.title
-    }
-    if (doc.description) {
-      page.description = doc.description
-      page.frontmatter.description = doc.description
-    }
-    const seo = qpuSeoOf(path, doc)
+    const door = params?.a != null ? `/${params.a}` : path
+    const fm = qpuLeanFrontmatterOf(door)
+    page.title = fm.title
+    page.description = fm.description
+    page.frontmatter.title = fm.title
+    page.frontmatter.description = fm.description
+    const seo = qpuSeoOf(door)
     page.frontmatter.head = [...(page.frontmatter.head ?? []), ...seo.head]
   },
 })

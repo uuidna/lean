@@ -6,6 +6,8 @@ import { QPU_TOOLS } from './mcp-catalog.js'
 import { qpuProvidersOf, qpuRecognizeOf } from './bindings/index.js'
 import { STANDING } from './standing.js'
 import { qpuRoutesOf } from './seo.js'
+import { qpuLeanClaimOf } from './claim.js'
+import { qpuLeanPublicationsOf } from './publications.js'
 
 export interface QpuReceipt {
   tests: number
@@ -22,6 +24,8 @@ export const qpuProofsOf = (receipt?: QpuReceipt) => {
   const chip = qpuChipOf()
   const compare = qpuCompareOf()
   const env = qpuRecognizeOf()
+  const claim = qpuLeanClaimOf()
+  const publications = qpuLeanPublicationsOf()
   const providers = qpuProvidersOf()
   let bindings = 0
   for (const p of providers) bindings = bindings + p.bindings.length
@@ -52,6 +56,11 @@ export const qpuProofsOf = (receipt?: QpuReceipt) => {
     rays: chip.merkaba.rays,
     vertices: chip.merkaba.vertices,
     gravity: STANDING.some((s) => s.key === 'clay_gravity_equals_rosette' && s.file === 'Clay.lean'),
+    bold: claim.bold,
+    lean: claim.lean,
+    compliance: claim.holds,
+    zenodo: publications.zenodo.monitor,
+    green: claim.holds === true && publications.zenodo.green === true && publications.doi.verified === true && env.internet === true,
   }
   const holds = qpuCompareHolds(compare)
   const testsOk = receipt
@@ -77,7 +86,12 @@ export const qpuProofsOf = (receipt?: QpuReceipt) => {
     concept.rotors * concept.rays === concept.veFaces &&
     concept.superpositions === concept.veFaces &&
     concept.amplitudes === qpuTwoNOf(concept.veFaces) &&
-    concept.gravity === true
+    concept.gravity === true &&
+    concept.bold === true &&
+    concept.lean === true &&
+    concept.compliance === true &&
+    concept.zenodo === true &&
+    concept.green === true
   const workOk = holds && work.debitCredit === BASE && work.foldCoins === BASE && testsOk
-  return { concept, work, complete: conceptOk && workOk }
+  return { concept, work, complete: conceptOk && workOk, green: conceptOk && workOk }
 }

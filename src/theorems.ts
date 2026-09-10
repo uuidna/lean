@@ -63,16 +63,21 @@ const KERNEL = `${THEOREM_HOST}/`
 const theoremHrefOf = (slug: string): string => new URL(slug, KERNEL).href
 
 /** Lean theorems. Mint empty. Census hrefs stay on uuidna.com. */
+export const qpuLeanTheoremsProse = 'Lean theorems. Mint empty. Census hrefs stay on uuidna.com.'
 export const qpuLeanTheoremsOf = () => {
   const host = qpuLicenceHostOf()
   const href = new URL('/theorems', `https://${host}/`).href
   const lattice = qpuFacesOf()
   const faces = LEAN_THEOREM_FACES.map((key, i) => {
     const tile = lattice[i]!
-    const page = qpuHexPageOf(i)
-    const axiom = stemOf(fileOfKey(key)) || key
-    return {
-      name: page.glagolitic,
+      const page = qpuHexPageOf(i)
+      const axiom = stemOf(fileOfKey(key)) || key
+      const claim = STANDING.find((s) => s.key === key)?.claim ?? ''
+      return {
+        name: page.glagolitic,
+        title: key,
+        subtitle: page.glagolitic,
+        claim,
       latex: page.latex,
       hex: page.hex,
       rosetta: page.rosetta,
@@ -99,6 +104,8 @@ export const qpuLeanTheoremsOf = () => {
   }))
   const mint = { name: 'Mint' as const, seat: 'empty' as const, admits: 'nothing' as const }
   const publications = qpuLeanPublicationsOf()
+  const leads = publications.leads
+  const articles = publications.leads
   const standingKeys = new Set(STANDING.map((s) => s.key))
   const holds =
     faces.length === VE_FACES &&
@@ -108,10 +115,17 @@ export const qpuLeanTheoremsOf = () => {
     mint.seat === 'empty' &&
     publications.holds === true &&
     publications.doors > 1_000_000_000 &&
+    leads.length === publications.leads.length &&
+    articles.length === leads.length &&
+    leads.length === STANDING.length &&
+    leads.every((row) => standingKeys.has(row.key) && row.file.endsWith('.lean')) &&
     faces.every((row, i) => {
       const page = qpuHexPageOf(i)
       return (
         standingKeys.has(row.key) &&
+        row.title === row.key &&
+        row.claim === (STANDING.find((s) => s.key === row.key)?.claim ?? '') &&
+        row.subtitle === page.glagolitic &&
         row.name === page.glagolitic &&
         row.glue === page.glagolitic &&
         row.hex === page.hex &&
@@ -149,6 +163,8 @@ export const qpuLeanTheoremsOf = () => {
     census,
     methods,
     tracks,
+    leads,
+    articles,
     publications,
     chip: qpuSeatOf(),
     faceCount: VE_FACES,
@@ -170,9 +186,12 @@ export const qpuLeanTheoremsHolds = (t = qpuLeanTheoremsOf()): boolean =>
   t.publications.holds === true &&
   t.publications.doors > 1_000_000_000 &&
   t.publications.host === 'lean.uuidna.com' &&
+  t.leads.length === t.publications.leads.length &&
+  t.articles.length === t.leads.length &&
+  t.leads.length > VE_FACES &&
   t.faces.every((row, i) => {
     const page = qpuHexPageOf(i)
-    return row.name === page.glagolitic && row.hex === page.hex && row.rosetta === page.hex && row.payload === page.hex && row.glue === row.name
+    return row.title === row.key && row.claim === (STANDING.find((s) => s.key === row.key)?.claim ?? '') && row.subtitle === page.glagolitic && row.name === page.glagolitic && row.hex === page.hex && row.rosetta === page.hex && row.payload === page.hex && row.glue === row.name
   }) &&
   new URL(t.streaming.href).pathname === '/theorems'
 

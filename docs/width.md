@@ -1,15 +1,8 @@
 ---
-title: Width
-description: BindingPoint pentagram — CPU GPU RAM CACHE STORAGE
-outline: deep
+title: "lean.uuidna.com/width"
+description: "Lean documentation is the hexbit page presented as Glagolitic glyphs. lean.uuidna.com/width ⰀⰁⰂⰃⰄⰅⰆⰇⰈⰉⰊⰋⰌⰍⰎⰏ0123456789abcdef"
 ---
 
-# Width <Badge type="tip" text="pentagram" />
-
-<Pentagram />
-
-A fan-out may run as wide as the smallest of CPU, GPU, RAM, CACHE, STORAGE. Today the reading binds CPU.
-
-::: info JSON
-`curl -sS https://lean.uuidna.com/width`
-:::
+```ts
+/** Lean documentation is the hexbit page presented as Glagolitic glyphs. */
+```

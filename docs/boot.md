@@ -1,19 +1,8 @@
 ---
-title: QPU boot
-description: Alpine netboot matrix. Eight official ISAs, trinity parts. Chip empty. Hardware QPU lane stays empty.
-outline: deep
+title: "lean.uuidna.com/boot"
+description: "Lean documentation is the hexbit page presented as Glagolitic glyphs. lean.uuidna.com/boot ⰀⰁⰂⰃⰄⰅⰆⰇⰈⰉⰊⰋⰌⰍⰎⰏ0123456789abcdef"
 ---
 
-# QPU boot
-
-Holds `{{ reading.holds }}`. Alpine ISAs `{{ reading.alpine }}`. Parts `{{ reading.parts }}`. Images `{{ reading.images }}`.
-
-Occupancy of Alpine netboot. Each image is kernel + initramfs + modloop. The empty chip stays at [Seat](/seat).
-
-## Arches · {{ reading.arches.length }}
-
-{{ reading.arches.join(' · ') }}
-
-::: info JSON
-`curl -sS https://lean.uuidna.com/boot`
-:::
+```ts
+/** Lean documentation is the hexbit page presented as Glagolitic glyphs. */
+```

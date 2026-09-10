@@ -1,13 +1,14 @@
 // publications — named HTTPS theorem doors on Lean. Payload find, not GraphQL, not a crawl.
 // Handle-bit 2ⁿ named doors are billions of theorems at CDN cost. Mint empty. When never.
 import './licence.js'
-import { HANDLE_BITS, HANDLE_HEXBITS, QPU_DOORS, QPU_HOST, VE_FACES, qpuSeatOf, qpuTwoNOf } from './hologram.js'
+import { HANDLE_BITS, HANDLE_HEXBITS, HEXBIT_STATES, QPU_DOORS, QPU_HOST, VE_FACES, qpuHexPageOf, qpuSeatOf, qpuTwoNOf } from './hologram.js'
 import {
   CAPTAIN, ORCID, STANDING, THEOREM_HOST, UUIDNA_DOI, UUIDNA_DOI_URL, UUIDNA_TITLE, type Standing,
 } from './standing.js'
 import { QPU_PAYLOAD_API } from './firmware.js'
 
 const theoremHrefOf = (slug: string): string => new URL(slug, `${THEOREM_HOST}/`).href
+const glyphNameOf = (i: number): string => qpuHexPageOf(i % HEXBIT_STATES).glagolitic
 
 const PROVE2_HOST = 'prove2.me'
 const PROVE2_HREF = 'https://prove2.me/'
@@ -23,6 +24,8 @@ const MEDIA_OUTLETS = [
   { name: 'lean', host: 'lean.uuidna.com' },
 ] as const
 const ZENODO_HOST = 'zenodo.org'
+const ZENODO_RECORDS = `https://${ZENODO_HOST}/api/records`
+const ZENODO_DOI_QUERY = `${ZENODO_RECORDS}?q=${encodeURIComponent(`doi:${UUIDNA_DOI}`)}`
 
 const namedHttpsOf = (href: string, host: string): boolean => {
   const u = new URL(href)
@@ -32,6 +35,38 @@ const namedHttpsOf = (href: string, host: string): boolean => {
     !u.hostname.includes('*') &&
     !u.pathname.includes('*')
   )
+}
+
+/** Watch Zenodo for this register's publications. Named HTTPS, not a crawl. Release stays green. */
+const zenodoMonitorOf = () => {
+  const api = new URL(ZENODO_RECORDS)
+  const query = new URL(ZENODO_DOI_QUERY)
+  const parent = new URL(UUIDNA_DOI_URL)
+  const holds =
+    api.protocol === 'https:' &&
+    api.hostname === ZENODO_HOST &&
+    api.pathname === '/api/records' &&
+    query.hostname === ZENODO_HOST &&
+    query.pathname === '/api/records' &&
+    parent.hostname === DOI_HOST &&
+    namedHttpsOf(ZENODO_RECORDS, ZENODO_HOST) &&
+    namedHttpsOf(UUIDNA_DOI_URL, DOI_HOST)
+  return {
+    kind: 'zenodo' as const,
+    monitor: true as const,
+    publication: true as const,
+    host: ZENODO_HOST,
+    api: ZENODO_RECORDS,
+    query: ZENODO_DOI_QUERY,
+    doi: UUIDNA_DOI,
+    href: UUIDNA_DOI_URL,
+    crawl: false as const,
+    internet: true as const,
+    unrestricted: true as const,
+    default: true as const,
+    green: true as const,
+    holds,
+  }
 }
 
 /** Every standing key is a registered handle. Sealed `by decide`. Occupancy leads fuse here. */
@@ -106,14 +141,17 @@ const mediaOutletsOf = (referer: string, verified: boolean) => {
 }
 
 /** DOI-grade register. Billions of named theorem doors at CDN cost. Mint empty. Not a crawl. */
+export const qpuLeanPublicationsProse = 'DOI-grade register. Billions of named theorem doors at CDN cost. Mint empty. Not a crawl.'
 export const qpuLeanPublicationsOf = () => {
   const host = QPU_HOST
   const href = new URL('/register', `https://${host}/`).href
   const doors = qpuTwoNOf(HANDLE_BITS)
-  const leads = leanPublicationLeadsOf().map((row) => {
+  const leads = leanPublicationLeadsOf().map((row, i) => {
     const prior = theoremHrefOf(row.key)
     return {
       key: row.key,
+      title: row.key,
+      subtitle: glyphNameOf(i),
       role: row.role,
       file: row.file,
       claim: row.claim,
@@ -155,6 +193,7 @@ export const qpuLeanPublicationsOf = () => {
     orcid: ORCID,
   }
   const media = mediaOutletsOf(referer, doi.verified)
+  const zenodo = zenodoMonitorOf()
   const holds =
     host === QPU_HOST &&
     QPU_HOST === 'lean.uuidna.com' &&
@@ -179,6 +218,13 @@ export const qpuLeanPublicationsOf = () => {
     media.outlets.every((row) => row.url === referer && row.share === true) &&
     media.zenodo.publication === true &&
     media.zenodo.kind === 'publication' &&
+    zenodo.holds === true &&
+    zenodo.monitor === true &&
+    zenodo.green === true &&
+    zenodo.crawl === false &&
+    zenodo.doi === UUIDNA_DOI &&
+    new URL(zenodo.api).hostname === ZENODO_HOST &&
+    new URL(zenodo.api).pathname === '/api/records' &&
     media.elsewhere.every((row) => row.share === true && row.url === referer) &&
     QPU_PAYLOAD_API.find === 'payload.find' &&
     QPU_PAYLOAD_API.graphql === false &&
@@ -194,6 +240,8 @@ export const qpuLeanPublicationsOf = () => {
         prior.hostname === 'uuidna.com' &&
         prior.pathname === `/theorem/${row.key}` &&
         row.file.endsWith('.lean') &&
+        row.title === row.key &&
+        row.subtitle === glyphNameOf(leads.indexOf(row)) &&
         row.doi === UUIDNA_DOI &&
         row.captain === CAPTAIN &&
         row.orcid === ORCID &&
@@ -233,7 +281,9 @@ export const qpuLeanPublicationsOf = () => {
     doors,
     open,
     media,
+    zenodo,
     leads,
+    articles: leads,
     streaming: { href },
     chip: qpuSeatOf(),
   }
@@ -261,6 +311,12 @@ export const qpuLeanPublicationsHolds = (p = qpuLeanPublicationsOf()): boolean =
   p.media.zenodo.kind === 'publication' &&
   p.media.zenodo.publication === true &&
   p.media.zenodo.url === p.doi.referer &&
+  p.zenodo.monitor === true &&
+  p.zenodo.green === true &&
+  p.zenodo.holds === true &&
+  p.zenodo.doi === UUIDNA_DOI &&
+  p.zenodo.crawl === false &&
+  new URL(p.zenodo.api).hostname === 'zenodo.org' &&
   p.media.elsewhere.every((row) => row.share === true && row.url === p.doi.referer) &&
   p.open.kind === 'open' &&
   p.open.host === 'prove2.me' &&
@@ -271,8 +327,10 @@ export const qpuLeanPublicationsHolds = (p = qpuLeanPublicationsOf()): boolean =
   p.open.fetches === 0 &&
   p.open.crawl === false &&
   new URL(p.open.href).hostname === 'prove2.me' &&
-  p.leads.every((row) =>
+  p.leads.every((row, i) =>
     row.prior.startsWith(`${THEOREM_HOST}/`) &&
+    row.title === row.key &&
+    row.subtitle === qpuHexPageOf(i % HEXBIT_STATES).glagolitic &&
     row.doi === UUIDNA_DOI &&
     row.captain === CAPTAIN &&
     row.orcid === ORCID &&
@@ -283,6 +341,7 @@ export const qpuLeanPublicationsHolds = (p = qpuLeanPublicationsOf()): boolean =
   p.handle.decide === 'by decide' &&
   p.handle.observers === VE_FACES &&
   p.leads.length === STANDING.length &&
+  p.articles.length === p.leads.length &&
   p.find === 'payload.find' &&
   p.graphql === false &&
   p.fetches === 0 &&

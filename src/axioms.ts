@@ -2,14 +2,15 @@
 // Desk wiring. Numbers and addresses. Axiom empty. The kernel is axiom-free; this worker adds none.
 import './licence.js'
 import {
-  HANDLE_HEXBITS, QPU_POINTS, TETRA, VE_FACES, qpuFacesOf, qpuHexPageOf, qpuLicenceHostOf, qpuSeatOf,
+  HANDLE_HEXBITS, HEXBIT_STATES, QPU_POINTS, TETRA, VE_FACES, qpuFacesOf, qpuHexPageOf, qpuLicenceHostOf, qpuSeatOf,
 } from './hologram.js'
-import { LEAN_HOST, qpuStandingFilesOf } from './standing.js'
+import { LEAN_HOST, THEOREM_HOST, qpuStandingFilesOf, standingByFileOf } from './standing.js'
 
 const stemOf = (file: string): string => file.replace(/\.lean$/i, '')
 
-/** Standing axiom files, hologram-wide. Occupancy of the wing, not a new axiom. */
-export const leanAxiomFacesOf = (): readonly string[] => qpuStandingFilesOf().slice(0, VE_FACES)
+/** Standing axiom files, hologram-wide. Occupancy of the wing, not a new axiom. Chat.lean is the occupancy docket, not a fifteenth face. Tesla.lean is one analog-hardware cluster, not a wing. */
+export const leanAxiomFacesOf = (): readonly string[] =>
+  qpuStandingFilesOf().filter((f) => f !== 'Chat.lean' && f !== 'Tesla.lean').slice(0, VE_FACES)
 
 export const LEAN_AXIOM_FACES = leanAxiomFacesOf()
 
@@ -34,9 +35,14 @@ export const UNREAL_AXIOM_METHODS = LEAN_AXIOM_METHODS
 export const UNREAL_AXIOM_TRACKS = LEAN_AXIOM_TRACKS
 
 const LEAN = `${LEAN_HOST}/`
+const KERNEL = `${THEOREM_HOST}/`
 const leanHrefOf = (slug: string): string => new URL(slug, LEAN).href
+const theoremHrefOf = (slug: string): string => new URL(slug, KERNEL).href
+const glyphNameOf = (i: number): string => qpuHexPageOf(i % HEXBIT_STATES).glagolitic
+const DOCKET = 'Chat.lean'
 
 /** Lean axioms. Axiom empty. Census hrefs stay on uuidna.com. */
+export const qpuLeanAxiomsProse = 'Lean axioms. Axiom empty. Census hrefs stay on uuidna.com.'
 export const qpuLeanAxiomsOf = () => {
   const host = qpuLicenceHostOf()
   const href = new URL('/axioms', `https://${host}/`).href
@@ -69,12 +75,42 @@ export const qpuLeanAxiomsOf = () => {
     vertex: i,
   }))
   const axiom = { name: 'Axiom' as const, seat: 'empty' as const, admits: 'nothing' as const }
+  const leads = standingByFileOf().map((row) => ({
+    file: row.file,
+    href: row.href,
+    docket: row.file === DOCKET,
+    theorems: row.theorems.map((s, i) => ({
+      key: s.key,
+      title: s.key,
+      subtitle: glyphNameOf(i),
+      role: s.role,
+      claim: s.claim,
+      prior: theoremHrefOf(s.key),
+    })),
+  }))
+  const articles = leads
   const holds =
     faces.length === VE_FACES &&
     census.length === HANDLE_HEXBITS &&
     methods.length === QPU_POINTS.length &&
     tracks.length === TETRA &&
     axiom.seat === 'empty' &&
+    leads.length === qpuStandingFilesOf().length &&
+    articles.length === leads.length &&
+    leads.some((row) => row.file === DOCKET && row.docket === true) &&
+    faces.every((row) => row.name !== DOCKET) &&
+    leads.every((row) => {
+      const u = new URL(row.href)
+      return (
+        standingFiles.has(row.file) &&
+        row.file.endsWith('.lean') &&
+        row.theorems.length > 0 &&
+        u.protocol === 'https:' &&
+        u.hostname === 'uuidna.com' &&
+        u.pathname === `/lean/${row.file}` &&
+        row.theorems.every((t) => t.title === t.key && t.subtitle.length === 1 && new URL(t.prior).pathname === `/theorem/${t.key}`)
+      )
+    }) &&
     faces.every((row, i) => {
       const page = qpuHexPageOf(i)
       return (
@@ -115,6 +151,8 @@ export const qpuLeanAxiomsOf = () => {
     census,
     methods,
     tracks,
+    leads,
+    articles,
     chip: qpuSeatOf(),
     faceCount: VE_FACES,
     handle: HANDLE_HEXBITS,
@@ -132,6 +170,9 @@ export const qpuLeanAxiomsHolds = (a = qpuLeanAxiomsOf()): boolean =>
   a.census.length === HANDLE_HEXBITS &&
   a.methods[0]!.point === QPU_POINTS[0] &&
   a.tracks.length === TETRA &&
+  a.leads.length === a.articles.length &&
+  a.leads.length > VE_FACES &&
+  a.leads.some((row) => row.file === 'Chat.lean' && row.docket === true) &&
   a.faces.every((row, i) => {
     const page = qpuHexPageOf(i)
     return row.glue === page.glagolitic && row.hex === page.hex && row.rosetta === page.hex && row.payload === page.hex && row.name.endsWith('.lean')

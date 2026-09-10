@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { handleQpuFetch } from './edge.js'
-import { QPU_HOST, VE_FACES, qpuSeatOf } from './hologram.js'
+import { QPU_HOST, VE_FACES, qpuGlagoliticOf, qpuSeatOf } from './hologram.js'
 
 const get = (path: string, init?: RequestInit, env?: { ASSETS?: { fetch: (req: Request) => Promise<Response> } }) =>
   handleQpuFetch(new Request(`https://${QPU_HOST}${path}`, init), env)
@@ -55,9 +55,9 @@ test('GET /seat /width /hologram and well-known', async () => {
 test('nav sidebar search superpositions are computed upon request', async () => {
   const nav = await (await get('/nav')).json() as { nav: { items: unknown[] }[] }
   assert.ok(nav.nav.length >= 3)
-  const side = await (await get('/sidebar?path=/face/3')).json() as { sidebar: { items: unknown[] }[] }
+  const side = await (await get(`/sidebar?path=/${encodeURIComponent(qpuGlagoliticOf(3))}`)).json() as { sidebar: { items: unknown[] }[] }
   assert.ok(side.sidebar.some((g) => g.items.length === VE_FACES))
-  const search = await (await get('/search?q=pentagram')).json() as { hits: unknown[] }
+  const search = await (await get('/search?q=lean.uuidna.com')).json() as { hits: unknown[] }
   assert.ok(search.hits.length > 0)
   const sup = await (await get('/superpositions')).json() as { superpositions: { face: number; door: number; referer: number; angles: { hue: number } }[] }
   assert.equal(sup.superpositions.length, VE_FACES)
@@ -100,9 +100,11 @@ test('GET /bindings and /environment are always fused', async () => {
   const names = ['cloudflare', 'google', 'aws', 'azure', 'ibm', 'oracle', 'hardware', 'arch']
   const providers = await (await get('/providers')).json() as { providers: { name: string }[] }
   assert.deepEqual(providers.providers.map((p) => p.name), names)
-  const env = await (await get('/environment')).json() as { fused: boolean; chip: { seat: string }; total: number }
+  const env = await (await get('/environment')).json() as { fused: boolean; chip: { seat: string }; total: number; internet: boolean; unrestricted: boolean }
   assert.equal(env.fused, true)
   assert.equal(env.chip.seat, 'empty')
+  assert.equal(env.internet, true)
+  assert.equal(env.unrestricted, true)
   assert.ok(env.total > 80)
   const body = await (await get('/bindings')).json() as { fused: boolean; providers: string[]; bindings: { kind: string }[] }
   assert.equal(body.fused, true)

@@ -8,11 +8,18 @@ export {
   qpuVersionMaskOf, qpuVersionMaskHolds, qpuCaptainOrdersHolds, qpuHandleMaskOf, qpuHandleMaskHolds, QPU_VERSION_COMMAND, QPU_VERSION_REMINDER, QPU_VERSION_MASK,
   qpuExperienceOf, qpuExperienceHolds, qpuTetrahedraOf, qpuRevisionOf, qpuVortexOf,
   QPU_STAR_PTS, qpuStarStrokeOf, QPU_DOORS, QPU_SHADCN_DOORS, QPU_SHADCN_RAYS,
-  qpuCombinationsOf, qpuCombinationsHolds, qpuMorphOf, qpuMorphHolds,
+  qpuCombinationsOf, qpuCombinationsHolds, qpuMorphOf, qpuMorphHolds, qpuFuseOf, qpuFuseHolds, qpuEntropyOf, qpuEntropyHolds,
   GLAGOLITIC_BASE, HEXBIT_PAGE, qpuHexOf, qpuGlagoliticOf, qpuGlagoliticLatexOf, qpuHexPageOf, qpuHexAdmitOf, qpuPageFoldOf, qpuPageScanOf, qpuDirectionOf,
+  qpuGlagoliticExhaustOf, qpuGlagoliticPageOf, qpuGlagoliticPageHolds, qpuHandleOfGlyphs, qpuHandleFromPageOf,
+  qpuLeanStripeOf, qpuLeanStripeHolds, qpuLeanDocTileOf, qpuLeanDocsOf, qpuLeanDocsHolds, qpuLeanDocMarkdownOf,
+  TESLA_FILE, TESLA_KEYS, qpuTeslaOf, qpuTeslaHolds, qpuTeslaGuideOf,
   type QpuSpin, type QpuAngles, type QpuSuperposition, type QpuVersionInteger, type QpuCombo, type QpuMorphCell,
 } from './hologram.js'
 export { qpuNavOf, qpuSidebarOf, qpuSidebarMapOf, qpuSearchOf, qpuSearchHolds, qpuSitesOf, qpuChromeOf } from './chrome.js'
+export {
+  qpuLeanFrontmatterOf, qpuLeanPageMarkdownOf, qpuLeanPagesOf, qpuLeanPagesHolds, qpuLeanProseOf, qpuLeanTitleOf,
+  qpuLeanUrlOf, qpuLeanFacePathOf, qpuLeanHexPathOf,
+} from './pages.js'
 export { QPU_WIDGETS, qpuUuidStreamOf, qpuUuidStreamHolds, qpuWidgetsOf, qpuWidgetsHolds } from './widgets.js'
 export { qpuDiscoveryOf, handleQpuFetch, type QpuEnv } from './edge.js'
 export { qpuOgOf, qpuOgSvgOf, qpuOgHolds, qpuOgHrefOf, qpuOgDocOf, OG_WIDTH, OG_HEIGHT, OG_PATH, OG_TYPE, type QpuOgDoc } from './og.js'
@@ -59,7 +66,17 @@ export {
   CERN_INSPIRE_COLLECTIONS, CERN_OPEN_APIS, CERN_CENSUS, CERN_EXPERIMENTS, CERN_METHODS,
   qpuLeanCernOf, qpuLeanCernHolds, qpuUnrealCernOf, qpuUnrealCernHolds,
 } from './cern.js'
-export { LEAN_LIBRARY_LEADS, qpuLeanLibraryOf, qpuLeanLibraryHolds } from './library.js'
+export {
+  LEAN_LIBRARY_LEADS, LEAN_ESSAY_PAGE, qpuLeanLibraryOf, qpuLeanLibraryHolds, qpuLeanEssaysOf, qpuLeanEssaysHolds,
+  qpuLeanStripeOgOf, qpuLeanStripeOgHolds, leanStripePathOf, leanStripeHrefOf, leanStripeHexOf,
+} from './library.js'
+export {
+  qpuLeanFuseOf, qpuLeanFuseHolds, qpuLeanFuseApisOf, qpuLeanFuseHostsOf, qpuLeanFuseHostOf, qpuLeanFetchOf,
+  qpuLeanWitnessClustersOf, qpuLeanInternetOf, qpuLeanInternetHolds, type LeanFuseApi,
+} from './fuse.js'
+export { qpuLeanTrainOf, qpuLeanTrainHolds } from './train.js'
+export { qpuLeanSolveOf, qpuLeanSolveHolds, qpuLeanSolveProse, LEAN_REWARDS, type LeanReward } from './solve.js'
+export { qpuLeanClaimOf, qpuLeanClaimHolds, qpuLeanClaimableOf, qpuLeanPriorArtOf } from './claim.js'
 export { QPU_EVENT_KINDS, QPU_EVENT_LISTEN, qpuEventOf, qpuEventsHolds, qpuEventsOf } from './events.js'
 export { QPU_BOOT_ARCHES, qpuBootHarvestOf, qpuBootOf } from './boot.js'
 export { QPU_TOOLS, qpuMcpCall, qpuMcpToolNames } from './mcp-catalog.js'

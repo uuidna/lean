@@ -1,13 +1,8 @@
 ---
-title: Lean publications
-description: Same Lean register reading as /register. Named uuidna.com theorem doors. Mint empty.
-outline: deep
+title: "lean.uuidna.com/publications"
+description: "DOI-grade register. Billions of named theorem doors at CDN cost. Mint empty. Not a crawl. lean.uuidna.com/publications ⰀⰁⰂⰃⰄⰅⰆⰇⰈⰉⰊⰋⰌⰍⰎⰏ0123456789abcdef"
 ---
 
-# Lean publications <Badge type="warning" text="mint empty" />
-
-Same reading as [Register](/register). Product `{{ reading.product }}`. Holds `{{ reading.holds }}`.
-
-::: info JSON
-`curl -sS https://lean.uuidna.com/publications`
-:::
+```ts
+/** DOI-grade register. Billions of named theorem doors at CDN cost. Mint empty. Not a crawl. */
+```

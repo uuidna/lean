@@ -1,20 +1,17 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { readFileSync, readdirSync } from 'node:fs'
+import { readFileSync, readdirSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { QPU_HOST } from './hologram.js'
 import { QPU_WORKER } from './blueprint.js'
 import { handleQpuFetch } from './edge.js'
 import { qpuSeoAuditOf } from './seo.js'
+import { qpuLeanPageMarkdownOf } from './pages.js'
 
 const ROOT = join(import.meta.dirname, '..')
 const wrangler = readFileSync(join(ROOT, 'wrangler.toml'), 'utf8')
-const layout = readFileSync(join(ROOT, 'docs/.vitepress/theme/Layout.vue'), 'utf8')
-const theme = readFileSync(join(ROOT, 'docs/.vitepress/theme/index.ts'), 'utf8')
-const autoload = readFileSync(join(ROOT, 'docs/.vitepress/theme/autoload.ts'), 'utf8')
 const config = readFileSync(join(ROOT, 'docs/.vitepress/config.ts'), 'utf8')
-const css = readFileSync(join(ROOT, 'docs/.vitepress/theme/style.css'), 'utf8')
-const loader = readFileSync(join(ROOT, 'docs/.vitepress/hologram.data.ts'), 'utf8')
+const theme = readFileSync(join(ROOT, 'docs/.vitepress/theme/index.ts'), 'utf8')
 
 test('wrangler ASSETS bind the VitePress hologram', () => {
   assert.equal(QPU_HOST, 'lean.uuidna.com')
@@ -26,29 +23,17 @@ test('wrangler ASSETS bind the VitePress hologram', () => {
   assert.match(wrangler, /QPU_HOST = "lean\.uuidna\.com"/)
 })
 
-test('VitePress theme paints hologram firmware; VP tokens bind QPU planes', () => {
-  assert.match(layout, /data-firmware="vitepress"/)
-  assert.match(layout, /data-engine="lean"/)
-  assert.match(layout, /applyHologram/)
-  assert.match(css, /--vp-c-brand-1:\s*hsl\(calc\(var\(--qpu-fold\)/)
-  assert.match(loader, /defineLoader/)
-  assert.match(loader, /qpuHologramOf/)
+test('VitePress uses documented local search fused with constructor frontmatter', () => {
+  assert.match(config, /search:\s*\{\s*provider:\s*'local'/)
+  assert.match(config, /qpuLeanFrontmatterOf/)
+  assert.doesNotMatch(config, /frontmatter\.reading/)
+  assert.doesNotMatch(config, /handleQpuFetch/)
+  assert.match(theme, /vitepress\/theme/)
+  assert.doesNotMatch(theme, /Layout/)
+  assert.equal(existsSync(join(ROOT, 'docs/.vitepress/theme/Search.vue')), false)
 })
 
-test('theme views autoload by basename; docs read the JSON door', () => {
-  assert.match(autoload, /import\.meta\.glob/)
-  assert.match(autoload, /pageViewOf/)
-  assert.match(autoload, /chromeOf/)
-  assert.match(layout, /pageViewOf/)
-  assert.match(layout, /chromeOf/)
-  assert.match(config, /frontmatter\.reading/)
-  assert.match(config, /handleQpuFetch/)
-  assert.match(config, /page\.title = doc\.title/)
-  assert.match(config, /page\.description = doc\.description/)
-  assert.doesNotMatch(theme, /app\.component\(['"]/)
-  assert.doesNotMatch(theme, /from ['"]\.\/.+\.vue['"]/)
-  assert.doesNotMatch(layout, /from ['"]\.\/.+\.vue['"]/)
-  assert.doesNotMatch(layout, /<(Movie|Search|Sidebar|Seat|Donate|Lattice)\b/)
+test('docs markdown is frontmatter plus the inline constructor doc', () => {
   const walk = (dir: string): string[] =>
     readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
       const p = join(dir, e.name)
@@ -60,12 +45,14 @@ test('theme views autoload by basename; docs read the JSON door', () => {
     })
   for (const file of walk(join(ROOT, 'docs'))) {
     const text = readFileSync(file, 'utf8')
-    assert.doesNotMatch(text, /<Qpu[A-Z]/, file)
-    assert.doesNotMatch(text, /Qpu[A-Z]\w*\.vue/, file)
-    if (file.endsWith('.md') && !file.endsWith('author.md')) {
-      assert.doesNotMatch(text, /<script setup>[\s\S]*from '\.\.\/src\//, file)
+    if (file.endsWith('.md')) {
+      assert.doesNotMatch(text, /<Lattice\b/, file)
+      assert.doesNotMatch(text, /\{\{\s*reading/, file)
+      assert.match(text, /^---\n/, file)
+      assert.match(text, /```ts\n\/\*\*/, file)
     }
   }
+  assert.ok(qpuLeanPageMarkdownOf('/theorems').includes('```ts'))
 })
 
 test('edge fuses HTML to ASSETS and JSON when Accept is not html', async () => {

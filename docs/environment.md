@@ -1,9 +1,8 @@
 ---
-title: Environment
+title: "lean.uuidna.com/environment"
+description: "Lean environment: unrestricted internet to fused solving APIs by default. Wildcards refuse. lean.uuidna.com/environment ⰀⰁⰂⰃⰄⰅⰆⰇⰈⰉⰊⰋⰌⰍⰎⰏ0123456789abcdef"
 ---
 
-# Environment
-
-QPU auto-recognizes Worker bindings, `process.env`, host ISA, CPU cores, and WebGPU, then fuses them into one reading.
-
-The chip named QPU stays empty. `/environment` is always fused.
+```ts
+/** Lean environment: unrestricted internet to fused solving APIs by default. Wildcards refuse. */
+```

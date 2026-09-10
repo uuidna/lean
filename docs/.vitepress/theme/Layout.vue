@@ -48,7 +48,7 @@ watch(isDark, paint)
         <img class="qpu-og-hero" :src="og.path" :alt="og.alt" :width="og.width" :height="og.height" />
       </template>
       <template #home-hero-info-after>
-        <p class="qpu-hero-count">Fourteen VE lines. Ten choices. 10¹⁴ books. Empty first.</p>
+        <p class="qpu-hero-count">One book is 10¹⁴. The library is UUID clusters. Empty first.</p>
       </template>
       <template #doc-before>
         <component :is="PageView" v-bind="route.params" />

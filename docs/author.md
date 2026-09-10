@@ -1,33 +1,8 @@
 ---
-layout: page
-title: Author
+title: "lean.uuidna.com/author"
+description: "Lean documentation is the hexbit page presented as Glagolitic glyphs. lean.uuidna.com/author ⰀⰁⰂⰃⰄⰅⰆⰇⰈⰉⰊⰋⰌⰍⰎⰏ0123456789abcdef"
 ---
 
-<script setup>
-import { VPTeamPage, VPTeamPageTitle, VPTeamMembers } from 'vitepress/theme'
-import { donateUrl, QPU_HOST } from '../src/hologram.ts'
-
-const members = [
-  {
-    avatar: 'https://github.com/ceccec.png',
-    name: 'Tsvetan Rouschev',
-    title: 'Captain',
-    org: 'uuidna',
-    orgLink: 'https://uuidna.com',
-    desc: 'Constructors on this worker. Captain coins https://revolut.me/ceccec. Algebra, proof, and claim stay with the uuidna kernel.',
-    sponsor: donateUrl(`https://${QPU_HOST}`),
-    actionText: 'Captain coins',
-    links: [
-      { icon: 'github', link: 'https://github.com/ceccec' },
-    ],
-  },
-]
-</script>
-
-<VPTeamPage>
-  <VPTeamPageTitle>
-    <template #title>Author</template>
-    <template #lead>ORCID 0009-0000-7312-9778. Captain coins https://revolut.me/ceccec. Lean proofs live on uuidna DOI 10.5281/zenodo.22256708, not in this repository.</template>
-  </VPTeamPageTitle>
-  <VPTeamMembers size="medium" :members="members" />
-</VPTeamPage>
+```ts
+/** Lean documentation is the hexbit page presented as Glagolitic glyphs. */
+```

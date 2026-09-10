@@ -1,5 +1,5 @@
 // mcp-catalog — ONE tool list. Stdio and HTTP subtract nothing: every tool is Workers-safe.
-import { donateUrl, qpuChipOf, qpuExperienceOf, qpuFacesOf, qpuFastenOf, qpuGatewaysOf, qpuHologramOf, qpuMachineOf, qpuMerkabaOf, qpuSeatOf, qpuSuperpositionsOf, qpuTokensOf, qpuWidthOf } from './hologram.js'
+import { donateUrl, qpuChipOf, qpuExperienceOf, qpuFacesOf, qpuFastenOf, qpuGatewaysOf, qpuHologramOf, qpuMachineOf, qpuMerkabaOf, qpuSeatOf, qpuSuperpositionsOf, qpuTeslaOf, qpuTokensOf, qpuWidthOf } from './hologram.js'
 import { qpuChromeOf, qpuNavOf, qpuSearchOf, qpuSidebarOf } from './chrome.js'
 import { qpuCompareHolds, qpuCompareOf, qpuSpeedOf } from './metrics.js'
 import { qpuDiscoveryOf } from './discovery.js'
@@ -8,7 +8,11 @@ import { qpuLeanTheoremsOf } from './theorems.js'
 import { qpuLeanAxiomsOf } from './axioms.js'
 import { qpuLeanPublicationsOf } from './publications.js'
 import { qpuLeanCernOf } from './cern.js'
-import { qpuLeanLibraryOf } from './library.js'
+import { qpuLeanLibraryOf, qpuLeanStripeOgOf } from './library.js'
+import { qpuLeanFuseOf, qpuLeanInternetOf } from './fuse.js'
+import { qpuLeanTrainOf } from './train.js'
+import { qpuLeanSolveOf } from './solve.js'
+import { qpuLeanClaimOf } from './claim.js'
 import { qpuWidgetsOf } from './widgets.js'
 import { QPU_EVENT_LISTEN, qpuEventOf, qpuEventsHolds, qpuEventsOf } from './events.js'
 import { QPU_BOOT_ARCHES, qpuBootHarvestOf, qpuBootOf } from './boot.js'
@@ -89,7 +93,16 @@ const tools: McpTool[] = [
   },
 {
     name: 'qpu_proofs',
-    description: 'Constructor census. Returns {concept,work,complete}.',
+    description: 'Release green: compliance, Zenodo monitor, fused proofs. Returns {concept,work,complete,green}.',
+    inputSchema: { type: 'object', properties: {} },
+    run: async () => {
+      const { qpuProofsOf } = await import('./proofs.js')
+      return qpuProofsOf()
+    },
+  },
+{
+    name: 'qpu_green',
+    description: 'Same reading as qpu_proofs — release green.',
     inputSchema: { type: 'object', properties: {} },
     run: async () => {
       const { qpuProofsOf } = await import('./proofs.js')
@@ -262,7 +275,7 @@ const tools: McpTool[] = [
   },
 {
     name: 'qpu_register',
-    description: 'DOI-grade Lean register. Send occupancy leads here. Handle means proven: every standing key sealed by decide for all fourteen observers. Mint empty.',
+    description: 'DOI-grade Lean register. Send occupancy leads here. Handle means proven: every standing key sealed by decide for all fourteen observers. Monitors Zenodo for publications. Mint empty.',
     inputSchema: { type: 'object', properties: {} },
     run: () => qpuLeanPublicationsOf(),
   },
@@ -271,6 +284,66 @@ const tools: McpTool[] = [
     description: 'Same reading as qpu_register.',
     inputSchema: { type: 'object', properties: {} },
     run: () => qpuLeanPublicationsOf(),
+  },
+{
+    name: 'qpu_zenodo',
+    description: 'Watch Zenodo for Lean publications. Parent DOI, named /api/records, unrestricted fused internet, not a crawl. Release stays green.',
+    inputSchema: { type: 'object', properties: {} },
+    run: () => qpuLeanPublicationsOf().zenodo,
+  },
+{
+    name: 'qpu_fuse',
+    description: 'Fuse every named API that may fill quantum capacity by solving. Two×7 witness clusters. Internet unrestricted to fused APIs by default.',
+    inputSchema: { type: 'object', properties: {} },
+    run: () => qpuLeanFuseOf(),
+  },
+{
+    name: 'qpu_internet',
+    description: 'Same reading as qpu_fuse internet: unrestricted HTTPS to fused solving APIs by default. Wildcards refuse.',
+    inputSchema: { type: 'object', properties: {} },
+    run: () => qpuLeanInternetOf(),
+  },
+{
+    name: 'qpu_train',
+    description: 'Recognise any 2×7 witness clusters in any prose. Standing claims plus fused APIs. Prose is never stored.',
+    inputSchema: { type: 'object', properties: { prose: { type: 'string' } } },
+    run: (a) => qpuLeanTrainOf(str(a.prose)),
+  },
+{
+    name: 'qpu_clusters',
+    description: 'Same reading as qpu_train.',
+    inputSchema: { type: 'object', properties: { prose: { type: 'string' } } },
+    run: (a) => qpuLeanTrainOf(str(a.prose)),
+  },
+{
+    name: 'qpu_tesla',
+    description: 'Tesla.lean as one analog-hardware quantum cluster computed in hex. Unexplored use cases occupy the massive online wave. Patents stay cited as arithmetic. Only Lean decides.',
+    inputSchema: { type: 'object', properties: {} },
+    run: () => qpuTeslaOf(),
+  },
+{
+    name: 'qpu_solve',
+    description: 'Automate problem solving by biggest risk–reward. Reward trinity: prize, bounty, funding. Clay gravity is occupancy, not a prize listing.',
+    inputSchema: { type: 'object', properties: {} },
+    run: () => qpuLeanSolveOf(),
+  },
+{
+    name: 'qpu_reward',
+    description: 'Same reading as qpu_solve.',
+    inputSchema: { type: 'object', properties: {} },
+    run: () => qpuLeanSolveOf(),
+  },
+{
+    name: 'qpu_claim',
+    description: 'Automate compliance: claim the claimable, claim bold, stay lean. Each claim checks kernel prior art and the parent DOI. Sealed `is` only. UNVERIFIED is not false. Mint empty.',
+    inputSchema: { type: 'object', properties: {} },
+    run: () => qpuLeanClaimOf(),
+  },
+{
+    name: 'qpu_compliance',
+    description: 'Same reading as qpu_claim.',
+    inputSchema: { type: 'object', properties: {} },
+    run: () => qpuLeanClaimOf(),
   },
 {
     name: 'qpu_cern',
@@ -294,25 +367,81 @@ const tools: McpTool[] = [
   },
 {
     name: 'qpu_library',
-    description: 'Public combinatorial library. Ten choices on fourteen VE lines are 10¹⁴ books. Optional {book} catalog. Occupancy of Lean leads, never stored verse. Cost 0. When never.',
-    inputSchema: { type: 'object', properties: { book: { type: 'string' }, at: { type: 'number' } } },
+    description: 'Public combinatorial library of 10¹⁴-seat books. UUID clusters are magnitudes bigger. Optional {book} {uuid} {q} {page} {bits}. Occupancy of Lean leads, never stored verse. Cost 0. When never.',
+    inputSchema: { type: 'object', properties: {
+      book: { type: 'string' },
+      uuid: { type: 'string' },
+      q: { type: 'string' },
+      page: { type: 'string' },
+      at: { type: 'number' },
+      bits: { type: 'number' },
+    } },
     run: (a) => {
+      const uuid = str(a.uuid)
+      const q = str(a.q)
       const book = str(a.book)
-      if (book) return qpuLeanLibraryOf(book)
+      const page = str(a.page)
+      const bits = num(a.bits)
+      if (uuid) return qpuLeanLibraryOf(uuid, { bits, page, q: q || undefined })
+      if (q) return qpuLeanLibraryOf(q, { bits, page, q })
+      if (book) return qpuLeanLibraryOf(book, { bits, page })
       const at = num(a.at)
-      return qpuLeanLibraryOf(at === undefined ? 0 : at)
+      return qpuLeanLibraryOf(at === undefined ? 0 : at, { bits, page })
     },
   },
 {
     name: 'qpu_books',
     description: 'Same reading as qpu_library.',
-    inputSchema: { type: 'object', properties: { book: { type: 'string' }, at: { type: 'number' } } },
+    inputSchema: { type: 'object', properties: {
+      book: { type: 'string' },
+      uuid: { type: 'string' },
+      q: { type: 'string' },
+      page: { type: 'string' },
+      at: { type: 'number' },
+      bits: { type: 'number' },
+    } },
     run: (a) => {
+      const uuid = str(a.uuid)
+      const q = str(a.q)
       const book = str(a.book)
-      if (book) return qpuLeanLibraryOf(book)
+      const page = str(a.page)
+      const bits = num(a.bits)
+      if (uuid) return qpuLeanLibraryOf(uuid, { bits, page, q: q || undefined })
+      if (q) return qpuLeanLibraryOf(q, { bits, page, q })
+      if (book) return qpuLeanLibraryOf(book, { bits, page })
       const at = num(a.at)
-      return qpuLeanLibraryOf(at === undefined ? 0 : at)
+      return qpuLeanLibraryOf(at === undefined ? 0 : at, { bits, page })
     },
+  },
+{
+    name: 'qpu_essays',
+    description: 'Same reading as qpu_library — paginated UUID stripes, never stored verse.',
+    inputSchema: { type: 'object', properties: {
+      book: { type: 'string' },
+      uuid: { type: 'string' },
+      q: { type: 'string' },
+      page: { type: 'string' },
+      at: { type: 'number' },
+      bits: { type: 'number' },
+    } },
+    run: (a) => {
+      const uuid = str(a.uuid)
+      const q = str(a.q)
+      const book = str(a.book)
+      const page = str(a.page)
+      const bits = num(a.bits)
+      if (uuid) return qpuLeanLibraryOf(uuid, { bits, page, q: q || undefined })
+      if (q) return qpuLeanLibraryOf(q, { bits, page, q })
+      if (book) return qpuLeanLibraryOf(book, { bits, page })
+      const at = num(a.at)
+      return qpuLeanLibraryOf(at === undefined ? 0 : at, { bits, page })
+    },
+  },
+{
+    name: 'qpu_stripe',
+    description: 'Theorem Open Graph of one UUID stripe. Dedicated b.uuidna.com/a. Fourteen 2×7 cross-references and rotations. Optional {uuid} {bits}. Never stored verse.',
+    inputSchema: { type: 'object', properties: { uuid: { type: 'string' }, bits: { type: 'number' } } },
+    run: (a) => qpuLeanStripeOgOf(str(a.uuid) || '0'.repeat(32), num(a.bits)),
   },
 {
     name: 'qpu_standing',

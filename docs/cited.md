@@ -1,13 +1,8 @@
 ---
-title: Lean cited
-description: Same Lean theorems reading as /theorems. Fourteen fused inner-QPU keys, eight uuidna.com tiles. Mint empty.
-outline: deep
+title: "lean.uuidna.com/cited"
+description: "Lean theorems. Mint empty. Census hrefs stay on uuidna.com. lean.uuidna.com/cited ⰀⰁⰂⰃⰄⰅⰆⰇⰈⰉⰊⰋⰌⰍⰎⰏ0123456789abcdef"
 ---
 
-# Lean cited
-
-Same reading as [Theorems](/theorems). Mint empty. Census hrefs stay on uuidna.com.
-
-::: info JSON
-`curl -sS https://lean.uuidna.com/cited`
-:::
+```ts
+/** Lean theorems. Mint empty. Census hrefs stay on uuidna.com. */
+```

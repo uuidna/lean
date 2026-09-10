@@ -4,7 +4,7 @@ import { handleQpuMcpRpc } from './mcp-rpc.js'
 import { QPU_TOOLS, qpuMcpCall, qpuMcpToolNames } from './mcp-catalog.js'
 import { mockCloudflareEnv } from './bindings/cloudflare/mock.js'
 import { CLOUDFLARE_BINDINGS } from './bindings/cloudflare/kinds.js'
-import { qpuSeoAuditOf, qpuSeoOf, qpuSitemapOf } from './seo.js'
+import { qpuSeoAuditOf, qpuSeoOf, qpuSitemapOf, qpuRoutesOf } from './seo.js'
 import { VE_FACES } from './hologram.js'
 import { QPU_MCP_NAME, QPU_VERSION } from './version.js'
 
@@ -75,5 +75,5 @@ test('SEO audit is clean and sitemap has every face', () => {
   assert.ok(gone.head.some((h) => h[0] === 'link' && h[1].rel === 'payment' && (h[1].href ?? '').includes('revolut.me')))
   assert.ok(JSON.stringify(gone.jsonLd).includes('revolut.me'))
   assert.ok(gone.head.some((h) => h[1].content === 'noindex, nofollow'))
-  assert.equal(qpuSitemapOf().filter((u) => u.path.startsWith('/face/')).length, VE_FACES)
+  assert.equal(qpuRoutesOf().filter((r) => r.kind === 'face').length, VE_FACES)
 })

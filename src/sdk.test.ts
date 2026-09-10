@@ -20,7 +20,19 @@ const HOLDS = [
   'qpuLeanPublicationsHolds',
   'qpuLeanCernHolds',
   'qpuLeanLibraryHolds',
+  'qpuLeanEssaysHolds',
+  'qpuLeanStripeOgHolds',
+  'qpuGlagoliticPageHolds',
+  'qpuLeanDocsHolds',
+  'qpuLeanStripeHolds',
   'qpuLeanPluginHolds',
+  'qpuLeanFuseHolds',
+  'qpuLeanInternetHolds',
+  'qpuLeanTrainHolds',
+  'qpuLeanSolveHolds',
+  'qpuLeanClaimHolds',
+  'qpuTeslaHolds',
+  'qpuLeanPagesHolds',
 ] as const
 
 test('package door Holds', () => {

@@ -3,6 +3,11 @@
 name = "uuidna-lean"
 main = "worker.js"
 compatibility_date = "2026-08-01"
+workers_dev = true
+
+[[routes]]
+pattern = "lean.uuidna.com"
+custom_domain = true
 
 [assets]
 directory = "./docs/.vitepress/dist"

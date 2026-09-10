@@ -27,6 +27,12 @@ test('Lean register is DOI-grade; handle means proven by decide for fourteen obs
   assert.equal(p.media.zenodo.kind, 'publication')
   assert.equal(p.media.zenodo.publication, true)
   assert.equal(p.media.zenodo.url, p.doi.referer)
+  assert.equal(p.zenodo.monitor, true)
+  assert.equal(p.zenodo.green, true)
+  assert.equal(p.zenodo.doi, UUIDNA_DOI)
+  assert.equal(p.zenodo.crawl, false)
+  assert.equal(new URL(p.zenodo.api).hostname, 'zenodo.org')
+  assert.equal(new URL(p.zenodo.api).pathname, '/api/records')
   assert.equal(p.media.elsewhere.every((row) => row.share === true && row.url === p.doi.referer), true)
   for (const outlet of p.media.outlets) {
     assert.equal(outlet.url, p.doi.referer)
@@ -48,6 +54,7 @@ test('Lean register is DOI-grade; handle means proven by decide for fourteen obs
   assert.equal(p.compile.seat, 'empty')
   assert.equal(p.seat, qpuSeatOf().seat)
   assert.equal(p.leads.length, STANDING.length)
+  assert.equal(p.articles.length, p.leads.length)
   assert.equal(p.doors, qpuTwoNOf(HANDLE_BITS))
   assert.ok(p.doors > 1_000_000_000)
   for (const row of p.leads) {
@@ -85,7 +92,9 @@ test('GET /register and /publications and MCP qpu_register match', async () => {
   assert.equal(body.leads.length, STANDING.length)
   const alias = await handleQpuFetch(new Request(`https://${QPU_HOST}/publications`))
   assert.equal(alias.status, 200)
-  assert.equal((await alias.json() as { kind: string }).kind, 'register')
+  const published = await alias.json() as { kind: string; articles: unknown[] }
+  assert.equal(published.kind, 'register')
+  assert.equal(published.articles.length, STANDING.length)
   const mcp = await qpuMcpCall('qpu_register', {}) as { kind: string; host: string }
   assert.equal(mcp.kind, 'register')
   assert.equal(mcp.host, 'lean.uuidna.com')

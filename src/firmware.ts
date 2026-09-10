@@ -15,6 +15,7 @@ export {
 } from '@uuidna/qpu'
 
 /** Lean occupies the hologram plugin. Namesake script. Mounted at will. */
+export const qpuLeanPluginProse = 'Lean occupies the hologram plugin. Namesake script. Mounted at will.'
 export const qpuLeanPluginOf = (mounted = false) => qpuHologramPluginOf(mounted, 'lean')
 
 export const qpuLeanPluginHolds = (p = qpuLeanPluginOf()): boolean =>

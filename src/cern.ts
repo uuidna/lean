@@ -112,6 +112,7 @@ const goneOf = (face: number) => ({
 })
 
 /** Lean CERN. Leads are the Lean register fused onto INSPIRE literature. Mint empty. */
+export const qpuLeanCernProse = 'Lean CERN. Leads are the Lean register fused onto INSPIRE literature. Mint empty.'
 export const qpuLeanCernOf = (face?: number) => {
   if (face !== undefined && (!Number.isInteger(face) || face < 0 || face >= VE_FACES)) return goneOf(face)
   const host = qpuLicenceHostOf()

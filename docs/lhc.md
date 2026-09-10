@@ -1,13 +1,8 @@
 ---
-title: Lean LHC
-description: Same Lean CERN reading as /cern. Fourteen named CERN HTTPS APIs. Mint empty.
-outline: deep
+title: "lean.uuidna.com/lhc"
+description: "Lean CERN. Leads are the Lean register fused onto INSPIRE literature. Mint empty. lean.uuidna.com/lhc ⰀⰁⰂⰃⰄⰅⰆⰇⰈⰉⰊⰋⰌⰍⰎⰏ0123456789abcdef"
 ---
 
-# Lean LHC
-
-Same reading as [CERN](/cern). Fourteen named CERN HTTPS APIs. Mint empty.
-
-::: info JSON
-`curl -sS https://lean.uuidna.com/lhc`
-:::
+```ts
+/** Lean CERN. Leads are the Lean register fused onto INSPIRE literature. Mint empty. */
+```

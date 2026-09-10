@@ -1,8 +1,9 @@
 // chrome — nav, sidebar, and search computed upon request from the hologram. Never hand-typed menus.
 // Search engine: deep-analyze every licensed site from constructors. Census of URL shape, never a live crawl.
-import { QPU_HOST, QPU_POINTS, VE_FACES, qpuDirectionOf, qpuFacesOf, qpuHologramOf, qpuSeatOf, qpuSuperpositionsOf } from './hologram.js'
+import { QPU_HOST, QPU_POINTS, VE_FACES, qpuDirectionOf, qpuFacesOf, qpuGlagoliticOf, qpuGlagoliticStateOf, qpuHologramOf, qpuSeatOf, qpuSuperpositionsOf } from './hologram.js'
 import { STANDING, standingByFileOf } from './standing.js'
 import { qpuRoutesOf, type SeoRoute } from './seo.js'
+import { qpuLeanUrlOf } from './pages.js'
 export interface ChromeLink {
   text: string
   link: string
@@ -25,7 +26,6 @@ const SATELLITES: readonly { host: string; path: string; alias?: string; kind: s
 const satelliteDoorsOf = (): string[] => []
 const satelliteOccupies = (_p: string): boolean => false
 const satelliteSearchOf = (): ChromeHit[] => []
-const OUTER_HOLOGRAM_HOST = QPU_HOST
 
 
 export interface ChromeSearchFilter {
@@ -57,12 +57,18 @@ const LATTICE_EXTRA = ['/standing', '/events', '/boot'] as const
 const SEARCH_CAP = 64
 
 const faceOfPath = (path: string): number | null => {
-  const m = /^\/face\/(\d+)\/?$/.exec(path.split('#')[0] ?? '')
-  if (!m) return null
-  const n = Number(m[1])
-  if (n !== n || n < 0 || n >= VE_FACES) return null
+  const a = qpuLeanUrlOf(path).a
+  const n = qpuGlagoliticStateOf(a)
+  if (n == null || n < 0 || n >= VE_FACES) return null
   return n
 }
+
+const stripeOfPath = (path: string): string | null => {
+  const a = qpuLeanUrlOf(path).a
+  return /^[0-9a-f]{32}$/i.test(a) ? a.toLowerCase() : null
+}
+
+const facePathOf = (face: number): string => `/${qpuGlagoliticOf(face)}`
 
 const bareOf = (path: string): string => {
   const raw = (path.split('#')[0] ?? '/').trim() || '/'
@@ -89,10 +95,13 @@ const siteOfPath = (path: string): string => {
   return QPU_HOST
 }
 
-/** Licensed hosts this worker occupies. Named licence, no wildcard, no live crawl. */
+/** Licensed holograms. URL type is b.uuidna.com/a. Named labels, no wildcard stored. */
 export const qpuSitesOf = (): readonly { host: string; path: string; kind: string; product: string }[] => {
   const rows = [
-    { host: OUTER_HOLOGRAM_HOST, path: '/hologram', kind: 'hologram', product: 'QPU hologram' },
+    { host: 'lean.uuidna.com', path: '/', kind: 'hologram', product: 'lean' },
+    { host: 'qpu.uuidna.com', path: '/', kind: 'hologram', product: 'qpu' },
+    { host: 'unreal.uuidna.com', path: '/', kind: 'hologram', product: 'unreal' },
+    { host: 'hardware.uuidna.com', path: '/', kind: 'hologram', product: 'hardware' },
   ]
   const seen = new Set<string>()
   return rows.filter((r) => {
@@ -116,6 +125,7 @@ const occupiesLattice = (path: string): boolean => {
   const bare = bareOf(path)
   if (bare === '/' || bare === '/paper' || bare === '/manual' || bare === '/author') return false
   if (faceOfPath(bare) !== null) return false
+  if (stripeOfPath(bare) !== null) return false
   return satelliteOccupies(bare) || latticePathsOf().has(bare)
 }
 
@@ -135,7 +145,7 @@ const latticeOf = (): ChromeGroup[] => [
     text: `${VE_FACES} superpositions`,
     items: qpuSuperpositionsOf().map((s) => ({
       text: `face ${s.face} door ${s.door} referer ${s.referer}`,
-      link: `/face/${s.face}`,
+      link: facePathOf(s.face),
     })),
   },
 ]
@@ -166,7 +176,7 @@ export const qpuNavOf = (): ChromeGroup[] => {
     { text: 'Readings', items: readings },
     {
       text: `${h.veFaces} faces`,
-      items: qpuFacesOf().map((f) => ({ text: `${f.face}↔${f.opposite}`, link: `/face/${f.face}` })),
+      items: qpuFacesOf().map((f) => ({ text: `${f.face}↔${f.opposite}`, link: facePathOf(f.face) })),
     },
     ...paperOf(),
   ]
@@ -182,17 +192,37 @@ export const qpuSidebarOf = (path: string): ChromeGroup[] => {
       {
         text: `Face ${s.face}↔${s.opposite}`,
         items: [
-          { text: `referer ${s.referer}`, link: `/face/${s.face}` },
-          { text: `door ${s.door}`, link: `/face/${s.face}` },
-          { text: `hue ${s.angles.hue}°`, link: `/face/${s.face}` },
-          { text: `dash ${s.angles.dash}°`, link: `/face/${s.face}` },
-          { text: `slot ${s.angles.slot}°`, link: `/face/${s.face}` },
-          { text: `reflection ${s.angles.reflection}°`, link: `/face/${s.face}` },
+          { text: `referer ${s.referer}`, link: facePathOf(s.face) },
+          { text: `door ${s.door}`, link: facePathOf(s.face) },
+          { text: `hue ${s.angles.hue}°`, link: facePathOf(s.face) },
+          { text: `dash ${s.angles.dash}°`, link: facePathOf(s.face) },
+          { text: `slot ${s.angles.slot}°`, link: facePathOf(s.face) },
+          { text: `reflection ${s.angles.reflection}°`, link: facePathOf(s.face) },
         ],
       },
       {
         text: 'All faces',
-        items: qpuFacesOf().map((f) => ({ text: `${f.face}↔${f.opposite}`, link: `/face/${f.face}` })),
+        items: qpuFacesOf().map((f) => ({ text: `${f.face}↔${f.opposite}`, link: facePathOf(f.face) })),
+      },
+    ]
+  }
+  const stripe = stripeOfPath(raw)
+  if (stripe !== null) {
+    const lattice = qpuSuperpositionsOf()
+    return [
+      {
+        text: `Stripe ${stripe.slice(0, 8)}`,
+        items: [
+          { text: 'theorem Open Graph', link: `/${stripe}` },
+          { text: 'essays desk', link: '/essays' },
+        ],
+      },
+      {
+        text: '2×7 directions',
+        items: lattice.map((s) => ({
+          text: `${s.face}↔${s.opposite} hue ${s.angles.hue}°`,
+          link: facePathOf(s.face),
+        })),
       },
     ]
   }
@@ -222,18 +252,7 @@ export const qpuSidebarMapOf = (): Record<string, ChromeGroup[]> => {
 }
 
 const indexOf = (): ChromeHit[] => {
-  const h = qpuHologramOf()
   const hits: ChromeHit[] = [
-    { kind: 'plane', text: `foundation ${h.foundation}`, link: '/hologram', site: QPU_HOST },
-    { kind: 'plane', text: `debit ${h.debit}`, link: '/hologram', site: QPU_HOST },
-    { kind: 'plane', text: `credit ${h.credit}`, link: '/hologram', site: QPU_HOST },
-    { kind: 'plane', text: `pentagram ${h.pentagram}`, link: '/width', site: QPU_HOST },
-    { kind: 'plane', text: `fold ${h.fold}`, link: '/hologram', site: QPU_HOST },
-    { kind: 'plane', text: `octet ${h.octet}`, link: '/hologram', site: QPU_HOST },
-    { kind: 'plane', text: `veFaces ${h.veFaces}`, link: '/hologram', site: QPU_HOST },
-    { kind: 'image', text: 'og.svg 1200×630', link: '/og.svg', site: QPU_HOST },
-    { kind: 'paper', text: 'paper overview citation APA', link: '/paper', site: QPU_HOST },
-    { kind: 'paper', text: 'user manual', link: '/manual', site: QPU_HOST },
     { kind: 'host', text: QPU_HOST, link: '/', site: QPU_HOST },
   ]
   for (const site of qpuSitesOf()) {
@@ -251,18 +270,15 @@ const indexOf = (): ChromeHit[] => {
     hits.push({
       kind: r.kind === 'reading' ? 'door' : r.kind,
       text: `${r.title} ${r.description} ${r.path}`,
-      link: r.path,
+      link: qpuLeanUrlOf(r.path).href,
       site: siteOfPath(r.path),
     })
-  }
-  for (const p of LATTICE_EXTRA) {
-    hits.push({ kind: 'door', text: `qpu ${p.slice(1)} reading`, link: p, site: QPU_HOST })
   }
   for (const f of qpuFacesOf()) {
     hits.push({
       kind: 'face',
       text: `face ${f.face} opposite ${f.opposite}`,
-      link: `/face/${f.face}`,
+      link: facePathOf(f.face),
       site: QPU_HOST,
     })
   }
@@ -270,7 +286,7 @@ const indexOf = (): ChromeHit[] => {
     hits.push({
       kind: 'face',
       text: `face ${s.face} opposite ${s.opposite} referer ${s.referer} door ${s.door} hue ${s.angles.hue} dash ${s.angles.dash}`,
-      link: `/face/${s.face}`,
+      link: facePathOf(s.face),
       site: QPU_HOST,
     })
   }
@@ -328,6 +344,7 @@ const analyzedOf = (hits: ChromeHit[], indexed: number, tokens: string[]) => {
 }
 
 /** Deep-analyze every licensed site in the hologram index — constructors only, never a crawl. */
+export const qpuSearchProse = 'Deep-analyze every licensed site in the hologram index — constructors only, never a crawl.'
 export const qpuSearchOf = (q: string, filter: ChromeSearchFilter = {}): ChromeSearch => {
   const needle = q.trim().toLowerCase()
   const tokens = needle.split(/\s+/).filter(Boolean)
@@ -365,6 +382,6 @@ export const qpuChromeOf = (path: string, q = ''): {
 export const qpuSearchHolds = (s = qpuSearchOf('lean.uuidna.com')): boolean =>
   s.analyzed.deep === true &&
   s.analyzed.indexed > VE_FACES &&
-  s.hits.some((h) => h.link === '/hologram') &&
+  s.hits.some((h) => h.link === qpuLeanUrlOf('/hologram').href) &&
   qpuSitesOf().every((site) => site.host.includes('.') && !site.host.includes('*')) &&
   Object.keys(qpuSidebarMapOf()).includes('/hologram')

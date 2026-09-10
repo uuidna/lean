@@ -5,13 +5,16 @@ import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import {
-  QPU_HOST, QPU_POINTS, SEAL_TEN, VE_FACES,
-  qpuHologramOf, qpuSeatOf, qpuWidthOf,
+  HEXBIT_PAGE, QPU_HOST, QPU_POINTS, SEAL_TEN, VE_FACES,
+  qpuGlagoliticStateOf, qpuHologramOf, qpuSeatOf, qpuWidthOf,
 } from './hologram.js'
 import { type CompareRow, qpuCompareOf, qpuEdgeBenchOf } from './metrics.js'
 import { qpuProofsOf } from './proofs.js'
+import { qpuTeslaGuideOf } from './hologram.js'
 import { qpuOgSvgOf } from './og.js'
 import { ORCID, UUIDNA_DOI, UUIDNA_DOI_URL, UUIDNA_TITLE, CAPTAIN, DATE_RELEASED, yearReleasedOf } from './standing.js'
+import { qpuRoutesOf } from './seo.js'
+import { qpuLeanPageMarkdownOf } from './pages.js'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -377,6 +380,8 @@ Three JSON readings. No hardware QPU.
 
 Metrics: \`GET /metrics\`. Discovery: \`GET /\` and \`GET /.well-known/qpu.json\`. Proofs stay on uuidna ([DOI ${UUIDNA_DOI}](${UUIDNA_DOI_URL})).
 
+${qpuTeslaGuideOf()}
+
 ## Install
 
 \`\`\`
@@ -484,13 +489,21 @@ async function main(): Promise<void> {
   }
   const compare = qpuCompareOf()
   const bench = await qpuEdgeBenchOf()
-  const paperFm = `---\ntitle: ${titleOf()}\noutline: deep\n---\n\n`
-  const manualFm = '---\ntitle: User manual\noutline: deep\n---\n\n'
   writeFileSync(join(ROOT, 'CITATION.cff'), citationOf())
   writeFileSync(join(ROOT, 'README.md'), readmeOf(receipt, compare, bench, 'repo'))
   writeFileSync(join(ROOT, 'MANUAL.md'), manualOf(receipt, compare, 'repo'))
-  writeFileSync(join(ROOT, 'docs/paper.md'), paperFm + readmeOf(receipt, compare, bench, 'site'))
-  writeFileSync(join(ROOT, 'docs/manual.md'), manualFm + manualOf(receipt, compare, 'site'))
+  const skipDoc = (p: string): boolean => {
+    const a = p.replace(/^\//, '')
+    if (/^[0-9a-f]{32}$/i.test(a)) return true
+    if (a.length === 1 && HEXBIT_PAGE.includes(a)) return true
+    const n = qpuGlagoliticStateOf(a)
+    return n != null && n >= 0 && n < VE_FACES
+  }
+  for (const r of [...qpuRoutesOf(), { path: '/404' }]) {
+    if (skipDoc(r.path)) continue
+    const rel = r.path === '/' ? 'docs/index.md' : `docs${r.path}.md`
+    writeFileSync(join(ROOT, rel), qpuLeanPageMarkdownOf(r.path))
+  }
   writeFileSync(join(ROOT, 'docs/public/og.svg'), qpuOgSvgOf())
   writeFileSync(join(ROOT, 'test-results.json'), `${JSON.stringify({ receipt, compare, bench, proofs: qpuProofsOf(receipt) }, null, 2)}\n`)
   console.log(`✓ CITATION.cff README.md MANUAL.md docs/paper.md docs/manual.md · tests ${receipt.pass}/${receipt.tests}${receipt.fail ? ` · fail ${receipt.fail}` : ''}`)
