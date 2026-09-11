@@ -74,7 +74,7 @@ const compare = qpuCompareOf()
 | fetches | `when never` | 0 | 0 | holds |
 | verify | `magnitudes.beats` | 1024 | 1024 | holds |
 
-Tests this generation: **73/73 pass in 753 ms**.
+Tests this generation: **72/73 pass · 1 fail**.
 
 ## Develop
 

@@ -62,7 +62,7 @@ test('README is a standard software page with APA references', () => {
   assert.match(md, new RegExp('`' + qpuSeatOf().seat + '`'))
   assert.match(md, new RegExp('debit ' + String(h.debit)))
   assert.match(md, new RegExp('VE ' + String(h.veFaces)))
-  assert.match(md, /10\/10 pass in 12 ms/)
+  assert.match(md, /10\/10 pass/)
   assert.match(md, /holds/)
   assert.match(md, /github\.com\/uuidna\/lean/)
   assert.match(md, /npm install @uuidna\/lean/)

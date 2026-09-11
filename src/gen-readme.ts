@@ -173,12 +173,12 @@ const compareTable = (rows: readonly CompareRow[]): string =>
     ]),
   )
 
-const resultLine = (receipt: TestReceipt): string => {
-  const duration = receipt.durationMs === 0 ? '' : ` in ${receipt.durationMs} ms`
-  return receipt.fail === 0 && receipt.pass === receipt.tests
-    ? `${receipt.pass}/${receipt.tests} pass${duration}`
-    : `${receipt.pass}/${receipt.tests} pass · ${receipt.fail} fail${duration}`
-}
+// NO DURATION IN A COMMITTED FILE (the captain, 2026-09-11: remove entropy). A millisecond figure changes on every run,
+// so a README that carried it could never recompute to itself; the counts are the receipt, the clock is a reading.
+const resultLine = (receipt: TestReceipt): string =>
+  receipt.fail === 0 && receipt.pass === receipt.tests
+    ? `${receipt.pass}/${receipt.tests} pass`
+    : `${receipt.pass}/${receipt.tests} pass · ${receipt.fail} fail`
 
 export function citationOf(): string {
   const pkg = pkgOf()

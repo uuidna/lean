@@ -9,7 +9,7 @@ Lean publishing worker. Version **0.3.1**. Live **[https://lean.uuidna.com](http
 | Node | ≥ 22 |
 | Licence | CC BY-NC-ND 4.0 |
 | Cite | [CITATION.cff](CITATION.cff) |
-| Tests | 73/73 pass in 753 ms |
+| Tests | 72/73 pass · 1 fail |
 
 ## What you get
 
@@ -130,7 +130,7 @@ That is `tsc`, `vitepress build docs`, then `npx wrangler deploy`. Do not fill t
 
 ## Tests
 
-This generation: **73/73 pass in 753 ms**.
+This generation: **72/73 pass · 1 fail**.
 
 | Name | Formula | Value | Peer | Match |
 | --- | --- | --- | --- | --- |
