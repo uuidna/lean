@@ -2,7 +2,7 @@
 // Desk wiring. Numbers and addresses. Hardware QPU lane stays empty.
 import { VE_FACES, qpuFacesOf, qpuSeatOf } from './hologram.js'
 
-/** W3C UI event kinds named in qpu_live_and_ui_are_ve_faces. Length is VE faces. */
+/** W3C UI event kinds, one per VE face (ve_fourteen_faces). Length is VE faces. */
 export const QPU_EVENT_KINDS = [
   'pointer',
   'keyboard',

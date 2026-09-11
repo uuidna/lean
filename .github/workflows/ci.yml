@@ -1,7 +1,7 @@
 name: ci
 
 # THE ONE DOOR. Deploy and release call this. Push to main does not also fire it.
-# Sibling involution: lean file:../qpu occupies the local layout.
+# Census guard: src/census.test.ts reads ../uuidna/lean when the sibling checkout exists, else uuidna.com/lean/<File>.lean.
 
 on:
   pull_request:
@@ -24,21 +24,12 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
-          repository: uuidna/qpu
-          path: qpu
-      - uses: actions/checkout@v7
-        with:
           path: lean
       - uses: actions/setup-node@v7
         with:
           node-version: '22'
           cache: npm
-          cache-dependency-path: |
-            qpu/package-lock.json
-            lean/package-lock.json
-      - name: Inner QPU
-        working-directory: qpu
-        run: npm ci
+          cache-dependency-path: lean/package-lock.json
       - name: Install exact (lockfile law; no install scripts)
         run: npm ci
       - name: Gate — tests · docs:build

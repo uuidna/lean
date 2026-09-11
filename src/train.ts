@@ -66,7 +66,7 @@ export const qpuLeanTrainOf = (prose = '') => {
   const exact = exactHits.length > 0
   const inner = qpuRosetteOf(1)
   const outer = qpuRosetteOf(-1)
-  const files = qpuStandingFilesOf().filter((f) => f !== 'Chat.lean')
+  const files = qpuStandingFilesOf()
   const standingHits = corpus
     ? STANDING
     : exact

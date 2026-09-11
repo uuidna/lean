@@ -9,10 +9,10 @@ import { QPU_MCP_NAME, QPU_VERSION } from './version.js'
 import { QPU_NATIVE, handleQpuEmail, handleQpuQueue, handleQpuSse, qpuWsFrameOf } from './scale.js'
 import { qpuSeatOf } from './hologram.js'
 
-test('inner QPU is the runtime dep; exact allowlisted pins; stamp matches package.json', () => {
+test('zero runtime deps; exact allowlisted pins; stamp matches package.json', () => {
   const p = qpuPackagesOf()
-  assert.equal(p.runtime, 1)
-  assert.deepEqual(p.runtimeNames, ['@uuidna/qpu'])
+  assert.equal(p.runtime, 0)
+  assert.deepEqual(p.runtimeNames, [])
   assert.deepEqual(p.unknown, [])
   assert.deepEqual(p.missing, [])
   assert.deepEqual(p.floating, [])
@@ -30,7 +30,7 @@ test('inner QPU is the runtime dep; exact allowlisted pins; stamp matches packag
     scripts?: Record<string, string>
     bin?: Record<string, string>
   }
-  assert.deepEqual(file.dependencies ?? {}, { '@uuidna/qpu': 'file:../qpu' })
+  assert.deepEqual(file.dependencies ?? {}, {})
   assert.deepEqual(file.devDependencies, QPU_PKG_STAMP.devDependencies)
   assert.equal(file.engines?.node, QPU_PKG_STAMP.engines?.node)
   assert.equal(QPU_PKG_STAMP.version, file.version)
@@ -57,6 +57,8 @@ test('self-sufficient: no sibling package imports; native transports hold', asyn
     const src = readFileSync(file, 'utf8')
     assert.doesNotMatch(src, /from ['"]@uuidna\/uuidna['"]/, file)
     assert.doesNotMatch(src, /from ['"]@uuidna\/unreal['"]/, file)
+    // a declared dependency nothing imports is a phantom; the stamp declares none, so no file may import it either
+    assert.doesNotMatch(src, /from ['"]@uuidna\/qpu['"]/, file)
   }
   assert.ok(QPU_NATIVE.some((t) => t.id === 'websocket'))
   assert.ok(QPU_NATIVE.some((t) => t.id === 'sse'))

@@ -146,7 +146,7 @@ export const qpuLeanWitnessClustersOf = (apis = qpuLeanFuseApisOf()) => {
   const inner = qpuRosetteOf(1)
   const outer = qpuRosetteOf(-1)
   const keys = [...new Set(QPU_USES.flatMap((u) => [...u.keys]))]
-  const files = qpuStandingFilesOf().filter((f) => f !== 'Chat.lean')
+  const files = qpuStandingFilesOf()
   const clusters = []
   for (let i = 0; i < RAYS; i++) {
     for (let j = 0; j < RAYS; j++) {

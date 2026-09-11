@@ -16,7 +16,7 @@ export interface McpRpc {
 const INSTRUCTIONS = [
   'QPU — three readings of one machine: empty seat, BindingPoint width, hologram.',
   'Tools return constructors. Seat stays empty. Lean proofs live on uuidna.',
-  'Live JSON: https://lean.uuidna.com  Stdio: npx @uuidna/qpu',
+  'Live JSON: https://lean.uuidna.com  Stdio: node dist/mcp.js (bin: lean)',
 ].join(' ')
 
 export const qpuMcpDiscoveryOf = (origin: string) => ({
@@ -25,7 +25,7 @@ export const qpuMcpDiscoveryOf = (origin: string) => ({
   protocolVersion: QPU_MCP_PROTOCOL,
   endpoint: `${origin}/mcp`,
   tools: qpuMcpToolNames(),
-  note: 'POST initialize · tools/list · tools/call · ping. Same catalog as npx @uuidna/qpu. Scale: /ws /sse /scale /fractal.',
+  note: 'POST initialize · tools/list · tools/call · ping. Same catalog as the stdio bin lean. Scale: /ws /sse /scale /fractal.',
   websocket: `${origin}/ws`,
   sse: `${origin}/sse`,
   scale: `${origin}/scale`,

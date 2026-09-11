@@ -28,7 +28,7 @@ export const qpuPkgStampOf = (
 })
 
 /** Exact pins this replica ships. package.json must match. */
-export const QPU_PKG_STAMP: QpuPkg = qpuPkgStampOf('@uuidna/qpu', '0.3.1')
+export const QPU_PKG_STAMP: QpuPkg = qpuPkgStampOf('@uuidna/lean', '0.3.1')
 
 const rangeOf = (spec: string): boolean => /[\^~><*xX ]/.test(spec) || spec.startsWith('github:') || spec.startsWith('git+')
 

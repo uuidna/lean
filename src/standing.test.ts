@@ -10,17 +10,17 @@ test('standing splits by axiom file; every file is .lean; holds', () => {
   const files = qpuStandingFilesOf()
   assert.ok(files.length >= 2)
   assert.ok(files.every((f) => f.endsWith('.lean')))
-  assert.ok(files.includes('Qpu.lean'))
+  assert.ok(files.includes('Quantum.lean'))
   assert.ok(files.includes('Clay.lean'))
-  assert.ok(files.includes('Chat.lean'))
+  assert.ok(files.includes('Wave.lean'))
   assert.ok(files.includes('Tesla.lean'))
-  const qpu = standingByFileOf('Qpu.lean')
+  const qpu = standingByFileOf('Quantum.lean')
   assert.equal(qpu.length, 1)
   assert.ok(qpu[0]!.theorems.length >= 1)
-  assert.equal(qpu[0]!.href, `${LEAN_HOST}/Qpu.lean`)
-  const scoped = qpuStandingOf({ file: 'Qpu', role: 'is' })
-  assert.deepEqual(scoped.files, ['Qpu.lean'])
-  assert.ok(scoped.standing.every((s) => s.file === 'Qpu.lean' && s.role === 'is'))
+  assert.equal(qpu[0]!.href, `${LEAN_HOST}/Quantum.lean`)
+  const scoped = qpuStandingOf({ file: 'Quantum', role: 'is' })
+  assert.deepEqual(scoped.files, ['Quantum.lean'])
+  assert.ok(scoped.standing.every((s) => s.file === 'Quantum.lean' && s.role === 'is'))
 })
 
 test('paper sidebar groups standing by axiom file', () => {
@@ -36,9 +36,9 @@ test('GET /standing and MCP qpu_standing by file', async () => {
   const res = await handleQpuFetch(new Request('https://lean.uuidna.com/standing'))
   assert.equal(res.status, 200)
   const body = await res.json() as { files: string[]; byFile: { file: string }[] }
-  assert.ok(body.files.includes('Qpu.lean'))
-  assert.ok(body.files.includes('Chat.lean'))
+  assert.ok(body.files.includes('Quantum.lean'))
+  assert.ok(body.files.includes('Wave.lean'))
   assert.equal(body.byFile.length, body.files.length)
-  const mcp = await qpuMcpCall('qpu_standing', { file: 'Qpu.lean' }) as { files: string[] }
-  assert.deepEqual(mcp.files, ['Qpu.lean'])
+  const mcp = await qpuMcpCall('qpu_standing', { file: 'Quantum.lean' }) as { files: string[] }
+  assert.deepEqual(mcp.files, ['Quantum.lean'])
 })

@@ -8,7 +8,7 @@ import {
 import { STANDING, THEOREM_HOST } from './standing.js'
 
 const ORIGIN = `https://${QPU_HOST}`
-const SQUARE = 'qpu_superpositions_are_the_ve_square'
+const SUPERPOSITION = 'superposition_h0'
 const theoremHrefOf = (slug: string): string => new URL(slug, `${THEOREM_HOST}/`).href
 
 /** Unique Quantum.lean keys this worker is licensed to cite. Complete file census, not a sample. */
@@ -77,7 +77,7 @@ export const qpuQuantumOf = () => {
   const surfaces = qpuFacesOf().map((face) => ({ face: face.face, opposite: face.opposite }))
   const superpositions = qpuSuperpositionsOf()
   const census = qpuQuantumKeysOf().map((slug) => ({ slug, href: theoremHrefOf(slug) }))
-  const square = { slug: SQUARE, href: theoremHrefOf(SQUARE) }
+  const superposition = { slug: SUPERPOSITION, href: theoremHrefOf(SUPERPOSITION) }
   const products: readonly string[] = []
   const target = { seat: 'empty' as const, admits: 'nothing' as const }
   const door = new URL(href)
@@ -87,8 +87,8 @@ export const qpuQuantumOf = () => {
     qpuQuantumSquareHold(superpositions) &&
     censusHold(census) &&
     products.length === 0 &&
-    square.slug === SQUARE &&
-    new URL(square.href).pathname === `/theorem/${SQUARE}` &&
+    superposition.slug === SUPERPOSITION &&
+    new URL(superposition.href).pathname === `/theorem/${SUPERPOSITION}` &&
     target.seat === 'empty' &&
     target.admits === 'nothing' &&
     door.protocol === 'https:' &&
@@ -97,7 +97,7 @@ export const qpuQuantumOf = () => {
     qpuSeatOf().seat === 'empty' &&
     superpositions.length === VE_FACES &&
     !namedProductOf(href) &&
-    !namedProductOf(JSON.stringify({ census, square, products }))
+    !namedProductOf(JSON.stringify({ census, superposition, products }))
   return {
     kind: 'quantum' as const,
     holds,
@@ -114,7 +114,7 @@ export const qpuQuantumOf = () => {
     surfaces,
     superpositions,
     census,
-    square,
+    superposition,
     faces: VE_FACES,
     possibilities,
   }

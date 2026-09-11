@@ -8,9 +8,9 @@ import { LEAN_HOST, THEOREM_HOST, qpuStandingFilesOf, standingByFileOf } from '.
 
 const stemOf = (file: string): string => file.replace(/\.lean$/i, '')
 
-/** Standing axiom files, hologram-wide. Occupancy of the wing, not a new axiom. Chat.lean is the occupancy docket, not a fifteenth face. Tesla.lean is one analog-hardware cluster, not a wing. */
+/** Standing axiom files, hologram-wide. Occupancy of the wing, not a new axiom. Tesla.lean is one analog-hardware cluster, not a wing. */
 export const leanAxiomFacesOf = (): readonly string[] =>
-  qpuStandingFilesOf().filter((f) => f !== 'Chat.lean' && f !== 'Tesla.lean').slice(0, VE_FACES)
+  qpuStandingFilesOf().filter((f) => f !== 'Tesla.lean').slice(0, VE_FACES)
 
 export const LEAN_AXIOM_FACES = leanAxiomFacesOf()
 
@@ -39,7 +39,6 @@ const KERNEL = `${THEOREM_HOST}/`
 const leanHrefOf = (slug: string): string => new URL(slug, LEAN).href
 const theoremHrefOf = (slug: string): string => new URL(slug, KERNEL).href
 const glyphNameOf = (i: number): string => qpuHexPageOf(i % HEXBIT_STATES).glagolitic
-const DOCKET = 'Chat.lean'
 
 /** Lean axioms. Axiom empty. Census hrefs stay on uuidna.com. */
 export const qpuLeanAxiomsProse = 'Lean axioms. Axiom empty. Census hrefs stay on uuidna.com.'
@@ -78,7 +77,6 @@ export const qpuLeanAxiomsOf = () => {
   const leads = standingByFileOf().map((row) => ({
     file: row.file,
     href: row.href,
-    docket: row.file === DOCKET,
     theorems: row.theorems.map((s, i) => ({
       key: s.key,
       title: s.key,
@@ -97,8 +95,6 @@ export const qpuLeanAxiomsOf = () => {
     axiom.seat === 'empty' &&
     leads.length === qpuStandingFilesOf().length &&
     articles.length === leads.length &&
-    leads.some((row) => row.file === DOCKET && row.docket === true) &&
-    faces.every((row) => row.name !== DOCKET) &&
     leads.every((row) => {
       const u = new URL(row.href)
       return (
@@ -172,7 +168,6 @@ export const qpuLeanAxiomsHolds = (a = qpuLeanAxiomsOf()): boolean =>
   a.tracks.length === TETRA &&
   a.leads.length === a.articles.length &&
   a.leads.length > VE_FACES &&
-  a.leads.some((row) => row.file === 'Chat.lean' && row.docket === true) &&
   a.faces.every((row, i) => {
     const page = qpuHexPageOf(i)
     return row.glue === page.glagolitic && row.hex === page.hex && row.rosetta === page.hex && row.payload === page.hex && row.name.endsWith('.lean')

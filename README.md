@@ -1,6 +1,6 @@
-# QPU worker
+# Lean publishing worker
 
-Package [`@uuidna/qpu`](https://github.com/uuidna/lean) v0.3.1. Live worker [https://lean.uuidna.com](https://lean.uuidna.com).
+Package [`@uuidna/lean`](https://github.com/uuidna/lean) v0.3.1. Live worker [https://lean.uuidna.com](https://lean.uuidna.com).
 
 JSON readings of one classical machine: an empty QPU seat, BindingPoint width (CPU, GPU, RAM, CACHE, STORAGE), and hologram planes (foundation 0, debit 3, credit 6, pentagram 5, fold 7, octet 8, VE 14). This package does not attach a quantum device. Proofs live on uuidna (Rouschev, 2026; DOI [10.5281/zenodo.22256708](https://doi.org/10.5281/zenodo.22256708)).
 
@@ -9,7 +9,7 @@ Tsvetan Rouschev ([ORCID 0009-0000-7312-9778](https://orcid.org/0009-0000-7312-9
 ## Install
 
 ```
-npm install @uuidna/qpu
+npm install @uuidna/lean
 ```
 
 ## Use
@@ -32,7 +32,7 @@ curl -sS https://lean.uuidna.com/hologram
 ```
 
 ```ts
-import { handleQpuFetch, qpuMachineOf, qpuCompareOf } from '@uuidna/qpu'
+import { handleQpuFetch, qpuMachineOf, qpuCompareOf } from '@uuidna/lean'
 
 const machine = qpuMachineOf()
 const res = await handleQpuFetch(new Request('https://lean.uuidna.com/seat'))
@@ -62,8 +62,19 @@ const compare = qpuCompareOf()
 | addressBytes | `ADDRESS_BITS / 8` | 16 | 16 | holds |
 | messageTokens | `(ADDRESS_BITS / 8) / HEXBIT_BITS` | 4 | 4 | holds |
 | payloadless | `VE_FACES × address / address` | 14 | 14 | holds |
+| neighbours | `VE_FACES` | 14 | 14 | holds |
+| handleBits | `HANDLE_HEXBITS × HEXBIT_BITS` | 32 | 32 | holds |
+| handleMasks | `HANDLE_BITS + 1` | 33 | 33 | holds |
+| amplitudes | `qpuTwoNOf(VE_FACES)` | 16384 | 16384 | holds |
+| handleSpan | `qpuTwoNOf(HANDLE_BITS)` | 4294967296 | 4294967296 | holds |
+| addressSpan | `qpuTwoNOf(ADDRESS_BITS)` | 3.402823669209385e+38 | 3.402823669209385e+38 | holds |
+| gatewayCapacity | `VE_FACES × qpuTwoNOf(HANDLE_BITS)` | 60129542144 | 60129542144 | holds |
+| morph | `qpuMorphOf(0).t` | 0 | 0 | holds |
+| hexbitPage | `HEXBIT_PAGE.length` | 16 | 16 | holds |
+| fetches | `when never` | 0 | 0 | holds |
+| verify | `magnitudes.beats` | 1024 | 1024 | holds |
 
-Tests this generation: **71/71 pass in 886 ms**.
+Tests this generation: **73/73 pass in 753 ms**.
 
 ## Develop
 
@@ -71,7 +82,7 @@ Node ≥ 22.
 
 ```
 git clone https://github.com/uuidna/lean
-cd qpu
+cd lean
 npm ci
 npm test
 ```
@@ -82,7 +93,7 @@ npm test
 
 Cite the software in APA 7th (author–date). GitHub Cite this repository reads [CITATION.cff](CITATION.cff).
 
-> Rouschev, T. (2026). QPU worker (Version 0.3.1) [Computer software]. https://lean.uuidna.com
+> Rouschev, T. (2026). Lean publishing worker (Version 0.3.1) [Computer software]. https://lean.uuidna.com
 
 Parent software:
 
@@ -90,7 +101,7 @@ Parent software:
 
 ## References
 
-Rouschev, T. (2026). QPU worker (Version 0.3.1) [Computer software]. https://lean.uuidna.com
+Rouschev, T. (2026). Lean publishing worker (Version 0.3.1) [Computer software]. https://lean.uuidna.com
 
 Rouschev, T. (2026). uuidna — content-addressed identity, honest by construction [Computer software]. https://doi.org/10.5281/zenodo.22256708
 

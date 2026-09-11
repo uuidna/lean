@@ -12,8 +12,8 @@ import { qpuMcpCall } from './mcp-catalog.js'
 test('Lean theorems fuse inner QPU uses onto fourteen faces and eight uuidna.com tiles', () => {
   const t = qpuLeanTheoremsOf()
   const keys = new Set(STANDING.map((s) => s.key))
-  assert.ok(keys.has('occupancy_chat_docket'))
-  assert.ok(STANDING.some((s) => s.file === 'Chat.lean'))
+  assert.ok(keys.has('superposition_h0'))
+  assert.ok(STANDING.some((s) => s.file === 'Quantum.lean'))
   assert.equal(t.product, 'Lean theorems')
   assert.equal(t.kind, 'theorems')
   assert.equal(t.seat, qpuSeatOf().seat)
@@ -69,7 +69,7 @@ test('GET /theorems and /cited and MCP qpu_theorems match; /standing stays the f
   const standing = await handleQpuFetch(new Request(`https://${QPU_HOST}/standing`))
   assert.equal(standing.status, 200)
   const files = await standing.json() as { files: string[] }
-  assert.ok(files.files.includes('Qpu.lean'))
+  assert.ok(files.files.includes('Quantum.lean'))
   const mcp = await qpuMcpCall('qpu_theorems', {}) as { kind: string; tracks: unknown[] }
   assert.equal(mcp.kind, 'theorems')
   assert.equal(mcp.tracks.length, TETRA)

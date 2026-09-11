@@ -12,17 +12,15 @@ import { qpuMcpCall } from './mcp-catalog.js'
 test('Lean axioms fuse standing files onto fourteen wings and eight uuidna.com/lean tiles', () => {
   const a = qpuLeanAxiomsOf()
   const files = qpuStandingFilesOf()
-  const wings = files.filter((f) => f !== 'Chat.lean' && f !== 'Tesla.lean')
+  const wings = files.filter((f) => f !== 'Tesla.lean')
   assert.equal(a.product, 'Lean axioms')
   assert.equal(a.kind, 'axioms')
   assert.equal(a.seat, qpuSeatOf().seat)
   assert.equal(a.axiom.seat, 'empty')
   assert.equal(a.editor.seat, 'empty')
   assert.equal(a.faces.length, VE_FACES)
-  assert.ok(files.includes('Chat.lean'))
   assert.ok(files.includes('Tesla.lean'))
   assert.deepEqual(a.faces.map((row) => row.name), wings.slice(0, VE_FACES))
-  assert.equal(a.faces.some((row) => row.name === 'Chat.lean'), false)
   assert.equal(a.faces.some((row) => row.name === 'Tesla.lean'), false)
   assert.ok(a.faces.some((row) => row.name === 'Universe.lean'))
   for (let i = 0; i < VE_FACES; i++) {
@@ -49,7 +47,6 @@ test('Lean axioms fuse standing files onto fourteen wings and eight uuidna.com/l
   assert.equal(a.leads.length, files.length)
   assert.equal(a.articles.length, a.leads.length)
   assert.ok(a.leads.length > VE_FACES)
-  assert.equal(a.leads.some((row) => row.file === 'Chat.lean' && row.docket === true), true)
   assert.ok(a.leads.some((row) => row.file === 'Tesla.lean'))
   assert.ok(a.leads.every((row) => row.theorems.length > 0))
   assert.equal(new URL(a.streaming.href).hostname, QPU_HOST)
@@ -66,7 +63,6 @@ test('GET /axioms and /wings and MCP qpu_axioms match; /standing stays the file 
   assert.equal(body.axiom.seat, 'empty')
   assert.equal(body.faces.length, VE_FACES)
   assert.equal(body.leads.length, qpuStandingFilesOf().length)
-  assert.ok(body.leads.some((row) => row.file === 'Chat.lean'))
   assert.equal(new URL(body.census[0]!.href).hostname, 'uuidna.com')
   const alias = await handleQpuFetch(new Request(`https://${QPU_HOST}/wings`))
   assert.equal(alias.status, 200)
@@ -75,7 +71,7 @@ test('GET /axioms and /wings and MCP qpu_axioms match; /standing stays the file 
   const standing = await handleQpuFetch(new Request(`https://${QPU_HOST}/standing`))
   assert.equal(standing.status, 200)
   const files = await standing.json() as { files: string[] }
-  assert.ok(files.files.includes('Qpu.lean'))
+  assert.ok(files.files.includes('Quantum.lean'))
   const mcp = await qpuMcpCall('qpu_axioms', {}) as { kind: string; tracks: unknown[] }
   assert.equal(mcp.kind, 'axioms')
   assert.equal(mcp.tracks.length, TETRA)

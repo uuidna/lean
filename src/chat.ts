@@ -61,7 +61,7 @@ export const qpuChatInputOf = (spec: { type: string; id: string; text?: string; 
 
 const censusHold = (census: readonly { slug: string; href: string }[]): boolean => {
   const keys = new Set(STANDING.map((s) => s.key))
-  const want = ['qpu_live_and_ui_are_ve_faces', 'key_floor_is_one_uuid', 've_fourteen_faces'] as const
+  const want = ['ve_fourteen_faces', 'key_floor_is_one_uuid', 'hexbit_is_four_qubits'] as const
   if (census.length !== want.length) return false
   for (let i = 0; i < want.length; i++) {
     const row = census[i]!
@@ -79,9 +79,9 @@ export const qpuChatOf = () => {
     listen: QPU_EVENT_LISTEN.filter((t) => qpuEventOf(t).kind === row.kind),
   }))
   const census = [
-    { slug: 'qpu_live_and_ui_are_ve_faces', href: theoremHrefOf('qpu_live_and_ui_are_ve_faces') },
-    { slug: 'key_floor_is_one_uuid', href: theoremHrefOf('key_floor_is_one_uuid') },
     { slug: 've_fourteen_faces', href: theoremHrefOf('ve_fourteen_faces') },
+    { slug: 'key_floor_is_one_uuid', href: theoremHrefOf('key_floor_is_one_uuid') },
+    { slug: 'hexbit_is_four_qubits', href: theoremHrefOf('hexbit_is_four_qubits') },
   ]
   const sample = qpuChatInputOf({ type: 'keydown', id: QPU_MESSENGER_UUID, text: 'sequence' })
   const door = new URL(href)

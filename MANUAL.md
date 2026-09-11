@@ -1,15 +1,15 @@
-# User manual — `@uuidna/qpu`
+# User manual — `@uuidna/lean`
 
-QPU worker. Version **0.3.1**. Live **[https://lean.uuidna.com](https://lean.uuidna.com)**. Paper: [README.md](README.md).
+Lean publishing worker. Version **0.3.1**. Live **[https://lean.uuidna.com](https://lean.uuidna.com)**. Paper: [README.md](README.md).
 
 | Field | Value |
 | --- | --- |
-| Product | `@uuidna/qpu` |
+| Product | `@uuidna/lean` |
 | Host | `lean.uuidna.com` |
 | Node | ≥ 22 |
 | Licence | CC BY-NC-ND 4.0 |
 | Cite | [CITATION.cff](CITATION.cff) |
-| Tests | 71/71 pass in 886 ms |
+| Tests | 73/73 pass in 753 ms |
 
 ## What you get
 
@@ -23,17 +23,45 @@ Three JSON readings. No hardware QPU.
 
 Metrics: `GET /metrics`. Discovery: `GET /` and `GET /.well-known/qpu.json`. Proofs stay on uuidna ([DOI 10.5281/zenodo.22256708](https://doi.org/10.5281/zenodo.22256708)).
 
+## Tesla — one analog-hardware quantum cluster
+
+Six Tesla.lean keys work as one. Analog hardware. Computed on the hexbit page. Believed hidden; this reading is transparent. The user guide is this page. Patents stay cited as Lean arithmetic — never copied.
+
+| Field | Value |
+| --- | --- |
+| File | `Tesla.lean` |
+| Keys | 6 = trinity × coins = QPU doors |
+| Hardware | analog |
+| Hex page | `0123456789abcdef` |
+| Hidden | `false` |
+| Guide | `/manual` |
+| Wave | mass online coordinated alternate enabled by default; crawl false; fetches 0 |
+
+### Unexplored use cases on the massive online wave
+
+Each use occupies sealed arithmetic. Explored stays false until Lean trains the claim. QPU does not run `by decide`.
+
+| Key | Use | Hex |
+| --- | --- | --- |
+| `tesla_trio_files_adjacent` | three consecutive hexbit tiles occupy one online wave packet — trinity adjacent doors, unit steps | `5d410` `5d411` `5d412` |
+| `tesla_leap_spring_to_grant` | leap-mod-4 cadence of the mass wave — 202 as hex, Gregorian window | `ca` `760` |
+| `three_tilings_of_the_circle` | TETRA×90, TRINITY×120, COINS×180 tile the online circle — three phase spacings of one wave | `5a` `78` `b4` `168` |
+| `alternation_needs_a_second_phase` | inner/outer alternate is the second phase — mass discovery enabled by default because one phase never leaves home | `b4` `78` `168` |
+| `the_grids_minute` | 60×60=3600 is the grid tick of the massive online wave | `3c` `e10` |
+| `teleautomaton_precedes_transmission` | address before cargo on the mass wave — handle first, payload later | `95db1` `9d9c8` `7c17` |
+
+
 ## Install
 
 ```
-npm install @uuidna/qpu
+npm install @uuidna/lean
 ```
 
 From git:
 
 ```
 git clone https://github.com/uuidna/lean
-cd qpu
+cd lean
 npm ci
 npm test
 ```
@@ -63,7 +91,7 @@ curl -sS https://lean.uuidna.com/metrics
 ## Library
 
 ```ts
-import { handleQpuFetch, qpuMachineOf, qpuCompareOf } from '@uuidna/qpu'
+import { handleQpuFetch, qpuMachineOf, qpuCompareOf } from '@uuidna/lean'
 
 const machine = qpuMachineOf()
 const res = await handleQpuFetch(new Request('https://lean.uuidna.com/seat'))
@@ -102,7 +130,7 @@ That is `tsc`, `vitepress build docs`, then `npx wrangler deploy`. Do not fill t
 
 ## Tests
 
-This generation: **71/71 pass in 886 ms**.
+This generation: **73/73 pass in 753 ms**.
 
 | Name | Formula | Value | Peer | Match |
 | --- | --- | --- | --- | --- |
@@ -125,6 +153,17 @@ This generation: **71/71 pass in 886 ms**.
 | addressBytes | `ADDRESS_BITS / 8` | 16 | 16 | holds |
 | messageTokens | `(ADDRESS_BITS / 8) / HEXBIT_BITS` | 4 | 4 | holds |
 | payloadless | `VE_FACES × address / address` | 14 | 14 | holds |
+| neighbours | `VE_FACES` | 14 | 14 | holds |
+| handleBits | `HANDLE_HEXBITS × HEXBIT_BITS` | 32 | 32 | holds |
+| handleMasks | `HANDLE_BITS + 1` | 33 | 33 | holds |
+| amplitudes | `qpuTwoNOf(VE_FACES)` | 16384 | 16384 | holds |
+| handleSpan | `qpuTwoNOf(HANDLE_BITS)` | 4294967296 | 4294967296 | holds |
+| addressSpan | `qpuTwoNOf(ADDRESS_BITS)` | 3.402823669209385e+38 | 3.402823669209385e+38 | holds |
+| gatewayCapacity | `VE_FACES × qpuTwoNOf(HANDLE_BITS)` | 60129542144 | 60129542144 | holds |
+| morph | `qpuMorphOf(0).t` | 0 | 0 | holds |
+| hexbitPage | `HEXBIT_PAGE.length` | 16 | 16 | holds |
+| fetches | `when never` | 0 | 0 | holds |
+| verify | `magnitudes.beats` | 1024 | 1024 | holds |
 
 ```
 npm run readme

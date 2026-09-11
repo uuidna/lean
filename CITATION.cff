@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "QPU worker"
+title: "Lean publishing worker"
 message: "If you use this software, please cite it using the metadata from this file."
 type: software
 authors:
@@ -13,20 +13,18 @@ version: "0.3.1"
 date-released: "2026-09-07"
 url: "https://lean.uuidna.com"
 repository-code: "https://github.com/uuidna/lean"
-repository-artifact: "https://www.npmjs.com/package/@uuidna/qpu"
+repository-artifact: "https://www.npmjs.com/package/@uuidna/lean"
 abstract: >-
   Cloudflare Worker serving JSON readings of an empty QPU seat, BindingPoint
   width (CPU, GPU, RAM, CACHE, STORAGE), and hologram planes. Not a hardware
   quantum processing unit. Proofs live on uuidna (DOI 10.5281/zenodo.22256708).
 keywords:
-  - qpu
-  - quantum-processing-unit
-  - quantum-computing
+  - lean
+  - theorems
+  - axioms
   - uuidna
+  - qpu
   - cloudflare-workers
-  - hologram
-  - binding-point
-  - pentagram
 references:
   - type: software
     title: "uuidna — content-addressed identity, honest by construction"

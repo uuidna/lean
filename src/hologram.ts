@@ -241,7 +241,7 @@ export function throughVoid(d: number): number {
   return d === 0 ? 0 : digitalRoot(1 - d)
 }
 
-/** Replica identity of @uuidna/qpu. Occupancy exports its own QPU_HOST. */
+/** Replica identity of this worker. Occupancy exports its own QPU_HOST. */
 export const QPU_HOST = 'lean.uuidna.com'
 
 /** Captain-coins deposit — same wallet as uuidna. */

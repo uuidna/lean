@@ -273,7 +273,7 @@ export const qpuHologramPluginOf = (mounted = false, script: QpuHologramConsoleI
   replica: false as const,
   pwa: true as const,
   fractal: true as const,
-  package: '@uuidna/qpu' as const,
+  package: '@uuidna/lean' as const,
   script,
   command: QPU_HOLOGRAM_CONSOLE_COMMAND,
   payload: true as const,
@@ -296,7 +296,7 @@ export const qpuHologramPluginHolds = (p = qpuHologramPluginOf()): boolean =>
   p.replica === false &&
   p.pwa === true &&
   p.fractal === true &&
-  p.package === '@uuidna/qpu' &&
+  p.package === '@uuidna/lean' &&
   p.script === 'qpu' &&
   p.command === QPU_HOLOGRAM_CONSOLE_COMMAND &&
   p.payload === true &&

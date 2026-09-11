@@ -20,7 +20,7 @@ const namedHttpsOf = (host: string, path: string): string => {
 
 const theoremHrefOf = (slug: string): string => new URL(slug, `${THEOREM_HOST}/`).href
 
-const GATE = ['a_claim_is_verified_or_unverified', 'publish_gate_is_conjunction', 'occupancy_fastest_lean_meaning_is_verified_or_unverified'] as const
+const GATE = ['a_claim_is_verified_or_unverified', 'publish_gate_is_conjunction'] as const
 
 /** Kernel theorem plus parent DOI. Standing must already hold the key — this worker does not mint. */
 export const qpuLeanPriorArtOf = (key: string) => {
@@ -61,7 +61,6 @@ export const qpuLeanClaimOf = () => {
   const claimable = qpuLeanClaimableOf()
   const claimedKeys = new Set(claimable.map((s) => s.key))
   const reserved = STANDING.filter((s) => (s.role === 'can' || s.role === 'may') && !claimedKeys.has(s.key))
-  const flagged = STANDING.filter((s) => s.key === 'occupancy_chat_flagged_are_not_the_sealed')
   const claimed = claimable.map((row) => {
     const prior = qpuLeanPriorArtOf(row.key)
     return {
@@ -100,8 +99,6 @@ export const qpuLeanClaimOf = () => {
       const prior = qpuLeanPriorArtOf(row.key)
       return row.role !== 'is' && prior.holds === true && !claimed.some((c) => c.key === row.key)
     }) &&
-    flagged.length === 1 &&
-    qpuLeanPriorArtOf(flagged[0]!.key).holds === true &&
     gate === true &&
     mint.seat === 'empty' &&
     qpuSeatOf().seat === 'empty' &&
