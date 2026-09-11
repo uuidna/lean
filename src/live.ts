@@ -5,9 +5,18 @@ import { qpuCompareHolds, qpuCompareOf, qpuSpeedOf } from './metrics.js'
 
 export const QPU_LIVE_MS = 1000
 
+/** The genesis walk: ray 0's scanner face, its radar face by the hop, the next ray — 0, 7, 1, 8, … 6, 13. */
+export const qpuLiveWalkOf = (): number[] => {
+  const walk: number[] = []
+  for (let ray = 0; ray < RAYS; ray++) walk.push(ray, ray + RAYS)
+  return walk
+}
+
+/** k is the face the walk is on at this tick, not the tick itself (re-fused to the lattice 2026-09-12). */
 export const qpuLiveKOf = (at: number): number => {
   const t = at < 0 ? 0 : at
-  return (Math.floor(t / QPU_LIVE_MS) % VE_FACES + VE_FACES) % VE_FACES
+  const slot = (Math.floor(t / QPU_LIVE_MS) % VE_FACES + VE_FACES) % VE_FACES
+  return qpuLiveWalkOf()[slot]!
 }
 
 /** Blend walks seal_ten over ℤ/9. Foundation 0 fuses; 9/9 is the outer rotor. */
@@ -38,6 +47,8 @@ export const qpuLiveOf = (at = 0) => {
   return {
     at,
     k,
+    hop: (k + RAYS) % VE_FACES,
+    walk: qpuLiveWalkOf(),
     holds,
     seat: qpuSeatOf().seat,
     stroke: qpuStarStrokeOf(),
@@ -62,6 +73,10 @@ export const qpuLiveHolds = (live = qpuLiveOf(0)): boolean =>
   live.seat === 'empty' &&
   live.walked &&
   live.faces === VE_FACES &&
+  live.walk.length === VE_FACES &&
+  new Set(live.walk).size === VE_FACES &&
+  live.walk.includes(live.k) &&
+  (live.hop + RAYS) % VE_FACES === live.k &&
   live.compare.length > 0 &&
   live.speed.length > 0 &&
   qpuMorphHolds(live.morph) &&

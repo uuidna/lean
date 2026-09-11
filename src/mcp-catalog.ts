@@ -231,7 +231,7 @@ const tools: McpTool[] = [
   },
 {
     name: 'qpu_live',
-    description: 'Occupancy now. Optional {at} milliseconds. k walks VE faces.',
+    description: 'Occupancy now. Optional {at} milliseconds. k walks the lattice 0, 7, 1, 8 … not the tick.',
     inputSchema: { type: 'object', properties: { at: { type: 'number' } } },
     run: async (a) => {
       const { qpuLiveOf } = await import('./live.js')

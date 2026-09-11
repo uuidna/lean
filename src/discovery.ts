@@ -31,7 +31,7 @@ export const qpuDiscoveryOf = (origin: string) => ({
     '/chip': 'novelty chip — two 7-ray rosettes fused at 0, CPU/GPU self-balance',
     '/merkaba': 'same reading as /chip',
     '/experience': 'inner and outer rotors — one involution',
-    '/live': 'occupancy now — k walks fourteen VE faces',
+    '/live': 'occupancy now — k walks the lattice: scanner face, its radar face, next ray',
     '/metrics': 'formula vs peer, every row must match',
     '/speed': 'constructor µs vs 2^n climbs for n that finish',
     '/fractal': 'fused pentagram · hologram · fourteen VE faces · all serverless',

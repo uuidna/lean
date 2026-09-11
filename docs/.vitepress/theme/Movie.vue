@@ -26,6 +26,7 @@ let at = 0
 
 const GLAGOLITIC_BASE = 0x2c00
 const VE = 14
+const RAYS = 7
 const HEX = '0123456789abcdef'
 
 const reduce = () =>
@@ -126,7 +127,11 @@ const frame = (now: number) => {
 }
 
 const loop = (now: number) => {
-  if (!glyphs.value.length) k = Math.floor(now / 1000) % VE
+  if (!glyphs.value.length) {
+    // the genesis walk, not the tick: scanner face, its radar face, next ray
+    const slot = Math.floor(now / 1000) % VE
+    k = (slot % 2) * RAYS + Math.floor(slot / 2)
+  }
   frame(now)
   if (!reduce()) raf = requestAnimationFrame(loop)
 }
