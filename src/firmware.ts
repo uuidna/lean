@@ -1,18 +1,18 @@
-// firmware — VitePress hologram from the QPU config stamp. Payload CMS is the other editor on that stamp. Host is Lean.
+// firmware — VitePress hologram from the occupancy config stamp. Host is Lean.
 import './licence.js'
 import { QPU_HOST } from './hologram.js'
 import {
   qpuFirmwareOf as qpuInnerFirmwareOf,
   qpuFirmwareHolds as qpuInnerFirmwareHolds,
   qpuHologramConsoleOf, qpuHologramPluginHolds, qpuHologramPluginOf,
-} from '@uuidna/qpu'
+} from './config.js'
 export {
   qpuConfigOf, qpuConfigHolds, qpuPayloadOf, qpuPayloadHolds,
   QPU_ASSETS, QPU_COMPATIBILITY_DATE, QPU_WORKER_ENTRY, QPU_PAYLOAD_PIN, QPU_PAYLOAD_PACKAGES, QPU_PAYLOAD_PLUGINS,
   QPU_SHARED, QPU_EDITORS, QPU_PAYLOAD_API,
   qpuHologramCiOf, qpuHologramConsoleOf, qpuHologramPluginOf, qpuHologramPluginHolds,
   qpuReplicaPluginOf,
-} from '@uuidna/qpu'
+} from './config.js'
 
 /** Lean occupies the hologram plugin. Namesake script. Mounted at will. */
 export const qpuLeanPluginProse = 'Lean occupies the hologram plugin. Namesake script. Mounted at will.'

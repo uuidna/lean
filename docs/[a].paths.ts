@@ -1,5 +1,5 @@
-import { HEXBIT_PAGE, UUID_HEXBITS, qpuFacesOf, qpuGlagoliticOf } from '../../src/hologram.ts'
-import { LEAN_ESSAY_PAGE } from '../../src/library.ts'
+import { HEXBIT_PAGE, UUID_HEXBITS, qpuFacesOf, qpuGlagoliticOf } from '../src/hologram.ts'
+import { LEAN_ESSAY_PAGE } from '../src/library.ts'
 
 export default {
   paths() {

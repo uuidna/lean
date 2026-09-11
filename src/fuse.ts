@@ -6,7 +6,7 @@ import {
   COINS, QPU_HOST, RAYS, VE_FACES, qpuEntropyHolds, qpuEntropyOf, qpuExperienceHolds, qpuExperienceOf,
   qpuFacesOf, qpuGatewaysHolds, qpuGatewaysOf, qpuLicenceHostOf, qpuRosetteOf, qpuSeatOf, qpuTwoNOf,
 } from './hologram.js'
-import { QPU_FUSE_DOMAINS, qpuSolidsOf } from '@uuidna/qpu'
+import { QPU_FUSE_DOMAINS, qpuSolidsOf } from './bindings/index.js'
 import { LEAN_HOST, QPU_USES, STANDING, THEOREM_HOST, qpuStandingFilesOf } from './standing.js'
 import { qpuLeanCernOf } from './cern.js'
 import { qpuLeanPublicationsOf } from './publications.js'

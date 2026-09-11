@@ -102,7 +102,7 @@
   "scripts": {
     "prepare": "tsc -p tsconfig.json",
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node ./node_modules/@uuidna/qpu/dist/fasten-run.js dist/*.test.js",
+    "test": "npm run build && node --test dist/*.test.js",
     "ci": "npm run docs:build && npm test",
     "readme": "npm run build && node dist/gen-readme.js",
     "docs": "vitepress dev docs",
@@ -112,10 +112,10 @@
     "ship": "npm run build && npm run docs:build && npx wrangler deploy"
   },
   "devDependencies": {
-    "@types/node": "26.5.0",
+    "@types/node": "26.5.1",
     "typescript": "7.0.2",
     "vitepress": "2.0.0-alpha.20",
-    "wrangler": "4.130.0"
+    "wrangler": "4.131.0"
   },
   "dependencies": {
     "@uuidna/qpu": "file:../qpu"

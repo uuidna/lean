@@ -1,7 +1,7 @@
-// packages — Lean stamp. One runtime dep: the inner QPU. Auditor lives on QPU.
-import { qpuPackagesHolds as packagesHolds, qpuPackagesOf as packagesOf, qpuPkgStampOf } from '@uuidna/qpu'
+// packages — Lean stamp. One runtime dep: the inner QPU. Auditor lives on this occupancy.
+import { qpuPackagesHolds as packagesHolds, qpuPackagesOf as packagesOf, qpuPkgStampOf } from './packages-inner.js'
 
-export { QPU_DEV_PACKAGES, qpuPkgOf, type QpuPkg } from '@uuidna/qpu'
+export { QPU_DEV_PACKAGES, qpuPkgOf, type QpuPkg } from './packages-inner.js'
 
 export const QPU_RUNTIME_PACKAGES = ['@uuidna/qpu'] as const
 

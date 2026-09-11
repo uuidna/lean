@@ -1,1 +1,1 @@
-export type { QpuEnv } from '@uuidna/qpu'
+export type { QpuEnv } from './types.js'

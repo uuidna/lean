@@ -55,7 +55,7 @@ const ALIAS: Record<string, string> = {
   merkaba: 'chip',
 }
 
-const DOOR_PROSE: Record<string, string> = {
+const doorProseOf = (): Record<string, string> => ({
   '': qpuLeanDocsProse,
   theorems: qpuLeanTheoremsProse,
   axioms: qpuLeanAxiomsProse,
@@ -95,7 +95,7 @@ const DOOR_PROSE: Record<string, string> = {
   boot: qpuLeanDocsProse,
   nav: SEARCH_PROSE,
   sidebar: SEARCH_PROSE,
-}
+})
 
 const doorOf = (a: string): string => ALIAS[a] ?? a
 
@@ -108,7 +108,7 @@ const isFace = (a: string): boolean => {
 
 const isDoor = (a: string): boolean =>
   a === '' ||
-  doorOf(a) in DOOR_PROSE ||
+  doorOf(a) in doorProseOf() ||
   a in ALIAS ||
   isHexTile(a) ||
   isStripe(a) ||
@@ -152,7 +152,7 @@ export const qpuLeanProseOf = (input = '/'): string => {
   const { a } = qpuLeanUrlOf(input)
   if (isStripe(a)) return STRIPE_OG_PROSE
   if (isHexTile(a) || isFace(a)) return qpuLeanDocTileProse
-  return DOOR_PROSE[doorOf(a)] ?? qpuLeanStripeProse
+  return doorProseOf()[doorOf(a)] ?? qpuLeanStripeProse
 }
 
 /** Glyph title of b.uuidna.com/a. The URL type is the title. */

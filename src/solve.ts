@@ -6,7 +6,7 @@ import {
   DONATE_URL, HANDLE_BITS, HANDLE_HEXBITS, QPU_HOST, QPU_POINTS, RAYS, TRINITY, VE_FACES,
   donateUrl, qpuLicenceHostOf, qpuSeatOf, qpuTwoNOf,
 } from './hologram.js'
-import { SERVERLESS_OPS } from '@uuidna/qpu/scale'
+import { SERVERLESS_OPS } from './scale.js'
 import { STANDING, THEOREM_HOST } from './standing.js'
 import { qpuLeanFuseHolds, qpuLeanFuseOf } from './fuse.js'
 

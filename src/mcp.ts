@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // mcp — Lean stdio. Inner catalog is this package; Cursor --cursor is one involution door.
-import { qpuMcpFrameOf, qpuMcpTakeOf, qpuMcpCliRunOf } from '@uuidna/qpu/mcp'
+import { qpuMcpFrameOf, qpuMcpTakeOf, qpuMcpCliRunOf } from './mcp-frame.js'
 import { QPU_TOOLS, qpuMcpCall, qpuMcpToolNames } from './mcp-catalog.js'
 import { handleQpuMcpRpc, type McpRpc } from './mcp-rpc.js'
 import { QPU_MCP_NAME } from './version.js'
