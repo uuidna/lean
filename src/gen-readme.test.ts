@@ -3,10 +3,10 @@ import assert from 'node:assert/strict'
 import { QPU_HOST, qpuHologramOf, qpuSeatOf } from './hologram.js'
 import {
   apaNameOf, apaParentOf, apaSoftwareOf, citationOf, githubOf, parseTestReceipt,
-  readmeOf, repoDirOf, titleOf, wranglerNameOf,
+  readmeOf, repoDirOf, titleOf, wranglerNameOf, zenodoOf,
 } from './gen-readme.js'
 import { qpuCompareOf } from './metrics.js'
-import { DATE_RELEASED, UUIDNA_TITLE, yearReleasedOf } from './standing.js'
+import { DATE_RELEASED, ORCID, UUIDNA_DOI, UUIDNA_TITLE, yearReleasedOf } from './standing.js'
 import { QPU_MCP_NAME, QPU_VERSION } from './version.js'
 
 test('TAP receipt parses pass/fail/duration', () => {
@@ -75,4 +75,30 @@ test('README is a standard software page with APA references', () => {
   assert.doesNotMatch(md, /quantum supremacy/)
   const site = readmeOf({ tests: 10, pass: 10, fail: 0, skipped: 0, durationMs: 12 }, qpuCompareOf(), [], 'site')
   assert.match(site, /\/manual/)
+})
+
+// THE SAME STORY AS CITATION.cff, IN ZENODO'S SHAPE. The hand-written file this replaces named another package,
+// carried donation links as the creator's affiliation, and requested three quantum-software communities.
+test('.zenodo.json is this package, generated, and says nothing CITATION.cff does not', () => {
+  const raw = zenodoOf()
+  const z = JSON.parse(raw) as {
+    title: string; version: string; license: string; upload_type: string; access_right: string
+    creators: { name: string; orcid: string; affiliation: string }[]
+    keywords: string[]; communities: { identifier: string }[]
+    related_identifiers: { identifier: string; relation: string }[]
+  }
+  assert.equal(z.title, titleOf())
+  assert.equal(z.version, QPU_VERSION)
+  assert.equal(z.license, 'cc-by-nc-nd-4.0')
+  assert.equal(z.upload_type, 'software')
+  assert.equal(z.access_right, 'open')
+  assert.deepEqual(z.creators, [{ name: 'Rouschev, Tsvetan', orcid: ORCID, affiliation: 'uuidna' }])
+  assert.deepEqual(z.communities, [{ identifier: 'uuidna' }])
+  assert.ok(z.related_identifiers.some((r) => r.identifier === UUIDNA_DOI && r.relation === 'isDerivedFrom'))
+  assert.ok(z.related_identifiers.some((r) => r.identifier === `https://${QPU_HOST}` && r.relation === 'isIdenticalTo'))
+  assert.ok(z.related_identifiers.some((r) => r.identifier === 'https://github.com/uuidna/lean'))
+  assert.ok(z.related_identifiers.some((r) => r.identifier === 'https://www.npmjs.com/package/@uuidna/lean'))
+  assert.ok(z.keywords.includes('lean'))
+  for (const banned of [/revolut\.me/, /quantum supremacy/i, /Qiskit/, /Cirq/, /"title": "@uuidna\/qpu/, /unreal\.uuidna\.com/, /captain/i, /coins/i, /qiskit|neasqc|dlr-sc/])
+    assert.doesNotMatch(raw, banned)
 })
