@@ -1,4 +1,4 @@
-name: release
+name: publish
 
 # A version tag ships only what `npm run ci` already proved. prepublishOnly is that same door.
 # Tag must equal package.json. OIDC trusted publishing — no NPM_TOKEN.
